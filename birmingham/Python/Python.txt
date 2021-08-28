@@ -72,8 +72,20 @@ print(bicycles[0])
   dimensions = (400,100)
 
 
+条件测试
+  两个大小写不同的值被视为不相等
 
+if 语句格式
+  if conditional_test:
+      do something
 
+字典
+  字典是一种动态结构，可随时在其中添加键值对。要添加键值对，可依次字典名，用方括号括起来的键和相关连的值
+  例如：
+      alien_0 = {'color':'green','point':5}
+
+	  alien_0['x_position'] = 0
+	  alien_0['y_position'] = 25
 
 
 
