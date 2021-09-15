@@ -87,6 +87,23 @@ if 语句格式
 	  alien_0['x_position'] = 0
 	  alien_0['y_position'] = 25
 
+删除键值对
+  del alien_0['points']
+
+使用get()来访问值
+  在一定情况下会出现指定的键不存在的情况，这时候可以使用get()函数来处理
+    方法get()的第一个参数用于指定键，是必不可少的；第二个参数为指定的键不存在时返回的一个默认值。
+	point_value = alien_0.get('points','No point value assigned.')
+
+遍历字典
+
+1.for key, value in user_0.items()    //key value 就是对应的键值表
+2.for name in favourite_languages.keys()    //name 就是所有的键表
+
+set()函数
+  通过对包含重复元素的列表调用set()，可以让Python找出列表中独一无二的元素，并使用这些元素来创建一
+  个集合.
+
 
 
 
