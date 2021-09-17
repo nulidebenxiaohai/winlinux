@@ -1,3 +1,4 @@
+#遍历字典中所有的值
 favorite_language = {
         'jen': 'python',
         'sarah': 'c',
@@ -12,3 +13,5 @@ for name in favorite_language.keys():
 
 for language in set(favorite_language.values()):
     print(f"\nLanguage: {language}")
+
+

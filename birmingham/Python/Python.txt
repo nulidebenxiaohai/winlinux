@@ -104,8 +104,17 @@ set()函数
   通过对包含重复元素的列表调用set()，可以让Python找出列表中独一无二的元素，并使用这些元素来创建一
   个集合.
 
+嵌套
+  有时候，需要讲一系列字典储存在列表中，或者将列表作为值存储在字典中，这称之为嵌套。
+  可以在列表中嵌套字典，在字典中嵌套列表甚至在字典中嵌套字典
 
-
+函数input()的工作原理
+  函数inpu()让程序暂停运行，等待用户输入一些文本。获取用户输入后，Python将其赋给一个变量，
+  以方便你使用。
+  message = input("Tell me something, and I will repeat it back to you: ")
+  print(message)
+ 
+  使用input()时，Python将用户输入解读为字符串。可以使用int()函数，它让Python讲输入视为数值。
 
 
 
