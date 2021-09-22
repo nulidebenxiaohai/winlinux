@@ -125,6 +125,63 @@ break 退出循环
 循环中使用contiue
   要返回循环开头，并根据条件测试结果决定是否继续执行循环，可使用continue语句。
 
+----------------------------------
+函数
+  函数是带名字的代码块，用于完成具体的工作。要执行函数定义的特定任务时，可调用该函数。
 
+定义函数
+  使用def来告诉Python定义一个函数，指出函数名 	
 
+可以向函数传递函数，例如
+  def greet_user(username):
+      print(f"Hello, {username.title()}! ")
+  
+  greet_user('jesse')
 
+实参和形参
+  在函数greet_user()的定义中，变量username是一个形参(parameter)，即函数完成工作所需的信息。
+  在代码greet_user('jesse')中，值'jesse'是一个实参(argument)，即调用函数时传递给函数的信息。
+在调用函数的时候，实参将值传递给了函数，这个值被赋予给了形参。
+
+传递实参
+
+  函数定义中可能包含多个形参，因此函数调用中也可能包含多个实参。向函数传递实参的方式有很多：
+可使用位置实参，这要求实参的顺序和形参的顺序相同；也可使用关键字实参，其中每个实参都由变量名和
+值组成；还可使用列表和字典。
+
+位置实参
+  调用函数时，Python必须将函数调用中的每个实参都关联到函数定义中的形参。最简单的关联方式是
+基于实参的顺序。这种关联方式称为位置实参
+
+def describe_pet(animal_type, pet_name):
+  print(f"\nI have a {animal_tpye}")
+  print(f"My {animal_type}'s name is {pet_name.title()}.")
+
+describe_pet('hamster', 'harry')
+
+这个函数的定义表明，它需要一种动物类型和一个名字，实参分别赋值给两个形参。
+（位置实参方法中，如果实参的顺序不正确，结果可能出乎预料）
+
+关键字实参
+  关键字实参是传递给函数的名称值对。因为直接在实参中将名称和值关联起来，所以向函数传递实参时
+不会混淆。关键字实参让你无需考虑函数调用中的实参顺序，还清楚地指出函数调用中的各个值的用途。
+
+def describe_pet(animal_type, pet_name):
+   print(f"\nI have a {animal_tpye}")
+   print(f"My {animal_type}'s name is {pet_name.title()}.")
+
+describe_pet(animal_type='hamster', pet_name='harry')
+
+关键字实参的顺序无关紧要，因为Python知道各个值该赋给哪个形参
+
+默认值
+  编写函数时，可给每个形参指定默认值。例如
+
+def describe_pet(pet_name, animal_type='dog'):
+   print(f"\nI have a {animal_tpye}")
+   print(f"My {animal_type}'s name is {pet_name.title()}.")
+
+describe_pet('willie')
+
+注意：使用默认值时，必须先在形参列表中列出没有默认值的形参，再列出有默认值的实参。
+  这让Python依然能够正确地解读位置实参

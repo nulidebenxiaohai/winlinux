@@ -9,4 +9,8 @@ prompt += "\nWhat is your first name?"
 name = input(prompt)
 print(f"\nHellp, {name}!")  
 
-#
+#使用定义函数的方式打印
+def greet_user():
+    print("Hello!")
+
+greet_user()
