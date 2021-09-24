@@ -200,3 +200,18 @@ describe_pet('willie')
 
   musician = build_persion('jimi', 'hendrix')
   print(musician)
+
+传递任意数量的实参
+  有时候不知道函数需要接受多少实参，好在Python允许函数从调用语句中收集任意
+数量的实参，例如：
+  def make_pizza(*toppings):
+	  print("\nMaking a pizza with the following toppings:")
+          for topping in toppings:
+	      print(f" - {topping}")
+  make_pizza('pepperoni')
+  make_pizza('mushrooms', 'green peppers', 'extra cheese')
+
+结和使用位置参数和任意数量实参
+  如果要让函数接受不同类型的实参，必须在函数定义中将接纳人任意数量实参的
+形参放在最后。Python先匹配位置实参和关键字实参，再将余下的实参都收集到最
+后一个形参中。
