@@ -201,6 +201,7 @@ describe_pet('willie')
   musician = build_persion('jimi', 'hendrix')
   print(musician)
 
+<<<<<<< HEAD
 传递任意数量的实参
   有时候不知道函数需要接受多少实参，好在Python允许函数从调用语句中收集任意
 数量的实参，例如：
@@ -215,3 +216,39 @@ describe_pet('willie')
   如果要让函数接受不同类型的实参，必须在函数定义中将接纳人任意数量实参的
 形参放在最后。Python先匹配位置实参和关键字实参，再将余下的实参都收集到最
 后一个形参中。
+=======
+传递列表
+  传递列表非常好用，将列表传递给函数后，函数就能直接访问其内容。例如：
+  def greet_users(names):
+      for name in names:
+	      msg = f"Hello, {name.title()}!"
+		  print(msg)
+  
+  usernames = ['hannah', 'try', 'margot']
+  greet_users(usernames)
+
+禁止函数修改列表
+  有时候需要禁止函数修改列表，例如前面的那个例子，最后的unprinted_designs列表变成了空的。
+为了解决这个问题，可以向函数传递列表的副本而非原件。这样，函数所做的任何修改都只影响副本，
+而原件丝毫不受影响。
+
+  将列表的副本传递给函数：
+     function_name(list_name[:])
+  切片表示法[:]创建列表的副本。在printing_models.py中，如果不想清空未打印完的设计列表可用
+  下面这样调用：
+     print_models(unprinted_designs[:], completed_models)
+
+传递任意数量的实参
+  有时候不知道函数需要接受多少实参，好在Python允许函数从调用语句中收集任意
+数量的实参，例如：
+  def make_pizza(*toppings):
+	  print("\nMaking a pizza with the following toppings:")
+          for topping in toppings:
+	      print(f" - {topping}")
+  make_pizza('pepperoni')
+  make_pizza('mushrooms', 'green peppers', 'extra cheese')
+
+结和使用位置参数和任意数量实参
+  如果要让函数接受不同类型的实参，必须在函数定义中将接纳人任意数量实参的
+形参放在最后。Python先匹配位置实参和关键字实参，再将余下的实参都收集到最
+后一个形参中
