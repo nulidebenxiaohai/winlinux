@@ -349,4 +349,29 @@ describe_pet('willie')
   要修改属性的值，最简单的方法就是通过实例直接访问它。
   my_new_car.odometer_reading = 23
   my_new_car.read_odometer()
-   
+  2.通过方法修改属性的值
+  如果由方法能替你更新属性，将大有裨益。这样就无须直接访问属性，而可将值传递给方法， 由它
+  在内部进行更新。例如：
+  class Car:
+      --snip--
+	  def update_odometer(self, mileage):
+	      """将里程表读数设置为指定的值"""
+		  self.odometer_reading = mileage
+  my_new_car.update_odometer(23)
+  my_new_car.read_odometer()
+  ##其本质还是直接修改属性的值（个人认为）##
+  3.通过方法对属性的值进行递增
+  有时候需要将属性值递增特定的量，而不是将其设置为全新的值。例如：
+  class Car:
+      --snip--
+
+	  def update_odometer(self,mileage):
+	      --snip--
+	  def increment_odometer(self,miles):
+	      """将里程表读数增加指定的量"""
+		  self.odometer_reading += miles
+
+9.3 继承
+  编写类时，并非总是要从空白开始。如果要编写的类是另一个现成类的特殊版本，可使用继承。一个类继承
+  另一个类时，将自动获得另一个类的所有属性和方法。原有的类称为父类，而新类称为子类。子类继承父类
+  的所有属性和方法，同时还可以定义自己的属性和方法。
