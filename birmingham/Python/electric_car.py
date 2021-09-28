@@ -30,10 +30,17 @@ class Car(object):
 class ElectricCar(Car):
     """电动汽车的独特之处"""
 
-    def __init_(self, make, model, year):
+    def __init__(self, make, model, year):
         """初始化父类的属性(super函数是一个特殊函数让你能调用父类的方法）"""
         super().__init__(make, model, year)
+        self.battery_size = 75
+
+    def describe_battery(self):
+        """打印一条描述电量的消息"""
+        print(f"This car has a {self.battery_size}-kWh battery.")
+
 
 my_tesla = ElectricCar('tesla', 'model s', 2019)
 print(my_tesla.get_descriptive_name())
+my_tesla.describe_battery() 
 
