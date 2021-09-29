@@ -384,3 +384,52 @@ describe_pet('willie')
 9.3.2 给子类定义属性和方法
   让一个类继承另一个类后，就可以添加区分子类和父类所需的新属性和新方法了。
   同见 electric_car.py
+
+9.3.3 重写父类的方法
+  对于父类的方法，只要它不符合子类模拟的实物的行为，都可以进行重写。为此，可在子类中定义一个与要
+  重写的父类方法同名的方法。这样，Python将不会考虑这个父类方法，而只关注你在子类中定义的相应方法。
+    假设Car类有一个名为fill_gas_tank()的方法，它对全电动汽车来说毫无意义，因此可以重写它。
+	class ElectricCar(Car):
+	    --snip--
+		def fill_gas_tank(self):
+		    """电动汽车没有油箱"""
+			print("This car doesn't need a gas tank!")
+  现在，如果有人对电动汽车调用方法fill_gas_tank()， Python将忽略Car类中的方法fill_gas_tank()，转
+  而运行上述代码。使用继承时，可让子类保留从父类继承而来的精华，并剔除不需要的糟粕。
+
+9.3.4 将实例用作属性
+  使用代码模拟实物时，可能会发现类中的细节越来越多：属性和方法清单以及文件都越来越长。在这种情况下，
+  可能需要将类的一部分提取出来，作为一个独立的类。例如：
+  class Car:
+      --snip--
+
+  class Battery:
+
+      def __init__(self, batter_size=75):
+	      self.battery_size = battery_size
+
+	  def describe_battery(self):
+	      print(f"This car has a {self.battery_size}-kWh battery.")
+
+  class ElectricCar(Car):
+
+      def __init__(self, make, model, year):
+	      super().battery = Battery()
+
+  my_tesla.battery.describe_battery()
+  (个人觉得就是主类的衍生，犹如嵌套)
+
+9.4 导入类
+  随着不断给类添加功能，文件可能会变得很长。为了遵循Python的总体理念，应该让文件尽可能整洁，Python
+  允许将类存储在模块。
+
+9.4.1 导入单个类
+  使用模块的程序必须使用更加具体的文件名。例如：
+  from car import Car。
+  这样，我们就可以使用Car类，就像他是在这个文件定义的一样。
+
+9.4.2 在一个模块中存储多个类
+  虽然同一个模块中的类之间应该存在某种相关性，但可以根据需要在一个模块中存储任意数量的类。
+  from car import ElectricCar
+  
+9.4.3 从一个模块中导入多个类
