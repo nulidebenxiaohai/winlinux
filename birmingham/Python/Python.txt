@@ -433,3 +433,37 @@ describe_pet('willie')
   from car import ElectricCar
   
 9.4.3 从一个模块中导入多个类
+  可根据需要在程序文件中导入任意数量的类。如果要在同一个程序中个创建普通汽车和电动汽车，就
+  需要将Car类和ElectricCar类都导入：
+  from car import Car， ElectricCar
+
+9.4.4 导入整个模块
+  还可以导入整个模块，在使用句点表示法访问需要的类。
+  import car
+
+  my_beetle = car.Car('volkswagen', 'beetle', 2019)
+  my_tesla = car.ElectricCar('tesla', 'roadster', 2019)
+
+9.4.5 导入模块中的所有类
+  from module_name import *
+  
+  不推荐使用这种导入方式，一是只看文件开头的import语句，就清楚地知道程序使用了哪些类，这种方式
+  没有明确指出使用模块中的哪些类。二是这种方式还可能引发名称方面的迷惑。
+
+9.4.6 在一个模块中导入另一个模块
+  有时候，需要将类分散到多个模块，以免模块太大或者在同一个模块中存储不相关的类。将类存储在多个
+  模块中，你可能发信一个模块中的类依赖于另一个模块中的类。
+
+  在electric_car.py中：
+  from car import Car
+
+  class Battery：
+      --snip--
+
+  class ElectricCar(Car):
+      --snip--
+
+9.4.7 使用别名
+  from electric_car import ElectricCar as EC
+
+  my_tesla = EC('tesla', 'roadster', 2019)
