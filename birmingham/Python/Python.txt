@@ -471,3 +471,49 @@ describe_pet('willie')
 9.5 Python标准库
   Python标注库是一组模块，我们安装的Python都包含它。例如：
   from random import randint
+
+10 文件和异常
+
+10.1 从文件中读取数据
+  文本文件可存储的数据量多得难以置信：天气数据，交通数据，社会经济数据，文学作品等。每当需要分析
+  或者修改存储在文件中的信息时，读取文件都很有用，对数据分析应用程序来说尤其如此。
+
+10.1.1 读取整个文件
+  要读取文件，需要一个包含几行文本的文件。例如pi_digits.txt
+  
+  open()：打开并且访问文件。open函数接受一个参数：要打开的文件的名称。Python在当前执行的文件所在
+  的目录查找指定的文件。其会返回一个表示文件的对象。Python将该对象赋给file_object供以后使用
+
+  关键字with在不再需要访问文件后将其关闭。我们也可以调用open()和close()来打开和关闭文件。
+
+  相比于原始文件，该输出唯一不同的地方时末尾多了一个空行。这是因为read()到达文件末尾时返回一个空字
+  符串，而将这个空字符串现实出来时就是一个空行。若要删除，可以使用：
+      print(contents.rstrip())
+
+10.1.2 文件路径
+  根据组织文件的方式，有时可能要打开不再程序文件所属目录中的文件。这时，需要提供文件路径，让Python
+  到指定的位置去查找。
+
+  相对路径：
+      text_files/filname.txt
+
+  绝对文件路径：
+      /home/ehmatthes/other_files/text_files/filename.txt
+
+10.1.3 逐行读取
+  读取文件时，常常需要姜茶其中的每一行：可能要在文件中查找特定的信息，或者要以某种方式修改文件中的文
+  本。可以对文件使用for循环：
+  
+  with open(filename) as file_object:
+      for line in file_object:
+	      print(line)
+  
+10.1.4 创建一个包含文件各行内容的列表
+  使用关键字with时，open函数返回的文件对象只能在with代码块中使用。如果要在with代码块外访问文件的内容，
+  可在with代码块内将文件的各行存储在一个列表，并在with代码块使用该列表。例如：
+
+  with open(filename) as file_object:
+      lines = file_object.readlines()
+
+  for line in lines:
+      print(line.rstrip())
