@@ -467,3 +467,7 @@ describe_pet('willie')
   from electric_car import ElectricCar as EC
 
   my_tesla = EC('tesla', 'roadster', 2019)
+
+9.5 Python标准库
+  Python标注库是一组模块，我们安装的Python都包含它。例如：
+  from random import randint
