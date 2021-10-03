@@ -47,6 +47,7 @@ class AlienInvasion:
             #向右移动飞船
             self.ship.moving_right = True
 	    elif event.key == pygame.K_LEFT:
+
             self.ship.moving_left = True
 		elif event.key ==pygame.K_q:
 		    sys.exit()
