@@ -1,0 +1,21 @@
+1. alien_invastion.py
+    
+	主文件alien_invasion.py包含AlienInvasion类。这个类创建一系列贯穿整个游戏都要
+	用到的属性：赋给self.settings的设置，赋给screen中的主显示surface，以及一个飞
+	船实例。这个模块还包含游戏的主循环，即调用一个_check_events(),ship.update()
+	和_update_screen()的while循环。
+
+    方法_check_events()检测相关的事件(如按下和松下键盘)，并通过调用方法_check_keydown_
+	events()和_check_keyup_events()处理这些事件。当前，这些方法负责管理飞船的移动。
+	AlienInvasion类还包含方法方法_update_screen(),该方法在每次主循环中重绘屏幕。
+
+2. settings.py
+
+    文件settings.py包含Settings类，这个类只包含方法__init__(),用于初始化控制游戏外
+	观和飞船速度的属性。
+
+3. ship.py
+
+    文件ship.py包含Ship类，这个类包含方法__init__(),管理飞船位置的方法update()和在
+	屏幕上绘制飞船的方法blitme()。表示飞船的图像储存在文件夹images下的文件ship.bmp。
+	
