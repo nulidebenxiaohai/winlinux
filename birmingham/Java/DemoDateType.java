@@ -1,6 +1,6 @@
 public class DemoDateType{
     public static void main(String[] args){
-        char zifu1 = '1';
-        System.out.println(zifu1+0);
+        char zifu1 = (char) 30000;
+        System.out.println(zifu1);
         }
     }
