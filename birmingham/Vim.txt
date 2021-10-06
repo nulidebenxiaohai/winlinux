@@ -1,0 +1,31 @@
+normal mode  --'i'--> insert mode
+             <-'esc'-
+
+: command lines
+    quit the fiel :quit/q
+    save the file :w
+    call the help :help :w (for example)
+                  :sp
+
+normal mode
+    j ----> moves down
+    k ----> moves up
+    h ----> moves left
+    l ----> moves right
+    w ----> forward by one word
+    b ----> backward by onw word
+    e ----> moving to the end of a word
+    $ ----> moves to the end of a line
+    ^ ----> moves to the first non-empyt character on the line
+    ^U ----> goes up 
+    ^D ----> goes down
+    G ----> moves all the way down
+    gg ----> moves all the way up 
+    f* ----> moves to the first * in this line
+    t* ----> moves to the second * in this line
+    o ----> create a new line and enter to the insert mode
+    dd ----> delete tht whole line    
+    de ----> delete the content after he cursor
+
+
+^V (Control-V)
