@@ -1,13 +1,29 @@
 normal mode  --'i'--> insert mode
-             <-'esc'-
+             <-'e---
+             --":"--> command mode
 
-: command lines
+             -"v"/"V"/"^v"--> visual mode
+
+
+
+command mode
+
     quit the fiel :quit/q
     save the file :w
     call the help :help :w (for example)
                   :sp
-
+	open another file :e file
+    save as another file :saveas file
+	change between files :bn / :bp
+    
+	locate No.n line :n
+    look for strings /String  (n for next, N for the former)
+    delete many lines :n1, n2d  (d is the key word for deleting)
+	do linux command :!command
+	
+    
 normal mode
+
     j ----> moves down
     k ----> moves up
     h ----> moves left
@@ -26,6 +42,14 @@ normal mode
     o ----> create a new line and enter to the insert mode
     dd ----> delete tht whole line    
     de ----> delete the content after he cursor
+    x ----> delete a character
+	u ----> undo the changes you made
 
 
-^V (Control-V)
+show many files in a screen
+  
+  left and right
+    vim -On file1 file2 file3 ... filen
+  
+  up and down
+
