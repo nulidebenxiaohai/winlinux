@@ -30,4 +30,19 @@ public class Student {
         System.out.println("有参数构造方法");
         System.out.println(this.name + " is " + this.age + " years old.");
     }
+
+    public void setAge(int age){
+        this.age = age;
+    }
+    public int getAge(){
+        return age;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getName(){
+        return name;
+    }
 }
