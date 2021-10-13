@@ -1,4 +1,4 @@
-public class Persion {
+public class Person {
     String name;
     private int age;
 

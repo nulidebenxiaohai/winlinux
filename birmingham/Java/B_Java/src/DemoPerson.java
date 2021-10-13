@@ -1,6 +1,6 @@
 public class DemoPerson {
     public static void main(String[] args) {
-        Persion person = new Persion();
+        Person person = new Person();
         person.show();
 
         person.name= "Jiahua Yu";
