@@ -1,3 +1,5 @@
+package DemoPerson;
+
 public class DemoPerson {
     public static void main(String[] args) {
         Person person = new Person();

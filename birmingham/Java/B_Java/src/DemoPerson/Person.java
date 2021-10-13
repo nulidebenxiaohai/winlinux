@@ -1,3 +1,5 @@
+package DemoPerson;
+
 public class Person {
     String name;
     private int age;
