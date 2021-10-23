@@ -34,7 +34,7 @@ public class StudentMarking {
     public final String STUDENT_ID_TEMPLATE = "You entered a given name of %s and a surname of %s%nYour studID is %s";
     public final String NAME_RESPONSE_TEMPLATE = "Please enter mark %d for student %s%n";
     public final String LOW_HIGH_TEMPLATE = "Student %s has a lowest mark of %d%nA highest mark of %d";
-    public final String AVG_MARKS_TEMPLATE = "%nStudent ***%s*** has an average of  %3.2f%n";
+    public final String AVG_MARKS_TEMPLATE = "%nStudent ***%s*** has an average of %5.2f%n";
     public final String COLUMN_1_TEMPLATE = "%7s";
     public final String COLUMN_2_TEMPLATE = "%11s%n";
     public final String CHART_KEY_TEMPLATE = "%4d%12d%n";
@@ -54,18 +54,20 @@ public class StudentMarking {
                 "Please enter your given name and surname (Enter 0 to return to main menu)%n");
         String StudentName = sc.nextLine();
         String Name = sc.nextLine();
+        //User enter special code to quit
         if (Name.equals("0")) {
             studId = Name;
         } else {
-
             String GivenName = Name.split(" ")[0];
             String FamilyName = Name.split(" ")[1];
 
+            //define variables to get student ID
             char First = GivenName.toUpperCase().charAt(0);
             char Second = FamilyName.toUpperCase().charAt(0);
             char Fifth = GivenName.charAt(GivenName.length() / 2);
             char Sixth = FamilyName.charAt(FamilyName.length() / 2);
 
+            //if the length of family name is < 9, add 0 to generate two digits
             if (FamilyName.length() <= 9) {
                 char Third = '0';
                 String Fourth = String.valueOf(FamilyName.length());
@@ -94,36 +96,57 @@ public class StudentMarking {
         // DO NOT change MAX_MARK and MIN_MARK
         final int MAX_MARK = 100;
         final int MIN_MARK = 0;
+
+        //define an array to store three grades of a student
         int[] Grades = new int[3];
 
         double avg = Double.MIN_VALUE; // TODO Don't have unnecessary initialisations
         if (studId.length() > 6) {
             System.out.printf(NOT_FOUND_TEMPLATE, studId.substring(6));
         } else {
-            for (int i = 0; i < 3; i++) {
-                System.out.printf(NAME_RESPONSE_TEMPLATE, i + 1, studId);
+            int i = 0;
+            //define a loop to get grades of students
+            while (true){
+                System.out.printf(NAME_RESPONSE_TEMPLATE, i+1, studId);
                 int grades = sc.nextInt();
+                //only when Max_MARK <= grade <= MIN_MARK, store the grade
                 if (grades <= MAX_MARK && grades >= MIN_MARK) {
                     Grades[i] = grades;
+                    i += 1;
+                    //end the loop when array has stored three grades
+                    if (i == 3){
+                        break;
+                    }
+                }
+                else {
+                    i = i;
                 }
             }
+            //get the highest and lowest grade
             int temp_max = Grades[0] > Grades[1] ? Grades[0] : Grades[1];
             int Max_Grade = temp_max > Grades[2] ? temp_max : Grades[2];
             int temp_min = Grades[0] < Grades[1] ? Grades[0] : Grades[1];
             int Min_Grade = temp_min < Grades[2] ? temp_min : Grades[2];
+            //calculate the average/mean
             avg = (Grades[0] + Grades[1] + Grades[2]) / 3.00;
             System.out.printf(LOW_HIGH_TEMPLATE, studId, Min_Grade, Max_Grade);
             System.out.printf(AVG_MARKS_TEMPLATE, studId, avg);
             System.out.printf("Would you like to print a bar chart? [y/n]%n");
-            String IfPrint = sc.next();
-            if (IfPrint.equals("y") || IfPrint.equals("Y")) {
-                printBarChart(studId, Max_Grade, Min_Grade);
-            } else if (IfPrint.equals("n") || IfPrint.equals("N")) {
-
+            while (true){
+                String IfPrint = sc.next();
+                if (IfPrint.equals("y") || IfPrint.equals("Y")) {
+                    printBarChart(studId, Max_Grade, Min_Grade);
+                    break;
+                }
+                else if (IfPrint.equals("n") || IfPrint.equals("N")) {
+                    break;
+                }
+                else {
+                    System.out.printf("Would you like to print a bar chart? [y/n]%n");
+                }
             }
+
         }
-
-
         return avg;
     }
 
@@ -138,6 +161,7 @@ public class StudentMarking {
         // TODO (3.6) - Complete the printBarChart method which will print a bar chart of the highest and lowest results of a student
         System.out.printf("Student id statistics: %s%n", studId);
         char Star = '*';
+        //print '*' according to format
         for (int i = 0; i < high - low; i++) {
             System.out.printf("%4c%n", Star);
         }
@@ -146,7 +170,6 @@ public class StudentMarking {
         }
         System.out.printf(COLUMN_1_TEMPLATE + COLUMN_2_TEMPLATE, "Highest", "Lowest");
         System.out.printf(CHART_KEY_TEMPLATE, high, low);
-
     }
 
     /**
@@ -194,8 +217,10 @@ public class StudentMarking {
         ArrayList<Double> avg_Array = new ArrayList<>();
         // TODO Build a loop around displaying the menu and reading then processing input
         sm.displayMenu();
-        int StuNum = 0;
 
+        //define a variable to count number of student IDs
+        int StuNum = 0;
+        //a loop to display menu and options
         while (true) {
             int option = sc.nextInt();
             if (option == 0) {
@@ -205,32 +230,38 @@ public class StudentMarking {
             while (true) {
                 if (option == 1) {
                     String studId = sm.generateStudId(sc);
-                    keepStudId.add(studId);
+                    //users enter 0 or he has got 5 students ID, it will quit.
+                    if (!studId.equals("0") && StuNum <= MAX_STUDENTS ) {
+                        keepStudId.add(studId);
+                        StuNum += 1;
+                        avg_Array.add(0.00);
+                    }
                     sm.displayMenu();
-                    StuNum += 1;
-                    avg_Array.add(0.00);
                     break;
+
                 } else if (option == 2) {
                     System.out.printf(
                             "Please enter the studId to capture their marks (Enter 0 to return to main menu)%n");
-                    //System.out.println(keepStudId);
                     String studID = sc.next();
-                    boolean Exist = false;
-                    boolean NotExist = false;
-                    int number = 0;
-                    for (int i = 0; i < keepStudId.size(); i++) {
-                        if (studID.equals(keepStudId.get(i))) {
-                            Exist = true;
-                            number = i;
-                        } else {
-                            NotExist = true;
+                    if (!studID.equals("0")) {
+                        boolean Exist = false;
+                        boolean NotExist = false;
+                        int number = 0;
+                        //according to the input to find if student ID in the array
+                        for (int i = 0; i < keepStudId.size(); i++) {
+                            if (studID.equals(keepStudId.get(i))) {
+                                Exist = true;
+                                number = i;
+                            } else {
+                                NotExist = true;
+                            }
                         }
-                    }
-
-                    if (Exist) {
-                        avg_Array.set(number, sm.captureMarks(sc, studID));
-                    } else if (NotExist) {
-                        sm.captureMarks(sc, "      " + studID);
+                        //if ID is in array, captureMarks executes
+                        if (Exist) {
+                            avg_Array.set(number, sm.captureMarks(sc, studID));
+                        } else if (NotExist) {
+                            sm.captureMarks(sc, "      " + studID);
+                        }
                     }
                     sm.displayMenu();
                     break;
