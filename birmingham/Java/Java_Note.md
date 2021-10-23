@@ -79,7 +79,23 @@ B.  super和this两种构造调用，不能同时使用。
 
 # Java语言的特点
 
-Java语言是单继承的。
+## Java语言是单继承的。
 
-一个类
+一个类的直接父类只能有唯一一个。
+
+class A{}
+
+class B extends A {} // 正确
+
+class C{}
+
+class D extends A,C{}//错误
+
+## Java语言可以多级继承
+
+class A {}
+
+class B extends A {}//正确
+
+class C extends B {}//正确
 
