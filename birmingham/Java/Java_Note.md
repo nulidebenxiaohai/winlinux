@@ -99,3 +99,13 @@ class B extends A {}//正确
 
 class C extends B {}//正确
 
+
+
+一个子类的的直接父类是唯一的，但是一个父类可以又有很多个子类。
+
+class A{}
+
+class  B extends A {}
+
+class C extends A {}
+
