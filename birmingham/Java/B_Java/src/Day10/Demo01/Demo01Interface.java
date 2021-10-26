@@ -23,6 +23,9 @@ public class 实现类名称 implements 接口名称 {
 
 注意事项：
 如果实现类并没有覆盖重写接口中所有的抽象方法，那么这个实现类自己就必须是抽象类。
+
+1.接口的默认方法，可以通过接口实现类对象，直接调用。
+2.接口的默认方法，也可以被接口实现类进行覆盖重写
  */
 public class Demo01Interface {
     public static void main(String[] args) {
