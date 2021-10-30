@@ -9,6 +9,9 @@ public class Computer {
     }
     public void useDevice(USB usb) {
         usb.open();
+        if (usb instanceof Mouse){
+            ((Mouse) usb).click();
+        }
         usb.close();
     }
 }
