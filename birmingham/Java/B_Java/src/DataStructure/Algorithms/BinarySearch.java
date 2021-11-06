@@ -5,7 +5,6 @@ import edu.princeton.cs.algs4.*;
 
 public class BinarySearch {
     public static int rank(int key, int[] a){
-        //输入的是一个有序数组
         int lo = 0;
         int hi = a.length - 1;
         while (lo <= hi){
