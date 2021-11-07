@@ -1,7 +1,7 @@
 package DataStructure.Algorithms;
 
 import java.util.Arrays;
-import edu.princeton.cs.algs4.*;
+//import edu.princeton.cs.algs4.*;
 
 public class BinarySearch {
     public static int rank(int key, int[] a){
@@ -17,13 +17,13 @@ public class BinarySearch {
     }
 
     public static void main(String[] args) {
-        int[] whitelist = In.readInts(args[0]);
+        /*int[] whitelist = In.readInts(args[0]);
         Arrays.sort(whitelist);
         while (!StdIn.isEmpty()){
             int key = StdIn.readInt();
             if (rank(key, whitelist) < 0){
                 System.out.println(key);
             }
-        }
+        }*/
     }
 }
