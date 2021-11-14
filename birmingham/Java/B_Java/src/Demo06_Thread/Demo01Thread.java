@@ -18,7 +18,7 @@ Java程序属于抢占式调度，哪个线程的优先级高，哪个线程优�
     主线程： main
     新线程： Thread-0, Thread-1, Thread-2
  */
-public class Demo01Thread {
+public class Demo01Thread {//为了混一混
     public static void main(String[] args) {
         MyThread mt = new MyThread();
         mt.start();
