@@ -6,6 +6,18 @@ public class Try {
         sb.append("enter");
         sb.append("\n");
         sb.append("01");
+        String abs = "enter\n01";
         System.out.println(sb);
+        switch (abs){
+            case "0":
+                System.out.println("sdfsf");
+                break;
+            case "enter":
+                System.out.println("enter");
+                break;
+            case "enter\n01":
+                System.out.println("right");
+                break;
+        }
     }
 }
