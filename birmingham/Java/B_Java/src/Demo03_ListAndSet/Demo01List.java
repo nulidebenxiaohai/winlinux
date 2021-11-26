@@ -11,6 +11,9 @@ List接口的特点：
 3.允许存储重复的元素
 注意：
     操作索引的时候，一定要防止索引越界异常
+    IndexOutOfBoundsException:索引越界异常，集合汇报
+    ArrayIndexOutOfBoundsException:数组索引越界异常
+    StringIndexOutOfBoundsException:字符串索引越界异常
  */
 public class Demo01List {
     public static void main(String[] args) {
