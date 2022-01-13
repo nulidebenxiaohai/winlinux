@@ -39,9 +39,29 @@ public int[] twoSum(int[] numbers, int target){
 }
 ```
 
+### 2. 两数平方和
 
+633. Sum of Square Numbers (easy)
 
+![image-20220113233015218](Leetcode.assets/image-20220113233015218.png)
 
-
-
+```java
+public boolean judgeSquareSum(int target){
+    if (target < 0 ) return false;
+    int i = 0, j = (int) Math.sqrt(target);
+    while(i <= j){
+        int powsum = i*i+j*j;
+        if(powsum == target){
+            return true;
+        }
+        else if(powsum < target){
+            i++;
+        }
+        else{
+            j--;
+        }
+    }
+    return false;
+}
+```
 
