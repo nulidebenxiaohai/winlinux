@@ -65,3 +65,38 @@ public boolean judgeSquareSum(int target){
 }
 ```
 
+### 3. 反转字符串中的元音字符
+
+345. Reverse Vowels of a String (Easy)
+
+![image-20220114001236528](Leetcode.assets/image-20220114001236528.png)
+
+```java
+private final static HashSet<Character> vowels = new HashSet<>(
+    Arrays.asList('a','e','i','o','u','A','E','I','O','U'));
+public String reverseVowels(String s){
+    if(s == null) return null;
+    int i = 0; j = s.length() - 1;
+    char[] result = new char[s.length()];
+    while(i <= j){
+        char ci = s.charAt(i);
+        char cj = s.charAt(j);
+        if(！vowel.contains(ci)){
+            result[i] = ci;
+            i++;
+        }
+        else if(！vowel.contains(cj)){
+            result[j] = cj;
+            j++;
+        }
+        else{
+            result[i] = cj;
+            result[j] = ci;
+            i++;
+            j--;
+        }
+    }
+    return new String(result);
+}
+```
+
