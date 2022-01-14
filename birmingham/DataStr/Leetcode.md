@@ -76,7 +76,7 @@ private final static HashSet<Character> vowels = new HashSet<>(
     Arrays.asList('a','e','i','o','u','A','E','I','O','U'));
 public String reverseVowels(String s){
     if(s == null) return null;
-    int i = 0; j = s.length() - 1;
+    int i = 0, j = s.length() - 1;
     char[] result = new char[s.length()];
     while(i <= j){
         char ci = s.charAt(i);
@@ -99,4 +99,51 @@ public String reverseVowels(String s){
     return new String(result);
 }
 ```
+
+### 4. 回文字符串
+
+680. Vaild Palindrome || (Easy)
+
+![image-20220114154819256](Leetcode.assets/image-20220114154819256.png)
+
+```java
+public boolean validPalindrome(String s){
+    for (int i = 0, j = s.length()-1; i < j ; i++, j--){
+        if (s.charAt(i) != s.charAt(j)){
+            return isPalindrome(s, i, j-1) || isPalindrome(s, i++, j);
+        }
+    }
+    return true;
+}
+private boolean isPalindrome(String s, int i, int j){
+    while(i <= j){
+        if (s.charAt(i++) != s.charAt(j--)){
+            return fasle;
+        }
+    }
+    return true;
+}
+```
+
+### 5. 归并两个有序数组
+
+88. Merge Sorted Array (Easy)
+
+    ![image-20220114160857105](Leetcode.assets/image-20220114160857105.png)
+
+```java
+public void merge(int[] nums1, int m, int[] nums2, int n){
+    int index1 = m - 1, index2 = n -1;
+    int indexMerge = m + n -1;
+    while(index2 >= 0){//第二个数组可能就只有一个元素
+        if (index1 < 0){//第一个数组是个空数组
+            nums1[indexMerge--] = nums2[index2--];//
+        }
+    }
+}
+```
+
+
+
+
 
