@@ -54,11 +54,11 @@ public boolean judgeSquareSum(int target){
         if(powsum == target){
             return true;
         }
-        else if(powsum < target){
-            i++;
+        else if(powsum > target || powsum < 0){ //这里必须时powsum > target，因为当int溢出时，powsum将会变成负数，小于target。而这种情况时，应该是powsum过大。
+            j--;
         }
         else{
-            j--;
+            i++;
         }
     }
     return false;
