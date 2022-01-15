@@ -125,23 +125,103 @@ private boolean isPalindrome(String s, int i, int j){
 }
 ```
 
-### 5. 归并两个有序数组
+### 5. 归并两个有序数组*
 
 88. Merge Sorted Array (Easy)
 
     ![image-20220114160857105](Leetcode.assets/image-20220114160857105.png)
 
 ```java
-public void merge(int[] nums1, int m, int[] nums2, int n){
-    int index1 = m - 1, index2 = n -1;
-    int indexMerge = m + n -1;
-    while(index2 >= 0){//第二个数组可能就只有一个元素
-        if (index1 < 0){//第一个数组是个空数组
-            nums1[indexMerge--] = nums2[index2--];//
+public void merge(int[] nums1, int m, int[] nums2, int n) {
+    int index1 = m - 1, index2 = n - 1;
+    int indexMerge = m + n - 1;
+    while (index2 >= 0) {
+        if (index1 < 0) {
+            nums1[indexMerge--] = nums2[index2--];
+        } 
+        else if (index2 < 0) {
+            nums1[indexMerge--] = nums1[index1--];
+        } 
+        else if (nums1[index1] > nums2[index2]) {
+            nums1[indexMerge--] = nums1[index1--];
+        } 
+        else {
+            nums1[indexMerge--] = nums2[index2--];
         }
     }
 }
 ```
+
+```java
+public void merge(int[] nums1, int m, int[] nums2, int n){
+    int p1 = m-1, p2 = n-1;
+    int total = m + n - 1;
+    while(p1 >=0 && p2 >= 0){
+        if(nums1[p1] <= nums2[p2]){
+            num1[total--] = num2[p2--];
+        }
+        else{
+            num1[total--] = num1[p1--];
+        }
+    }
+    while(p2 >= 0 && total >= 0){
+        num1[total--] = num2[p2--];
+    }
+    return;
+}
+```
+
+这是我尝试过最快的方法，上面的几个都有一些问题：
+
+```java
+public void merge(int[] nums1, int m, int[] nums2, int n){
+    int i = m - 1, j = n - 1, k = m + n + 1;
+    while(i >= 0 || j >= 0){
+        if(i >= 0 && j >= 0){
+            if(nums1[i] <= nums2[j]){
+                nums1[k--] = nums2[j--];
+            }
+            else{
+                nums1[k--] = nums1[i--];
+            }
+        }
+        else if(i >= 0){
+            nums1[k--] = nums1[i--];
+        }
+        else if(j >= 0){
+            nums1[k--] = nums2[j--];
+        }
+    }
+}
+```
+
+### 6. 判断链表是否存在环//这个我对链表不是很熟悉，先留着
+
+141. Linked List Cycle (Easy)
+
+```
+public boolean hasCycle(ListNode head){
+
+}
+```
+
+### 7. 最长子序列
+
+524. Longest Word in Dictionary through Deleting (Medium)
+
+![image-20220115222825214](Leetcode.assets/image-20220115222825214.png)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
