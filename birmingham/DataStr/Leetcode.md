@@ -238,17 +238,79 @@ private boolean isSubstr(String s, String target){//判断一个字符串是否�
 }
 ```
 
+## 排序
 
+## 贪心算法
+
+## 二分查找
+
+## 分治
+
+## 搜索
+
+## 动态规划
+
+## 数学
 
 # LeetCode 题解（数据结构篇）
 
 ## 链表
+
+
 
 ## 树
 
 ## 栈和队列
 
 ## 哈希表
+
+1. 数组中两个数的和为给定值
+2. 判断数组是否含有重复元素
+3. 最长和谐序列
+4. 最长连续序列
+
+哈希表使用O（N）空间复杂度存储数据，并且以O（1）时间复杂度求解问题
+
+- Java中的HashSet用于存储一个集合，可以查找元素是否在集合中。如果元素有穷，并且范围不大，那么可以用一个布尔数组来存储一个元素是否存在。
+
+Java中的HashMap主要用于映射关系，从而把两个元素联系起来。HashMap也可以用来对元素进行技术统计，此时键为元素，值为计数。和HashSet类似，如果元素有穷并且范围不大，可以用整数数组来进行统计。
+
+### 1. 数组中两个数的和为给定值
+
+1. Two Sum (Easy)
+
+![image-20220116005550340](Leetcode.assets/image-20220116005550340.png)
+
+```java
+public int[] twoSum(int[] nums, int target){
+    HashMap<Integer, Integer> indexForNum = new HashMap<>();
+    for(int i = 0; i < nums.length; i++){
+        if(indexForNum.containsKey(target - nums[i])){
+            return new int[]{indexForNum.get(target - nums[i]), i};
+        }
+        else{
+            indexForNUm.put(nums[i], i);
+        }
+    }
+    return null;
+}
+```
+
+### 2. 判断数组是否含有重复元素
+
+217. Contains Duplicate (Easy)
+
+```java
+public boolean containsDuplicate(int[] nums){
+    Set<Integer> set = new HashSet<>();
+    for (int num : nums){
+        set.add(num);
+    }
+    return set.size() < nums.length;
+}
+```
+
+
 
 ## 字符串
 
