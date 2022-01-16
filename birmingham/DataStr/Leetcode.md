@@ -339,7 +339,75 @@ class MyStack{
 }
 ```
 
-### 
+### 3. 最小值栈
+
+155. Min Stack (Easy)
+
+```java
+class MinStack{
+    private Stack<Integer> dataStack;
+    private Stack<Integer> minStack;
+    private int min;
+    
+    public MinStack(){
+        dataStack = new Stack<>();
+        minStack = new Stack<>();
+        min = Integer.MAX_VALUE;
+    }
+    
+    public void push(int x){
+        dataStack.add(x);
+        min = Math.min(min, x);
+        minStack.add(min);
+    }
+    
+    public void pop(){
+        dataSatck.pop();
+        minStack.pop();
+        min = minStack.isEmpty() ? Integer.Max_VALUE : minStack.peek();
+    }
+    
+    public int top(){
+        return dataStack.peek();
+    }
+    
+    public int getMin(){
+        return minStack.peek();
+    }
+}
+```
+
+### 4. 用栈实现括号匹配
+
+20. Vaild Parentheses (Easy)
+
+![image-20220116192819110](Leetcode.assets/image-20220116192819110.png)
+
+```java
+public boolean isVaild(String s){ //要说对，得全部满足，但是错只要错一个就是错的
+    Stack<Character> stack = new Stack<>();
+    for(char c : s.toCharArray()){
+        if(c == '(' || c == '{' || c == '['){
+            stack.push(c);
+        }
+        else{
+            if(stack.isEmpty()){
+                return false;
+            }
+            char cStack = stack.pop();
+            boolean b1 = c == ')' && cStack ！= '(';
+            boolean b2 = c == '}' && cStack ！= '{';
+            boolean b3 = c == ']' && cStack ！= '[';
+            if(b1 || b2 || b3){
+                return false;
+            }
+        }
+    }
+    return stack.isEmpty();
+}
+```
+
+
 
 ## 哈希表
 
