@@ -306,7 +306,40 @@ class MyQueue{
 }
 ```
 
+### 2. 用队列实现栈
 
+225. Implement Stack using Queues (Easy)
+
+![image-20220116145240296](Leetcode.assets/image-20220116145240296.png)
+
+```java
+class MyStack{
+    private Queue<Integer> queue = new LinkedList<>();
+    
+    public void push(int x){
+        queue.add(x);
+        int sz = queue.size();
+        while(sz > 1){
+            queue.add(queue.remove());
+            sz--;
+        }
+    }
+    
+    public int pop(){
+        return queue.pop;
+    }
+    
+    public int top(){
+        return queue.peek();
+    }
+    
+    public boolean empty(){
+        return queue.isEmpty();
+    }
+}
+```
+
+### 
 
 ## 哈希表
 
