@@ -435,6 +435,25 @@ public int[] dailyTemperatures(int[] temperatures){
 
 ![image-20220116202927387](Leetcode.assets/image-20220116202927387.png)
 
+```java
+public int[] nextGreaterElements(int[] nums){
+    int n = nums.length;
+    int[] next = new int[n];
+    Arrays.fill(next, -1);
+    Stack<Integer> pre = new Stack<>();
+    for(int i = 0; i < n*2; i++){
+        int num = nums[i % n];
+        while(!pre.isEmpty() && num > pre.peek()){
+            next[pre.pop()] = nums;
+        }
+        if (i < n){
+            pre.add(i);
+        }
+    }
+    return next;
+}
+```
+
 
 
 ## 哈希表
