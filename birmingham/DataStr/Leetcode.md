@@ -1,4 +1,4 @@
-# Leetcode 题解
+# LeetCode 题解 (算法思想篇)
 
 ## 双指针
 
@@ -240,7 +240,23 @@ private boolean isSubstr(String s, String target){//判断一个字符串是否�
 
 
 
+# LeetCode 题解（数据结构篇）
 
+## 链表
+
+## 树
+
+## 栈和队列
+
+## 哈希表
+
+## 字符串
+
+## 数组与矩阵
+
+## 图
+
+## 位运算
 
 
 
