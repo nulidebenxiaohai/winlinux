@@ -262,6 +262,52 @@ private boolean isSubstr(String s, String target){//判断一个字符串是否�
 
 ## 栈和队列
 
+1. 用栈实现队列
+2. 用队列实现栈
+3. 最小值栈
+4. 用栈实现括号匹配
+5. 数组中元素和下一个比它的元素之间的距离
+6. 循环数组中比当前元素大的下一个元素
+
+### 1. 用栈实现队列
+
+232. Implement Queue using Stacks (Easy)
+
+![image-20220116142013893](Leetcode.assets/image-20220116142013893.png)
+
+```java
+class MyQueue{
+    private Stack<Integer> in = new Stack<>();
+    private Stack<Integer> out = new Stack<>();
+    
+    public void push(int x){
+        in.push(x);
+    }
+    public int pop(){
+        in2out();
+        return out.pop();
+    }
+    public int peek(){
+        in2out.out();
+        return out.peek();
+    }
+    
+    public boolean empty(){
+        return in.isEmpty() && out.iSEmpty();
+    }
+    
+    private void in2out(){
+        if(out.isEmpty()){
+            while(!in.isEmpty()){
+                out.push(in.pop());
+            }
+        }
+    }
+}
+```
+
+
+
 ## 哈希表
 
 1. 数组中两个数的和为给定值
