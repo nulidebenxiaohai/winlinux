@@ -407,6 +407,34 @@ public boolean isVaild(String s){ //要说对，得全部满足，但是错只�
 }
 ```
 
+### 5. 数组中元素与下一个比它大的元素之间的距离
+
+793. Daily Temperatures (Medium)
+
+![image-20220116200158573](Leetcode.assets/image-20220116200158573.png)
+
+```java
+public int[] dailyTemperatures(int[] temperatures){
+    int n = temperatures.length;
+    int[] dist = new int[n];
+    Stack<Integer> indexs = new Stack<>();
+    for (int curIndex =0; curIndex < n; curIndex++){
+        while(!indexs.isEmpty() && temperatures[curIndex] > temperatures[indexs.peek()]){
+            int preIndex = indexs.pop();
+            dist[preIndex] = curIndex - preIndex;
+        }
+        indexs.add(curIndex);
+    }
+    return dist;
+}
+```
+
+### 6. 循环数组中比当前元素大的下一个元素
+
+503. Next Greater Element 2 (Medium)
+
+![image-20220116202927387](Leetcode.assets/image-20220116202927387.png)
+
 
 
 ## 哈希表
