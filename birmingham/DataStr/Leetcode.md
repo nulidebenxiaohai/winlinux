@@ -310,6 +310,56 @@ public boolean containsDuplicate(int[] nums){
 }
 ```
 
+### 3. 最长和谐序列
+
+594. Longest Harmonious Subsequence (Easy)
+
+![image-20220116012027914](Leetcode.assets/image-20220116012027914.png)
+
+```java
+public int findLHS(int[] nums){
+    Map<Integer, Integer> countfornum = new HashMap<>();
+    for (int num : nums){
+        countfornum.put(nums, countfornum.getOrDefault(num,0)+1);//注意getOrDefault函数的用法
+    }
+    int longest = 0;
+    for(int num : countfornum.keySet()){
+        if(countfornum.containsKey(num+1)){
+            longest = Math.max(longest, counfornum.get(num+1)+counfornum.get(num));
+        }
+    }
+    return longest;
+}
+```
+
+### 4. 最长连续序列
+
+128. Longest Consecutive Sequence (Hard)
+
+![image-20220116014232889](Leetcode.assets/image-20220116014232889.png)
+
+```java
+public int longestConsecutive(int[] nums){
+    Set<Integer> num_set = new HashSet<Integet>();
+    for(int num : nums){
+        num_set.add(num);
+    }
+    int longestStreak = 0;
+    for(int num : num_set){
+        if(!num_set.contains(num-1)){
+            int currentNum = num;
+            int currentStreak = 1;
+            while(num_set.contain(num+1)){
+                currentNum += 1;
+                currentStreak +=1;
+            }
+            longestStreak = Maht.max(longestStreak, currentStreak);
+        }
+    }
+    return longestStreak;
+}
+```
+
 
 
 ## 字符串
