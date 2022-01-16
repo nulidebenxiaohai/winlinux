@@ -211,7 +211,32 @@ public boolean hasCycle(ListNode head){
 
 ![image-20220115222825214](Leetcode.assets/image-20220115222825214.png)
 
+```java
+public String findLongestWord(Sting s, List<String> d){
+    String longestWord = "";
+    for (String target : d){
+        int l1 = longestWord.length(), l2 = target.length();
+        if(l1 > l2 || (l1 == l2 && longestWord.compareTo(target) < 0)){
+            continue;
+        }
+        if(isSubstr(s, target)){
+            longestWord = target;
+        }
+    }
+    return longestWord;
+}
 
+private boolean isSubstr(String s, String target){//判断一个字符串是否为另一个字符串的子序列
+    int i = 0, j = 0;
+    while(i < s.length() && j < target.length()){
+        if(s.charAt(i) == target.charAt(j)){
+            j++;
+        }
+        i++;
+    }
+    return j == target.length();
+}
+```
 
 
 
