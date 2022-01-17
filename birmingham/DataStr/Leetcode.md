@@ -596,10 +596,10 @@ public int longestConsecutive(int[] nums){
 ```java
 public boolean isAnagram(String s, String t){
     int[] cnts = new int[26];
-    for(char c : s.toCharArray){
+    for(char c : s.toCharArray()){
         cnts[c - 'a']++;
     }
-    for(char c : t.toCharArray){
+    for(char c : t.toCharArray()){
         cnts[c - 'a']--;
     }
     for (int i : cnts){
