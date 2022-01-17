@@ -447,8 +447,8 @@ public int[] nextGreaterElements(int[] nums){
     Stack<Integer> pre = new Stack<>();
     for(int i = 0; i < n*2; i++){
         int num = nums[i % n];
-        while(!pre.isEmpty() && num > pre.peek()){
-            next[pre.pop()] = nums;
+        while(!pre.isEmpty() && num > nums[pre.peek()]){
+            next[pre.pop()] = num;
         }
         if (i < n){
             pre.add(i);
@@ -457,8 +457,6 @@ public int[] nextGreaterElements(int[] nums){
     return next;
 }
 ```
-
-
 
 ## 哈希表
 
@@ -558,9 +556,38 @@ public int longestConsecutive(int[] nums){
 }
 ```
 
-
-
 ## 字符串
+
+1. 两个字符串包含的字符是否完全相同
+2. 计算一组字符集合可以组成的回文字符串的最大长度
+3. 字符串同构
+4. 回文字符串个数
+5. 判断一个整数是否为回文数
+6. 统计二进制字符串中连续1和连续0数量相同的子字符串个数
+
+### 1. 两个字符串包含的字符串是否完全相同
+
+242. Vaild Anagram (Easy)
+
+![image-20220116220511175](Leetcode.assets/image-20220116220511175.png)
+
+```java
+public boolean isAnagram(String s, String t){
+    int[] cnts = new int[26];
+    for(char c : s.toCharArray){
+        cnts[c - 'a']++;
+    }
+    for(char c : t.toCharArray){
+        cnts[c - 'a']--;
+    }
+    for (int i : cnts){
+        if(i != 0){
+            return false;
+        }
+    }
+    return true;
+}
+```
 
 ## 数组与矩阵
 
