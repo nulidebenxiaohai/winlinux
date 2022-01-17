@@ -411,6 +411,28 @@ public boolean isVaild(String s){ //要说对，得全部满足，但是错只�
 }
 ```
 
+```java
+//另外一种更加简洁的方法
+public boolean isVaild(String s){
+    Stack<Character> stack = new Stack<>();
+    for(char c : s.toCharArray()){
+        if(c == '('){
+            stack.push(')');
+        }
+        else if(c == '{'){
+            stack.push('}');
+        }
+        else if(c == '['){
+            stack.push(']');
+        }
+        else if(stack.isEmpty() || c != stack.pop()){
+            return false;
+        }
+    }
+    return stack.isEmpty();
+}
+```
+
 ### 5. 数组中元素与下一个比它大的元素之间的距离
 
 793. Daily Temperatures (Medium)
@@ -588,6 +610,20 @@ public boolean isAnagram(String s, String t){
     return true;
 }
 ```
+
+### 2. 计算一组字符集合可以组成的回文字符串的最大长度
+
+409. Longest Palindrome (Easy)
+
+![image-20220117170128326](Leetcode.assets/image-20220117170128326.png)
+
+```java
+public int longestPalindrome(String s){
+    int[] cnts = new 
+}
+```
+
+
 
 ## 数组与矩阵
 
