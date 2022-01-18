@@ -53,3 +53,29 @@ class NumMatrix {
 }
 ```
 
+#### 560. 和为K的子数组
+
+![image-20220118193431352](labuladong.assets/image-20220118193431352.png)
+
+![image-20220118201020099](labuladong.assets/image-20220118201020099.png)
+
+```java
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int n = nums.length;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0,1);
+        int res = 0, sum_i = 0;
+        for(int i = 0; i < n; i++){
+            sum_i += nums[i];
+            int sum_j = sum_i - k;
+            if(map.containsKey(sum_j)){
+                res += map.get(sum_j);
+            }
+            map.put(sum_i, map.getOrDefault(sum_i,0) + 1);
+        }
+        return res;
+    }
+}
+```
+
