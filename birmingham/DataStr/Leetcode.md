@@ -275,6 +275,8 @@ private boolean isSubstr(String s, String target){//判断一个字符串是否�
 
 ### 1. 找出两个链表的交点
 
+160. Intersection of Two Linked LIsts (Easy)
+
 ![image-20220118141915324](Leetcode.assets/image-20220118141915324.png)
 
 ```java
@@ -285,6 +287,54 @@ public ListNode getIntersectionNode(ListNode headA, ListNode headB){
         l2 = (l2 == null) ? headA : l2.next;
     }
     return l1;
+}
+```
+
+### 2. 链表反转
+
+206. Reverse Linked List (Easy)
+
+递归
+
+```java
+public ListNode reverseList(ListNode head){
+    if (head == null || head.next == null){
+        return head;
+    }
+    ListNode next = head.next;
+    ListNode newHead = reverseList(next);
+    next.next = head;
+    head.next = null;
+    return newHead;
+}
+```
+
+头插法
+
+```java
+public ListNode reverseList(ListNode head){
+    ListNode newHead = new ListNode(-1);
+    while(head != null){
+        ListNode next = head.next;
+        head.next = newHead.next;
+        newHead.next = head;
+        head = next;
+    }
+    return newHead.next;
+}
+```
+
+### 3. 归并两个有序的链表
+
+21. Merge Two Sorted Lists (Easy)
+
+```java
+public ListNode mergerTwoLists(ListNode l1, ListNode l2){
+    if (l1 == null) return l2;
+    if (l2 == null) return l1;
+    if (l1.val < l2.val){
+        l1.next = 
+    }
 }
 ```
 
