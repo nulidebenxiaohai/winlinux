@@ -106,3 +106,49 @@ class Solution {
 
 ### 差分数组技巧
 
+差分数组的主要使用场景是频繁对原始数组的某个区间的元素进行增减。通过这个diff差分数组是可以反推出原始数组nums的。
+
+```java
+int[] diff = new int[nums.length];
+//构造差分数组
+diff[0] = nums[0];
+for (int i = 1; i < nums.length; i++){
+    diff[i] = nums[i] - nums[i - 1];
+}
+```
+
+#### 370. 区间加法
+
+![image-20220118221621141](labuladong.assets/image-20220118221621141.png)
+
+```java
+????这道题需要会员
+```
+
+#### 1109. 航班预定统计
+
+![image-20220118222528470](labuladong.assets/image-20220118222528470.png)
+
+```java
+class Solution {
+    public int[] corpFlightBookings(int[][] bookings, int n) {
+        int[] nums = new int[n];
+        for(int[] booking : bookings){
+            int i = booking[0];
+            int j = booking[1];
+            int val = booking[2];
+            nums[i-1] += val;
+            if(j < nums.length){
+                nums[j] -=val;
+            }
+        }
+        int[] res = new int[nums.length];
+        res[0] = nums[0];
+        for(int i = 1; i < nums.length; i++){
+            res[i] = res[i - 1] + nums[i];
+        }
+        return res;
+    }
+}
+```
+
