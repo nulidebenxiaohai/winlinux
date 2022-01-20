@@ -152,3 +152,150 @@ class Solution {
 }
 ```
 
+### 滑动窗口算法
+
+### 二分搜索
+
+零，二分查找框架
+
+```java
+int binarySerach(int[] nums, int target){
+    int left = 0, right = ...;
+    while(...) {
+        int mid = left + (right - left)/2;
+        if(nums[mid] == target){
+            ...
+        }else if(nums[mid] < target){
+            left = ...
+        }else if(nums[mid] > target){
+            right = ...
+        }
+    }
+    return ...;
+}
+```
+
+**分析二分查找的一个技巧是： 不要出现else，而是把所有情况都用else if写清楚，这样可以清楚地展现所有细节。**
+
+*PS： 计算mid时要防止溢出，代码中 left + (right - left) / 2 就和（left + right）/ 2的计算结果相同，但是有效防止了 left 和 right 太大直接相加导致溢出。*
+
+一、寻找一个数（基本的二分搜索）
+
+最简单的场景，搜索一个数，如果存在，返回其索引，否则返回-1.
+
+```java
+int binarySeearch(int[] nums, int target){
+    int left = 0;
+    int right = nums.length - 1;
+    
+    while(left <= right){ //终止条件是 left = right + 1 例如[3,2)
+        int mid = left + (right - left)/2;
+        if(nums[mid] == target){
+            return mid;
+        }
+        else if(nums[mid] < target){
+            left = mid + 1;
+        }
+        else if(nums[mid] > target)
+            right = mid - 1;
+    }
+    return -1;
+}
+```
+
+1. 如果使用while(left < right)，其终止条件是 left == right，写成区间的形式为[right，right]，或者是[2,2]，这个时候区间非空还有一个2，但是这个时候while循环终止了，缺少了索引2。
+
+2. **为什么使用left = mid + 1, right = mid - 1?**
+
+   要明确什么是搜索区间，一开始的搜索区间是[left, right]。当索引mid不是要找的target时，接下来应该去搜索[left, mid-1]或者[mid+1,right]。因为mid已经搜索过，应该从搜索区间中去除
+
+3. 这个算法难以找到索引的左右边界，例如数组[1,2,2,2,3],target为2，返回的索引为2，但是若要得到左右边界，此算法就无法处理。
+
+二、寻找左侧边界的二分搜索
+
+```java
+int left_bound(int[] nums, int target){
+    if(nums.length == 0) return -1;
+    int left = 0;
+    int right = nums.length;
+    
+    while(left < right){ //终止条件是 left = right
+        int mid = left + (right - left)/2;
+        if(nums[int] == target){
+            right = mid;
+        }
+        else if(nums[mid] < target){
+            left = mid + 1;
+        }
+        else if(nums[mid] > target){
+            right = mid;
+        }
+    }
+    return left;
+    //还要检查出界情况
+}
+```
+
+或者使用这个形式：
+
+```java
+int left_bound(int[] nums, int target) {
+    int left = 0, right = nums.length - 1;
+     // 搜索区间为 [left, right]
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] < target) {
+            // 搜索区间变为 [mid+1, right]
+            left = mid + 1;
+        } else if (nums[mid] > target) {
+            // 搜索区间变为 [left, mid-1]
+            right = mid - 1;
+        } else if (nums[mid] == target) {
+            // 收缩右侧边界
+            right = mid - 1;
+        }
+     }
+     // 检查出界情况
+     if (left >= nums.length || nums[left] != target)
+         return -1;
+     return left;
+}
+```
+
+三、寻找右侧边界的二分查找
+
+```java
+int right_bound(int[] nums, int target){
+    if(nums.length == 0) return -1;
+    int left = 0, right = nums.length;
+    
+    while(left < right){
+        int mid = left + (right - left)/2;
+        if(nums[mid] == target){
+            left = mid + 1;
+        }
+        else if(nums[mid] < target){
+            left = mid + 1;
+        }
+        else if(nums[mid] > target){
+            right = mid;
+        }
+    }
+    return left - 1;//!!!!注意！！！
+}
+```
+
+
+
+#### 704. 二分查找
+
+#### 34. 在排序数组中查找元素的第一个和最后一个位置
+
+
+
+
+
+
+
+
+
