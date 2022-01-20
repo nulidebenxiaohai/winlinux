@@ -291,7 +291,52 @@ int right_bound(int[] nums, int target){
 
 #### 34. 在排序数组中查找元素的第一个和最后一个位置
 
+### 二分搜索题型套路分析
 
+二分搜索的套路框架
+
+```java
+//函数f是关于自变量的x的单调函数
+int f(int x){
+    //...
+}
+
+//主函数，在f(x) == target的约束下求x的值
+int soluation(int[] nums, int target){
+    if(nums.length == 0) return -1;
+    //问自己：自变量的x的最小值是多少？
+    int left = ...;
+    //问自己：自变量x的最大是多少？
+    int right = ... + 1;
+    
+    while(left < right){
+        int mid = left + (right - left) / 2;
+        if(f(mid) == target){
+            //问自己：题目是求左边界还是右边界
+            //...
+        }
+        else if(f(mid) < target){
+            //问自己：怎么让f(x)大一点？
+            ///...
+        }
+        else if(f(mid) > target){
+            //问自己：怎么让f(x)小一点？
+            //...
+        }
+    }
+    return left;
+}
+```
+
+具体来说，想要用二分搜索算法解决问题，分为以下几步：
+
+1. 确定x, f(x), target分别是什么，并且写出函数f的代码
+2. 找到x的取值范围作为二分搜索的搜索区间，初始化left和right变量
+3. 根据题目的要求，确定应该使用左侧还是右侧的二分搜索算法，写出解法代码
+
+#### 875. 爱吃香蕉的珂珂
+
+#### 1011. 在D天内送达包裹的能力
 
 
 
