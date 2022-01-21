@@ -395,15 +395,68 @@ int removeDuplicates(int[] nums){
 }
 ```
 
-
-
 #### 83. 删除排序链表中的重复元素
+
+```java
+ListNode deleteDuplicates(ListNode head){
+    if(head == null) return null;
+    ListNode slow = head, fast = head;
+    while(fast != null){
+        if(fast.val != slow.val){
+            //nums[slow] = nums[fast];
+            slow.next = fast;
+            //slow++
+            slow = slow.next;
+        }
+        //fast++
+        fast = fast.next;
+    }
+    //断开与后面重复元素的连接
+    slow.next = null;
+    return head;s
+}
+```
 
 #### 27. 移除元素
 
+![image-20220121171106301](labuladong.assets/image-20220121171106301.png)
+
+```java
+int removeElement(int[] nums, int val){
+    int fast = 0, slow = 0;
+    while(fast < nums.length){
+        if(nums[fast] != val){
+            nums[slow] = nums[fast];
+            slow++;
+        }
+        fast++;
+    }
+    return slow;
+}
+```
+
+
+
 #### 283. 移动零
 
+![image-20220121171723323](labuladong.assets/image-20220121171723323.png)
 
+```java
+void moveZeroes(int[] nums){
+    int slow = 0, fast = 0;
+    while(fast < nums.length){
+        if(nums[fast] != 0){
+            nums[slow] = nums[fast];
+            slow++;
+        }
+        fast++;
+    }
+    while(slow < nums.length){
+        nums[slow] = 0;
+        slow++;
+    }
+}
+```
 
 
 
