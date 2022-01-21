@@ -354,15 +354,54 @@ class Solution {
 
 ```java
 int[] advantageCount(int[] sums1, int[] nums2){
-    
+    int n = nums1.length;
+    //给nums2降序排序
+    PriorityQueue<int[]> maxpq = new PriorityQueue<>(
+        (int[] pair1, int[] pair2)->{
+            return pair2[1] - pair1[2];
+        }
+    );
+    for(int i = 0; i < n; i++){
+        maxpq.offer()
+    }
+}
+```
+
+#### 870.优势洗牌
+
+
+
+### 一文秒杀四道原地修改数组的算法题
+
+#### 26. 删除有序数组中的重复项
+
+![image-20220121153449948](labuladong.assets/image-20220121153449948.png)
+
+```java
+//使用快慢指针
+int removeDuplicates(int[] nums){
+    if(nums.length == 0){
+        return 0;
+    }
+    int slow = 0, fast = 0;
+    while(fast < nums.length){
+        if(nums[fast] != nums[slow]){
+            slow++;
+            nums[slow] = nums[fast];
+        }
+        fast++;
+    }
+    return slow+1;
 }
 ```
 
 
 
-#### 870.优势洗牌
+#### 83. 删除排序链表中的重复元素
 
+#### 27. 移除元素
 
+#### 283. 移动零
 
 
 
