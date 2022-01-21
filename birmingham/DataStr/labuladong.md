@@ -311,7 +311,7 @@ int soluation(int[] nums, int target){
     
     while(left < right){
         int mid = left + (right - left) / 2;
-        if(f(mid) == target){
+        if(f(mid) == target){ //mid 相当于是被除去的！！！！！！！！！！！！！
             //问自己：题目是求左边界还是右边界
             //...
         }
@@ -335,6 +335,18 @@ int soluation(int[] nums, int target){
 3. 根据题目的要求，确定应该使用左侧还是右侧的二分搜索算法，写出解法代码
 
 #### 875. 爱吃香蕉的珂珂
+
+![image-20220120235132728](labuladong.assets/image-20220120235132728.png)
+
+```java
+class Solution {
+    public int minEatingSpeed(int[] piles, int H){
+        int left = 1;
+    }
+}
+```
+
+
 
 #### 1011. 在D天内送达包裹的能力
 
