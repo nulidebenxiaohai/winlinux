@@ -350,6 +350,18 @@ class Solution {
 
 #### 1011. 在D天内送达包裹的能力
 
+### 田忌赛马背后的算法决策
+
+```java
+int[] advantageCount(int[] sums1, int[] nums2){
+    
+}
+```
+
+
+
+#### 870.优势洗牌
+
 
 
 
