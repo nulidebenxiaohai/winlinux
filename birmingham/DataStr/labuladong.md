@@ -578,3 +578,26 @@ ListNode middleNode(ListNode head){
 
 #### 160. 相交链表
 
+![image-20220122165621160](labuladong.assets/image-20220122165621160.png)
+
+```java
+ListNode getIntersectionNode(ListNode headA, ListNode headB){
+    //p1指向A链表头节点，p2指向B链表头节点
+    ListNode p1 = headA, p2 = headB;
+    while(p1 != p2){
+        if(p1 == null){
+            p1.next = headB;
+        }
+        else{
+            p1 = p1.next;
+        }
+        if(p2 == null){
+            p2.next = headA;
+        }
+        else{
+            p2 = p2.next;
+        }
+    }
+    return p1;
+}
+```
