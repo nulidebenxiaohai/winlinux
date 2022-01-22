@@ -601,3 +601,82 @@ ListNode getIntersectionNode(ListNode headA, ListNode headB){
     return p1;
 }
 ```
+
+### 链表操作的递归思维一览
+
+```java
+//单链表节点的结构
+public class ListNode{
+    int val;
+    ListNode next;
+    ListNode(int x){val = x;}
+}
+```
+
+#### 206. 反转链表
+
+```java
+ListNode reverse(ListNode head){
+    if(head == null || head.next == null){
+        return head;
+    }
+    LiseNode last = reverse(head.next);
+    head.next.next = head;
+    head.next = null;
+    return last;
+}
+```
+
+对于reverse函数定义是这样的：
+
+输入一个节点head，将【以head为起点】的链表反转，并返回反转之后的头节点
+
+![image-20220122201527999](labuladong.assets/image-20220122201527999.png)
+
+那么输入reverse(head)后，会在这里进行递归：
+
+```java
+ListNode last = reverse(head.next);
+```
+
+![image-20220122201650810](labuladong.assets/image-20220122201650810.png)
+
+这个reverse(head.next)执行完成之后，整个链表就成了这样：
+
+![image-20220122201826071](labuladong.assets/image-20220122201826071.png)
+
+并且根据函数定义，reverse函数会返回反转之后的头节点，我们用变量last接收了
+
+```java
+head.next.next = head;
+```
+
+![image-20220122202007749](labuladong.assets/image-20220122202007749.png)
+
+接下来：
+
+```java
+head.next = null;
+return last;
+```
+
+![image-20220122202318046](labuladong.assets/image-20220122202318046.png)
+
+**注意：**
+
+1. 递归函数要有base case, 也就是这句：
+
+   ```java
+   if(head.next == null) return head;
+   ```
+
+   意思是如果链表只有一个节点的时候反转也是它自己，直接返回就可以了
+
+2. 当链表递归反转之后，新的头结点是last，而之前的head变成了最后一个节点，别忘了链表的末尾要指向null：
+
+   ```java
+   head.next = null;
+   ```
+
+#### 92. 反转链表||
+
