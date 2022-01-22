@@ -499,13 +499,82 @@ ListNode mergeTwoLists(ListNode l1, ListNode l2){
 
 #### 23. 合并K个升序链表
 
+要使用到优先级队列
+
+#### 19. 删除链表的倒数第N个节点
+
+```java
+public ListNode removeNthFromEnd(ListNode head, int n){
+    ListNode dummy = new ListNode(-1);
+    dummy.next = head;
+    
+    ListNode slow = dummy;
+    ListNode fast = dummy;
+    while(n > 0){
+        fast = head.next;
+        n--;
+    }
+    ListNode prev = null;
+    while(fast != null){
+        prev = slow;
+        slow = slow.next;
+        fast = fast.next;
+    }
+    //上一个节点的next指针绕过，删除slow后，直接指向slow的下一个节点
+    prev.next = slow.next;
+    //释放 待删除节点slow的next指针，这决删掉也能ac
+    slow.next = null;
+    return dummy.next;
+}
+```
+
+
+
 #### 141. 环形链表
+
+```java
+boolean hasCycle(ListNode head){
+    //快慢指针初始化指向 head
+    ListNode slow = head, fast = head;
+    //快指针走到末尾时停止
+    while(fast != null && fast.next != null){
+        //慢指针走一步，快指针走两步
+        slow = slow.next;
+        fast = fast.next.next;
+        //快慢指针相遇，说明含有环
+        if(slow == fast){
+            return true;
+        }
+    }
+    //不包含环
+    return false;
+}
+```
+
+
 
 #### 142. 环形链表||
 
 #### 876. 链表的中间节点
 
-#### 160. 相交链表
+可以使用快慢指针的技巧，**每当慢指针slow前进一步，快指针fast就前进两步，这样，当fast走到链表末尾的时候，slow就指向了链表中点。**
 
-#### 19. 删除链表的倒数第N个结点
+```java
+ListNode middleNode(ListNode head){
+    //快慢指针初始化指向head
+    ListNode slow = head, fast = head;
+    //快指针走到末尾时停止
+    while(fast !=null && fast.next != null){
+        //慢指针走一步，快指针走两步
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    //慢指针指向中点
+    return slow;
+}
+```
+
+这个方法，如果链表长度为偶数，也就是中点有两个的时候，我们这个解法返回的节点是靠后的那个节点。这个代码稍加修改就可以直接用到判断链表成环的算法题目上。
+
+#### 160. 相交链表
 
