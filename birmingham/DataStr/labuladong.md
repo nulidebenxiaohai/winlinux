@@ -707,5 +707,109 @@ return last;
    head.next = null;
    ```
 
+二、反转链表前N个节点
+
+```java
+ListNode successor = null;//后驱节点
+
+//反转以 head 为起点的 n 个节点，返回新的头节点
+ListNode reverseN(ListNode head, int n){
+    if(n == 1){
+        successor = head.next;
+        return head;
+    }
+    //以head.next为起点，需要反转前n-1个节点
+    ListNode last = reverseN(head.next, n-1);
+    head.next.next = head;
+    head.next = successor;
+    return last;
+}
+```
+
+具体的区别：
+
+1. base case 变为 n==1，反转一个元素，就是它本身，同时要记录后驱节点
+2. 刚才我们直接把head.next设置为null，因为整个链表反转后原来的head变成了整个链表的最后一个节点 ，所以要记录后驱successor（第n+1个节点），反转之后将head连接上。
+
+![image-20220123220819877](labuladong.assets/image-20220123220819877.png)
+
+![image-20220123220835867](labuladong.assets/image-20220123220835867.png)
+
+三、反转链表的一部分
+
+```java
+LisNode reverseBetween(ListNode head, int m, int n){
+    if(m == 1){
+        return reverseN(head, n);
+    }
+    head.next = reverseBetween(m-1, n-1);
+    return head;
+}
+```
+
 #### 92. 反转链表||
 
+
+
+## 1.3 队列/栈(比较简单，先放着)
+
+## 1.4 数据结构设计
+
+### 算法就像搭乐高：带你手撸LRU算法
+
+# 进阶数据结构
+
+## 2.1 二叉树
+
+### 东哥带你刷二叉树（第一期）
+
+```java
+/*二叉树遍历框架*/
+void traverse(TreeNode root){
+    //前序遍历
+    traverse(root.left);
+    //中序遍历
+    traverse(toot.right);
+    //后续遍历
+}
+```
+
+
+
+#### 226. 翻转二叉数
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### 114. 二叉树展开为链表
+
+#### 116. 填充每个节点的下一个右侧节点指针
+
+## 2.2 二叉树搜索树
+
+## 2.3 图论
+
+# 暴力搜索算法
+
+### 3.1 DFS算法/回溯算法
+
+### 3.2 BFS算法
+
+# 动态规划
+
+#### 4.1 动态规划核心原理
+
+#### 4.2 经典动态规划
+
+#### 4.3 背包问题
+
+#### 4.4 用动态规划玩游戏
