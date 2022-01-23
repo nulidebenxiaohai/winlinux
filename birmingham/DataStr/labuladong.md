@@ -555,6 +555,35 @@ boolean hasCycle(ListNode head){
 
 #### 142. 环形链表||
 
+```java
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode fast = head, slow = head;
+        
+        while(fast != null && fast.next != null){//这条件限制了是环形链表的情况
+            slow = slow.next;
+            fast = fast.next.next;
+            if(fast == slow){
+                break;
+            }
+        }
+        
+        if(fast == null || fast.next == null){//注意，这里这个函数必须写在while()后面
+            return null;                      //这是 不是环形链表的 情况
+        }
+        
+        slow = head;
+        while(slow != fast){
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
+}
+```
+
+
+
 #### 876. 链表的中间节点
 
 可以使用快慢指针的技巧，**每当慢指针slow前进一步，快指针fast就前进两步，这样，当fast走到链表末尾的时候，slow就指向了链表中点。**
