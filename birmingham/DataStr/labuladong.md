@@ -774,25 +774,71 @@ void traverse(TreeNode root){
 }
 ```
 
-
+**二叉树题目的一个难点就在于把题目的要求细化为每个节点需要做的事情**
 
 #### 226. 翻转二叉数
 
-
-
-
-
-
-
-
-
-
-
-
+```java
+TreeNode invertTree(TreeNode root){
+    if(root == null){
+        return;
+    }
+    TreeNode tmp = root.left;
+    root.left = root.right;
+    root.right = temp;
+    
+    invertTree(root.right);
+    invertTree(root.left);
+    
+    root;
+}
+```
 
 #### 114. 二叉树展开为链表
 
+```java
+void flatten(TreeNode root){
+    if(root == null) return;
+    flatten(root.left);
+    flatten(root.right);
+    
+    TreeNode left = root.left;
+    TreeNode right = root.right;
+    
+    root.left = null;
+    root.right = left;
+    
+    TreeNode p = root;
+    while(p.right != null){
+        p = p.right;
+    }
+    p.right = right;
+}
+```
+
+
+
 #### 116. 填充每个节点的下一个右侧节点指针
+
+```java
+Node connect(Node root){
+    if(root == null) return null;
+    connectTwoNode(root.left, root.right);
+    return root;
+}
+void connectTwoNode(Node node1, Node node2){
+    if(node1 == null || node2 == null){
+        return;
+    }
+    node1.next = node2;
+    connectTwonode(node1.left, node1.right);
+    conncetTownode(node2.left, node2.right);
+    
+    connectTwonode(node1.right, node2.left);
+}
+```
+
+
 
 ## 2.2 二叉树搜索树
 
