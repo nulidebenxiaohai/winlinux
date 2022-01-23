@@ -646,8 +646,8 @@ public class ListNode{
 
 ```java
 ListNode reverse(ListNode head){
-    if(head == null || head.next == null){
-        return head;
+    if(head == null || head.next == null){//这两个判断的顺序不能换，它先判断前面，在判断后面
+        return head;                      //防止出现null.next情况的出现
     }
     LiseNode last = reverse(head.next);
     head.next.next = head;
