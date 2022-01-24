@@ -842,6 +842,8 @@ void connectTwoNode(Node node1, Node node2){
 
 #### 654. 最大二叉树
 
+
+
 #### 105. 从前序与中序遍历序列构造二叉树
 
 #### 106. 从前序与后序列遍历构造二叉树
@@ -853,6 +855,22 @@ void connectTwoNode(Node node1, Node node2){
 # 暴力搜索算法
 
 ### 3.1 DFS算法/回溯算法
+
+回溯算法的效率一般，但却是最好用的算法。因为回溯算法就是典型的暴力穷举算法。
+
+```java
+resutl = [];
+def backtrack(路径，选择列表)：
+    if 满足结束条件：
+        result.add(路径)
+        return
+    for 选择 in 选择列表：
+        做选择
+        backtrack(路径，选择列表)
+        撤销选择
+```
+
+
 
 ### 3.2 BFS算法
 
