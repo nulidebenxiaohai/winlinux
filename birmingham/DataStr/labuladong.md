@@ -790,7 +790,7 @@ TreeNode invertTree(TreeNode root){
     invertTree(root.right);
     invertTree(root.left);
     
-    root;
+    return root;
 }
 ```
 
@@ -809,7 +809,7 @@ void flatten(TreeNode root){
     root.right = left;
     
     TreeNode p = root;
-    while(p.right != null){
+    while(p.right != null){  //退出时p.right == null
         p = p.right;
     }
     p.right = right;
@@ -838,7 +838,13 @@ void connectTwoNode(Node node1, Node node2){
 }
 ```
 
+### 东哥带你刷二叉树（第二期）
 
+#### 654. 最大二叉树
+
+#### 105. 从前序与中序遍历序列构造二叉树
+
+#### 106. 从前序与后序列遍历构造二叉树
 
 ## 2.2 二叉树搜索树
 
