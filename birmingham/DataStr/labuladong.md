@@ -1130,6 +1130,61 @@ class Solution {
 }
 ```
 
+#### 93. 复原IP地址
+
+```java
+class Solution {
+    List<String> result = new ArrayList<>();
+    public List<String> restoreIpAddresses(String s) {
+        backtrack(s, 0, 0);
+        return result;
+    }
+    StringBuilder sb = new StringBuilder();
+
+    void backtrack(String s, int start, int count){
+        if(count == 3){
+            if(isVaild(s, start, s.length()-1)){
+                result.add(s);
+            }
+            return;
+        }
+        for(int i = start; i < s.length(); i++){
+            if(isVaild(s, start, i)){
+                s = s.substring(0,i+1)+'.'+s.substring(i+1);
+                backtrack(s, i+2, count+1);
+                s = s.substring(0,i+1)+s.substring(i+2);
+            }
+            else{
+                break;
+            }
+        }
+    }
+
+    boolean isVaild(String s, int left, int right){
+        //int left = 0, j = s.length()-1;
+        if(left > right){
+            return false;
+        }
+        if(s.charAt(left) == '0' && left != right){
+            return false;
+        }
+        int sum = 0;
+        for(int i = left; i <= right; i++){
+            if(s.charAt(i) > '9' || s.charAt(i) < '0'){
+                return false;
+            }
+            else{
+                sum = sum*10 + (s.charAt(i) - '0');
+                if(sum > 255){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+```
+
 
 
 ### 3.2 BFS算法
