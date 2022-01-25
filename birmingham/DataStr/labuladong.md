@@ -1045,6 +1045,93 @@ class Solution {
 
 
 
+#### 39.组合总和
+
+```java
+class Solution {
+    List<List<Integer>> list = new ArrayList<>();
+    ArrayList<Integer> res = new ArrayList<>(); 
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        backtrack(candidates, target, 0, 0);
+        return list;
+    }
+    
+    void backtrack(int[] candidates, int target,int sum, int index){
+
+        if(sum == target){
+            list.add(new ArrayList<>(res));
+            return;
+        }
+
+        for(int i = index; i < candidates.length; i++){
+            if(sum + candidates[i] > target) break;
+
+            res.add(candidates[i]);
+            backtrack(candidates, target,sum+candidates[i], i);
+            res.remove(res.size() - 1);
+            
+        }
+    }
+}
+```
+
+#### 40. 组合总和|||
+
+```java
+
+```
+
+#### 131. 分割回文串
+
+```java
+class Solution {
+    List<List<String>> result = new ArrayList<>();
+    List<String> path = new ArrayList<>();
+    public List<List<String>> partition(String s) {
+        backtrack(s, 0);
+        return result;
+    }
+
+    void backtrack(String s, int start){
+        if(start == s.length()){
+            result.add(new ArrayList<>(path));
+            return;
+        }
+        for(int i = start; i < s.length(); i++){
+            if(isPalind(s, start, i)){
+                String str = s.substring(start, i+1);
+                path.add(str);
+            }
+            else{
+                continue;
+            }
+            backtrack(s, i+1);
+            path.remove(path.size()-1);
+        }
+    }
+
+    boolean isPalind(String s, int start, int end){
+        int left = start, right = end;
+        while(left <= right){
+            if(s.length() == 1){
+                return true;
+            }
+            if(s.charAt(left) == s.charAt(right)){
+                left++;
+                right--;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
+
+
+
 ### 3.2 BFS算法
 
 # 动态规划
