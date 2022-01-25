@@ -948,9 +948,102 @@ List<List<Integer>> res = new LinkedList<>();
 
 #### 51. N皇后
 
-#### 77.
+#### 77. 组合问题
 
-#### 216. 
+```java
+class Solution {
+    List<List<Integer>> result = new ArrayList<>();
+    LinkedList<Integer> path = new LinkedList<>();
+    public List<List<Integer>> combine(int n, int k) {
+        backtrack(n,k,1);
+        return result;
+    }
+    
+    void backtrack(int n, int k,int start){
+        if(path.size() == k){
+            result.add(new ArrayList<>(path));
+            return;
+        }
+        
+        for(int i = start; i <= n; i++){
+            path.add(i);
+            backtrack(n,k,i+1);
+            path.removeLast();
+        }
+    }
+}
+```
+
+
+
+#### 216. 组合问题|||
+
+```java
+class Solution {
+    List<List<Integer>> result = new ArrayList<>();
+    LinkedList<Integer> path = new LinkedList<>();
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        backtrack(k,n,1,0);
+        return result;
+    }
+    
+    void backtrack(int k, int n, int start, int sum){
+        
+        if(path.size() == k && sum == n){
+            result.add(new ArrayList<>(path));
+            return;
+        }
+        
+        if(sum > n){
+            return;
+        }
+        
+        for(int i = start; i <= 9; i++){
+            if(path.contains(i)){
+                continue;
+            }
+            path.add(i);
+            sum = sum + i;
+            backtrack(k,n,i+1,sum);
+            path.removeLast();
+            sum = sum - i;
+        }
+    }
+}
+```
+
+
+
+#### 17. 电话号码的字母组合
+
+```java
+class Solution {
+    List<String> list = new ArrayList<>();
+    public List<String> letterCombinations(String digits) {
+        if(digits == null || digits.length() == 0){
+            return list;
+        }
+        String[] numString = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        backtrack(digits, numString, 0);
+        return list;
+    }
+    StringBuilder temp = new StringBuilder();
+    void backtrack(String digits, String[] numString, int num){
+        if(num == digits.length()){
+            list.add(temp.toString());
+            return;
+        }
+        String str = numString[digits.charAt(num) - '0' -2]; 
+        for(int i = 0; i < str.length(); i++){
+            temp.append(str.charAt(i));
+            backtrack(digits, numString, num+1);
+            temp.deleteCharAt(temp.length() - 1);
+        }
+    }
+}
+```
+
+
 
 ### 3.2 BFS算法
 
