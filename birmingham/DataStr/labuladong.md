@@ -876,7 +876,7 @@ def backtrack(路径，选择列表)：
 2. 选择列表：也就是你当前可以做的选择
 3. 结束条件：也就是到达决策树底层，无法在做选择的条件
 
-#### 回溯法所所解决的问题
+回溯法所所解决的问题
 
 - 组合问题：N个数里面按照一定规则找出k个数的集合
 - 切割问题：一个字符串按照一定规则有几种切割方式
@@ -915,6 +915,8 @@ for 选择 in 选择列表:
     路径.remove(选择)
     将该选择再加入选择列表
 ```
+
+### 回溯算法解题套路框架
 
 #### 46. 全排列
 
@@ -1181,6 +1183,54 @@ class Solution {
             }
         }
         return true;
+    }
+}
+```
+
+### 回溯法牛逼：集合划分问题
+
+#### 698. 划分为k个相等的子集
+
+![image-20220125214228255](labuladong.assets/image-20220125214228255.png)
+
+```java
+class Solution {
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        int sum = 0;
+        boolean[] used = new boolean[nums.length];
+        for(int i = 0; i < nums.length; i++){
+            sum += nums[i];
+        }
+        if(sum % k != 0){
+            return false;
+        }
+        
+        
+        return backtrack(nums, sum / k, 0, 0, used, k);
+    }
+    
+    boolean backtrack(int[] nums, int target, int start, int number, boolean[] used, int bucket){
+        if(bucket == 0){
+            return true;
+        }
+        
+        if(number == target){
+            return backtrack(nums, target, 0, 0, used, bucket-1);
+        }
+        
+        
+        for(int i = start; i < nums.length; i++){
+            if(number + nums[i] > target || used[i]) continue;
+            
+            used[i] = true;
+            number += nums[i];
+            if(backtrack(nums, target, i+1, number, used, bucket)){
+                return true;
+            }
+            used[i] = false;
+            number -= nums[i];
+        }
+        return false;
     }
 }
 ```
