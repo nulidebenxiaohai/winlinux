@@ -1235,7 +1235,90 @@ class Solution {
 }
 ```
 
+### 回溯算法团灭子集，排列，组合问题
 
+一、子集
+
+问题很简单，输入一个不包含重复数字的数组，要求算法输出这些数字的所有子集。
+
+比如输入 nums = [1,2,3], 你的算法应输出8个子集，包含空集和本身，顺序可以不同。
+
+![image-20220126130209512](labuladong.assets/image-20220126130209512.png)
+
+二、组合
+
+输入两个数字 n，k，算法输出[1...n]中k个数字的所有组合 
+
+这就是典型的回溯算法，k限制了数的高度，n限制了数的宽度。
+
+![image-20220126130349114](labuladong.assets/image-20220126130349114.png)
+
+三、排列
+
+输入一个不包含重复数字的数组nums，返回这些数字的全部排列
+
+![image-20220126130602312](labuladong.assets/image-20220126130602312.png)
+
+#### 78. 子集
+
+#### 46. 全排列
+
+#### 77. 组合
+
+### DFS算法秒杀所有岛屿问题
+
+#### 200. 岛屿数量
+
+![image-20220126131220136](labuladong.assets/image-20220126131220136.png)
+
+```java
+int numIslands(char[][] grid){
+    int res = 0;
+    int m = grid.length, n = grid[0].length;
+    for(int i = 0; i < m; i++){
+        for(inr j = 0; j < n; j++){
+            if(grid[i][j] == '1'){
+                res += 1;
+                dfs(grid, i, j);
+            }
+        }
+    }
+    return res;
+}
+//记住这个函数的用途：从（i，j）开始，与之相邻的陆地都为海水。
+void dfs(char[][] grid, int i, int j){
+    int m = grid.length, n = grid[0].length;
+    if(i < 0 || j < 0 || i >= m || j > n){
+        return;
+    }
+    if(grid[i][j] == '0'){
+        return;
+    }
+    
+    grid[i][j] = '0';
+    
+    dfs(grid, i+1, j);
+    dfs(grid, i, j+1);
+    dfs(grid, i-1, j);
+    dfs(grid, i, j-1);
+}
+```
+
+
+
+#### 1254. 统计封闭的岛屿的数目
+
+![image-20220126140100088](labuladong.assets/image-20220126140100088.png)
+
+
+
+#### 1020. 飞地的数量
+
+#### 695. 岛屿的最大面积
+
+#### 1905. 统计子岛屿
+
+#### 694. 不同的岛屿数量
 
 ### 3.2 BFS算法
 
