@@ -1377,9 +1377,40 @@ int BFS(Node start, Node target){
 
 #### 111. 二叉树的最小深度
 
+![image-20220126235612004](labuladong.assets/image-20220126235612004.png)
+
+```java
+int minDepth(TreeNode root){
+    if(root == null) return 0;
+    Queue<TreeNode> q = new LinkedList<>();
+    q.offer(root);
+    
+    int depth = 1;
+    
+    while(!q.isEmpty()){
+        int sz = q.size();
+        for(int i = 0; i < sz; i++){
+            TreeNode cur = q.poll();
+            if(cur.left == null && cur.right == null)
+                return depth;
+            if(cur.left != null)
+                q.offer(cur.left);
+            if(cur.right != null)
+                q.offer(cur.right);
+        }
+        depth++;
+    }
+    return depth;
+}
+```
+
+
+
 #### 752. 打开转盘锁
 
 # 动态规划
+
+
 
 ## 4.1 动态规划核心原理
 
