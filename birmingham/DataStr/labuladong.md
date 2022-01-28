@@ -1670,7 +1670,37 @@ int lengthOfLIS(int[] nums){
 }
 ```
 
+### 最大子数组和问题
 
+#### 53. 最大子序和
+
+![image-20220128154354216](labuladong.assets/image-20220128154354216.png)
+
+```java
+int maxSubArray(int[] nums){
+    int n = nums.length;
+    if(n == 0) return 0;
+    int[] dp = new int[n];
+    //base case
+    dp[0] = nums[0];
+    for(int i = 1; i < n; i++){
+        dp[i] = Math.max(nums[i], nums[i] + dp[i-1]);
+    }
+    int res = Integer.MIN_VALUE;
+    for(int i = 0; i < n; i++){
+        res = Math.max(res, dp[i]);
+    }
+    return res;
+}
+```
+
+### 最长公共子序列问题
+
+#### 1143. 最长公共子序列
+
+#### 583. 两个字符串的删除操作
+
+#### 712. 两个字符串的最小ASCLL删除和
 
 ## 4.3 背包问题
 
