@@ -1611,6 +1611,65 @@ int min(int a, int b, int c){
 
 ## 4.2 经典动态规划
 
+#### 300. 最长递增子序列
+
+动态规划的通用技巧： **数学归纳思想**
+
+![image-20220128150416926](labuladong.assets/image-20220128150416926.png)
+
+一、动态规划解法
+
+动态规划的黑犀牛设计思想是数学归纳法。**我们先证明这个结论在k<n时成立，然后根据这个假设，想办法推导证明出k=n的时候也成立。**如果能够证明出来，那么就说明这个结论对于k等于任何数都成立。
+
+类似的，我们设计动态规划算法，不是需要一个dp数组。我们可以假设dp[0...i-1]都已经被算出来了，然后问自己怎么通过这些结果算出dp[i]?
+
+**我们的定义是这样的：dp[i]表示以nums[i]这个数结尾的最长递增子序列的长度。**
+
+根据这个定义，我们的最终结果（子序列的最大长度）应该时dp数组中的最大值。
+
+```java
+int res = 0;
+for(int i = 0; i < dp.length; i++){
+    res = Math.max(res, dp[i]);
+}
+return res;
+```
+
+因此我们可以写出dp的状态改变函数
+
+```java
+for(int j = 0; j < i; j++){
+    if(nums[i] > nums[j]){
+        dp[i] = Math.max(dp[i], dp[j]+1);
+    }
+}
+```
+
+因此所有的dp[i]只要在外面再嵌套一个for循环就可以完成了。
+
+所有的代码如下：
+
+```java
+int lengthOfLIS(int[] nums){
+    int[] dp = new int[nums.length];
+    //base case
+    Arrays.fill(dp, 1);
+    for(int i = 0; i < nums.length; i++){
+        for(int j = 0; j < i; j++){
+            if(nums[i] > nums[j]){
+                dp[i] = Math.max(dp[i], dp[j]+1);
+            }
+        }
+    }
+    
+    int res = 0;
+    for(int i = 0; i < dp.length; i++){
+        res = Math.max(res, dp[i]);
+    }
+    return res;
+}
+```
+
 
 
 ## 4.3 背包问题
