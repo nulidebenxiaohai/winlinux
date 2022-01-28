@@ -1443,7 +1443,7 @@ for 状态1 in 状态1的所有取值：
 
 #### 509. 斐波那契数
 
-一，暴露递归
+一，暴力递归
 
 ```java
 class Solution {
@@ -1493,11 +1493,125 @@ int fib(int n){
 }
 ```
 
+这里，引出【状态转移方程】这个名词，实际上就是描述问题结构的数学形式：
 
+![image-20220127222747958](labuladong.assets/image-20220127222747958.png)
+
+为啥叫【状态转移方程】？其实就是为了听起来高端。把f(n)想做一个状态n， 这个状态是由状态n-1和状态n-2相加转移而来，这就叫状态转移，仅此而已。
+
+**千万不哟啊看不起暴力解，动态规划问题最难的机试写出这个暴力解，即状态转移方程。**只要写出暴力解，优化方法无非使用备忘录或则和DP table，再无奥妙可言。
 
 #### 322. 零钱兑换
 
+![image-20220127223320353](labuladong.assets/image-20220127223320353.png)
+
+一、暴力递归
+
+状态转移方程：
+
+![image-20220127223821606](labuladong.assets/image-20220127223821606.png)
+
+二、带备忘录的递归
+
+```java
+int[] memo;
+int coinChange(int[] coins, int amount){
+    memo = new int[amout + 1];
+    //dp数组全部初始化为特殊值
+    Arrays.fill(memo, -666);
+    
+    return dp(coins, amount);
+}
+
+int dp(int[] coins, int amount){
+    if(amount == 0) return 0;
+    if(amount < 0) return -1;
+    //查备忘录，防止重复计算
+    if(memo[amount] != -666)
+        return memo[amount];
+    
+    int res = Integer.MAX_VALUE;
+    for(int coin : coins){
+        //计算子问题的结构
+        int subProblem = dp(coins, amount - coin);
+        //子问题无解则跳过
+        if(sbulProblem == -1) continue;
+        //在子问题中选择最优解，然后加一
+        res = Math.min(res, subProblem + 1);
+    }
+    memo[amount] = (res == Integer.MAX_VALUE) ? -1 : res;
+    return memo[amount];
+}
+```
+
+三、dp数组的迭代解法
+
+当然，我们也可以自底向上使用dp table来消除重叠子问题，关于【状态】【选择】和base case与之前没有区别，dp数组的定义和刚才dp函数类似，也是把【状态】，也就是目标金额作为变量。不过dp函数体现在函数参数，而dp数组体现在数组索引：
+
+dp数组的定义：当目标金额为i时，至少需要dp[i]枚硬币凑出。
+
+```java
+int coinChange(int[] coins, int amount){
+    int[] dp = new int[amount+1];
+    Arrays.fill(dp, amount+1);
+    
+    //base case
+    dp[0] = 0;
+    
+    for(int i = 0; i < dp.length; i++){
+        for(int coin : conis){
+            if(i - coin < 0){
+                continue;
+            }
+            dp[i] = Math.min(dp[i], 1 + dp[i-coin]);
+        }
+    }
+    return (dp[amount] = amount + 1) ? -1 : dp[amount];
+}
+```
+
+### base case 和备忘录的初始值怎么定
+
+#### 931. 下降路径最小和
+
+![image-20220128133139898](labuladong.assets/image-20220128133139898.png)
+
+```java
+int minFallingPathSum(intp[][] matrix){
+    int n = matrix.length;
+    int res = Integer.MAX_VALUE;
+    
+    for(int j = 0; j < n; j++){
+        res = Math.min(res, dp(matrix, n-1, j));
+    }
+    return res;
+}
+
+int dp(int[][] matrix, int i, int j){
+    if(i < 0 || j < 0 || i >= matrix.length || j >= matrix[0].length){
+        return 9999;
+    }
+    //base case
+    if(i == 0){
+        return matrix[i][j];
+    }
+    return matrix[i][j] + min(dp(matrix, i - 1, j),
+                              dp(matrix, i - 1, j + 1),
+                              dp(matrix, i - 1, j - 1));
+}
+
+int min(int a, int b, int c){
+    return Math.min(a, Math.min(b, c));
+}
+```
+
+### 最优子结构和dp数组的遍历方向怎么定？
+
+
+
 ## 4.2 经典动态规划
+
+
 
 ## 4.3 背包问题
 
