@@ -1620,7 +1620,7 @@ class Solution {
 ![image-20220128133139898](labuladong.assets/image-20220128133139898.png)
 
 ```java
-int minFallingPathSum(intp[][] matrix){
+int minFallingPathSum(intp[][] matrix){ //这道题还需要备忘录来减小复杂度
     int n = matrix.length;
     int res = Integer.MAX_VALUE;
     
