@@ -1868,6 +1868,56 @@ class Solution {
 }
 ```
 
+### 编辑距离问题
+
+#### 72. 编辑距离 (自己写的，噢噢噢噢，哈哈哈)
+
+```java
+class Solution {
+    int[][] memo;
+    public int minDistance(String word1, String word2) {
+        
+        int m = word1.length(), n = word2.length();
+        memo = new int[m][n];
+        
+        for(int i = 0; i < m; i++){
+            Arrays.fill(memo[i], -1);
+        }
+        
+        return dp(word1, 0, word2, 0);
+    }
+    
+    int dp(String s1, int i, String s2, int j){
+        
+        if(i == s1.length()){
+            return s2.length() - j;
+        }
+        
+        if(j == s2.length()){
+            return s1.length() - i;
+        }
+        
+        if(memo[i][j] != -1){
+            return memo[i][j];
+        }
+        
+        if(s1.charAt(i) == s2.charAt(j)){
+            memo[i][j] = dp(s1, i+1, s2, j+1);
+        }
+        else{
+            memo[i][j] = min(dp(s1, i, s2, j+1), dp(s1, i+1, s2, j), dp(s1, i+1, s2, j+1)) +1;
+        }
+        
+        return memo[i][j];
+        
+    }
+    
+    int min(int a, int b, int c){
+        return Math.min(a, Math.min(b, c));
+    }
+}
+```
+
 
 
 ## 4.3 背包问题
