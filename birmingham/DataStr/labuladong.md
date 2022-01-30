@@ -1620,7 +1620,7 @@ class Solution {
 ![image-20220128133139898](labuladong.assets/image-20220128133139898.png)
 
 ```java
-int minFallingPathSum(intp[][] matrix){
+int minFallingPathSum(intp[][] matrix){ //这道题还需要备忘录来减小复杂度
     int n = matrix.length;
     int res = Integer.MAX_VALUE;
     
@@ -1741,9 +1741,184 @@ int maxSubArray(int[] nums){
 
 #### 1143. 最长公共子序列
 
+```java
+class Solution {
+    int[][] memo;
+    public int longestCommonSubsequence(String text1, String text2) {
+        int m = text1.length(), n = text2.length();
+    
+        memo = new int[m][n];
+        for (int[] row : memo) 
+            Arrays.fill(row, -1);
+    
+        return dp(text1, 0, text2, 0);
+    }
+    
+    int dp(String s1, int i, String s2, int j){
+        if(s1.length() == i || s2.length() == j){
+            return 0;
+        }
+        
+        if(memo[i][j] != -1){
+            return memo[i][j];
+        }
+        
+        if(s1.charAt(i) == s2.charAt(j)){
+            memo[i][j] = dp(s1, i+1, s2, j+1) + 1;
+        }
+        else{
+            memo[i][j] = Math.max(dp(s1, i+1, s2, j), dp(s1, i, s2, j+1));
+        }
+        return memo[i][j];
+    }
+    
+}
+```
+
+
+
 #### 583. 两个字符串的删除操作
 
+```java
+class Solution {
+    int[][] memo;
+    public int minDistance(String word1, String word2) {
+        int m = word1.length(), n = word2.length();
+        memo = new int[m][n];
+        
+        for(int i = 0; i < m; i++){
+            Arrays.fill(memo[i], -1);
+        }
+        
+        int common = dp(word1, 0, word2, 0);
+        
+        return m+n-common*2;
+        
+    }
+    int dp(String word1, int i, String word2, int j){
+        if(word1.length() == i || word2.length() == j){
+            return 0;
+        }
+        
+        if(memo[i][j] != -1){
+            return memo[i][j];
+        }
+        
+        if(word1.charAt(i) == word2.charAt(j)){
+            memo[i][j] = dp(word1, i+1, word2, j+1) + 1;
+        }
+        else{
+            memo[i][j] = Math.max(dp(word1, i+1, word2, j), dp(word1, i, word2, j+1));
+        }
+        
+        return memo[i][j];
+    }
+}
+```
+
+
+
 #### 712. 两个字符串的最小ASCLL删除和
+
+```java
+class Solution {
+    int[][] memo;
+    public int minimumDeleteSum(String s1, String s2) {
+        int m = s1.length(), n = s2.length();
+        memo = new int[m][n];
+        for(int i = 0; i < m; i++){
+            Arrays.fill(memo[i], -1);
+        }
+        
+        return dp(s1, 0, s2, 0);
+    }
+    
+    int dp(String s1, int i, String s2, int j){
+        
+        int res = 0;
+        
+        if(s1.length() == i){
+            for(; j < s2.length(); j++){
+                res += s2.charAt(j);
+            }
+            return res;
+        }
+        
+        if(s2.length() == j){
+            for(; i < s1.length(); i++){
+                res += s1.charAt(i);
+            }
+            return res;
+        }
+        
+        if(memo[i][j] != -1){
+            return memo[i][j];
+        }
+        
+        if(s1.charAt(i) == s2.charAt(j)){
+            memo[i][j] = dp(s1, i+1, s2, j+1);
+        }
+        else{
+            memo[i][j] = Math.min(dp(s1, i+1, s2, j) + s1.charAt(i),
+                                  dp(s1, i, s2, j+1) + s2.charAt(j));
+        }
+        
+        return memo[i][j];
+    }
+}
+```
+
+### 编辑距离问题
+
+#### 72. 编辑距离 (自己写的，噢噢噢噢，哈哈哈)
+
+```java
+class Solution {
+    int[][] memo;
+    public int minDistance(String word1, String word2) {
+        
+        int m = word1.length(), n = word2.length();
+        memo = new int[m][n];
+        
+        for(int i = 0; i < m; i++){
+            Arrays.fill(memo[i], -1);
+        }
+        
+        return dp(word1, 0, word2, 0);
+    }
+    
+    int dp(String s1, int i, String s2, int j){
+        
+        if(i == s1.length()){
+            return s2.length() - j;
+        }
+        
+        if(j == s2.length()){
+            return s1.length() - i;
+        }
+        
+        if(memo[i][j] != -1){
+            return memo[i][j];
+        }
+        
+        if(s1.charAt(i) == s2.charAt(j)){
+            memo[i][j] = dp(s1, i+1, s2, j+1);
+        }
+        else{
+            memo[i][j] = min(dp(s1, i, s2, j+1), dp(s1, i+1, s2, j), dp(s1, i+1, s2, j+1)) +1;
+        }
+        
+        return memo[i][j];
+        
+    }
+    
+    int min(int a, int b, int c){
+        return Math.min(a, Math.min(b, c));
+    }
+}
+```
+
+
 
 ## 4.3 背包问题
 
