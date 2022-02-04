@@ -690,6 +690,89 @@ public class RunoobTest {
 
 # Java String 类
 
+字符串广泛应用在Java编程中，在Java中字符串属于对象，Java提供了String类来创建和操作字符串
+
+## 创建字符串
+
+![image-20220204133848013](huaweijishi.assets/image-20220204133848013.png)
+
+![image-20220204133907131](huaweijishi.assets/image-20220204133907131.png)
+
+String类有11中构造方法，这些方法提供不同的参数来初始化字符串，比如提供一个字符数组参数：
+
+```java
+public class StringDemo{
+   public static void main(String args[]){
+      char[] helloArray = { 'r', 'u', 'n', 'o', 'o', 'b'};
+      String helloString = new String(helloArray);  
+      System.out.println( helloString );
+   }
+}
+```
+
+**注意：**String类是不可改变的，所以如果你一旦创建了String类，那它的值就无法改变了。如果需要对字符串做很多修改，那么应该选择使用StringBuffer&StringBuilder类。
+
+## 字符串长度
+
+使用length()方法，返回字符串对象包含的字符数。
+
+```java
+public class StringDemo {
+    public static void main(String args[]) {
+        String site = "www.runoob.com";
+        int len = site.length();
+        System.out.println( "菜鸟教程网址长度 : " + len );
+   }
+}
+```
+
+运行结果为：
+
+> 菜鸟教程网址长度 : 14
+
+## 连接字符串
+
+![image-20220204134522071](huaweijishi.assets/image-20220204134522071.png)
+
+## 创建格式化字符串
+
+我们知道输出格式化数字可以使用 printf() 和 format() 方法。
+
+String 类使用静态方法 format() 返回一个String 对象而不是 PrintStream 对象。
+
+String 类的静态方法 format() 能用来创建可复用的格式化字符串，而不仅仅是用于一次打印输出。
+
+```java
+System.out.printf("浮点型变量的值为 " +
+                  "%f, 整型变量的值为 " +
+                  " %d, 字符串变量的值为 " +
+                  "is %s", floatVar, intVar, stringVar);
+```
+
+```java
+String fs;
+fs = String.format("浮点型变量的值为 " +
+                   "%f, 整型变量的值为 " +
+                   " %d, 字符串变量的值为 " +
+                   " %s", floatVar, intVar, stringVar);
+```
+
+## String方法
+
+![image-20220204134651176](huaweijishi.assets/image-20220204134651176.png)
+
+![image-20220204134711137](huaweijishi.assets/image-20220204134711137.png)
+
+![image-20220204134737815](huaweijishi.assets/image-20220204134737815.png)
+
+![image-20220204134804116](huaweijishi.assets/image-20220204134804116.png)
+
+![image-20220204134828286](huaweijishi.assets/image-20220204134828286.png)
+
+![image-20220204134853644](huaweijishi.assets/image-20220204134853644.png)
+
+
+
 
 
 
