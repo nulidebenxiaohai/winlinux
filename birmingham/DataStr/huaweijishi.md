@@ -341,13 +341,354 @@ public class RunoobTest {
 
 ## Java HashSet
 
+HashSet基于HashMap来实现的，是一个不允许有重复元素的集合。
+
+HashSet允许有null值。
+
+HashSet是无序的，即不会记录插入的顺序
+
+HashSet不是线程安全的，如果多个线程尝试同时修改HashSet，则最终结果是不确定的。您必须在多线程访问时显式同步对HashSet的并发访问。
+
+HashSet实现列Set接口。
+
+### 添加元素
+
+HashSet类提供类很多有用的方法，添加元素可以使用add()方法：
+
+```java
+// 引入 HashSet 类      
+import java.util.HashSet;
+
+public class RunoobTest {
+    public static void main(String[] args) {
+    HashSet<String> sites = new HashSet<String>();
+        sites.add("Google");
+        sites.add("Runoob");
+        sites.add("Taobao");
+        sites.add("Zhihu");
+        sites.add("Runoob");  // 重复的元素不会被添加
+        System.out.println(sites);
+    }
+}
+```
+
+以上代码输出结果为：
+
+> ```java
+> [Google, Runoob, Zhihu, Taobao]
+> ```
+
+上面的实例中，Runoob被添加了两次，它在集合中也只会出现一次，因为集合中的每个元素都必须是唯一的。
+
+### 判断元素是否存在
+
+我们可以使用contains()方法来判断元素是否存在于集合当中：
+
+```java
+// 引入 HashSet 类      
+import java.util.HashSet;
+
+public class RunoobTest {
+    public static void main(String[] args) {
+    HashSet<String> sites = new HashSet<String>();
+        sites.add("Google");
+        sites.add("Runoob");
+        sites.add("Taobao");
+        sites.add("Zhihu");
+        sites.add("Runoob");  // 重复的元素不会被添加
+        System.out.println(sites.contains("Taobao"));
+    }
+}
+```
+
+输出结果为：
+
+> true
+
+### 删除元素
+
+我们可以使用remove()方法来删除集合中的元素
+
+```java
+// 引入 HashSet 类      
+import java.util.HashSet;
+
+public class RunoobTest {
+    public static void main(String[] args) {
+    HashSet<String> sites = new HashSet<String>();
+        sites.add("Google");
+        sites.add("Runoob");
+        sites.add("Taobao");
+        sites.add("Zhihu");
+        sites.add("Runoob");     // 重复的元素不会被添加
+        sites.remove("Taobao");  // 删除元素，删除成功返回 true，否则为 false
+        System.out.println(sites);
+    }
+}
+```
+
+输出结果为：
+
+> ```java
+> [Google, Runoob, Zhihu]
+> ```
+
+删除集合中所有元素可以使用clear方法：
+
+```java
+// 引入 HashSet 类      
+import java.util.HashSet;
+
+public class RunoobTest {
+    public static void main(String[] args) {
+    HashSet<String> sites = new HashSet<String>();
+        sites.add("Google");
+        sites.add("Runoob");
+        sites.add("Taobao");
+        sites.add("Zhihu");
+        sites.add("Runoob");     // 重复的元素不会被添加
+        sites.clear();  
+        System.out.println(sites);
+    }
+}
+```
+
+输出结果为：
+
+> []
+
+### 计算大小
+
+如果要计算HashSet的元素数量可以使用size()方法
+
+```java
+// 引入 HashSet 类      
+import java.util.HashSet;
+
+public class RunoobTest {
+    public static void main(String[] args) {
+    HashSet<String> sites = new HashSet<String>();
+        sites.add("Google");
+        sites.add("Runoob");
+        sites.add("Taobao");
+        sites.add("Zhihu");
+        sites.add("Runoob");     // 重复的元素不会被添加
+        System.out.println(sites.size());  
+    }
+}
+```
+
+输出结果为：
+
+> 4
+
+### 迭代HashSet
+
+可以使用for-each来迭代HashSet中的元素
+
+```java
+// 引入 HashSet 类      
+import java.util.HashSet;
+
+public class RunoobTest {
+    public static void main(String[] args) {
+    HashSet<String> sites = new HashSet<String>();
+        sites.add("Google");
+        sites.add("Runoob");
+        sites.add("Taobao");
+        sites.add("Zhihu");
+        sites.add("Runoob");     // 重复的元素不会被添加
+        for (String i : sites) {
+            System.out.println(i);
+        }
+    }
+}
+```
+
+输出结果为：
+
+> ```java
+> Google
+> Runoob
+> Zhihu
+> Taobao
+> ```
+
 ## Java HashMap
 
+HashMap 是一个散列表，它存储的内容是键值对(key-value)映射。
+
+HashMap 实现了 Map 接口，根据键的 HashCode 值存储数据，具有很快的访问速度，最多允许一条记录的键为 null，不支持线程同步。
+
+HashMap 是无序的，即不会记录插入的顺序。
+
+HashMap 继承于AbstractMap，实现了 Map、Cloneable、java.io.Serializable 接口。
+
+### 添加元素
+
+HashMap类提供了很多有用的方法，添加键值对(key - value)可以使用put()方法：
+
+```java
+// 引入 HashMap 类      
+import java.util.HashMap;
+
+public class RunoobTest {
+    public static void main(String[] args) {
+        // 创建 HashMap 对象 Sites
+        HashMap<Integer, String> Sites = new HashMap<Integer, String>();
+        // 添加键值对
+        Sites.put(1, "Google");
+        Sites.put(2, "Runoob");
+        Sites.put(3, "Taobao");
+        Sites.put(4, "Zhihu");
+        System.out.println(Sites);
+    }
+}
+```
+
+以上输出结果为：
+
+> ```java
+> {1=Google, 2=Runoob, 3=Taobao, 4=Zhihu}
+> ```
+
+### 访问元素
+
+我们可以使用get(key)方法来获得key对应的value：
+
+```java
+// 引入 HashMap 类      
+import java.util.HashMap;
+
+public class RunoobTest {
+    public static void main(String[] args) {
+        // 创建 HashMap 对象 Sites
+        HashMap<Integer, String> Sites = new HashMap<Integer, String>();
+        // 添加键值对
+        Sites.put(1, "Google");
+        Sites.put(2, "Runoob");
+        Sites.put(3, "Taobao");
+        Sites.put(4, "Zhihu");
+        System.out.println(Sites.get(3));
+    }
+}
+```
+
+输出结果为：
+
+> Taobao
+
+### 删除元素
+
+我们可以使用remove(key)方法来删除key对应的键值对(key - value):
+
+```java
+// 引入 HashMap 类      
+import java.util.HashMap;
+
+public class RunoobTest {
+    public static void main(String[] args) {
+        // 创建 HashMap 对象 Sites
+        HashMap<Integer, String> Sites = new HashMap<Integer, String>();
+        // 添加键值对
+        Sites.put(1, "Google");
+        Sites.put(2, "Runoob");
+        Sites.put(3, "Taobao");
+        Sites.put(4, "Zhihu");
+        Sites.remove(4);
+        System.out.println(Sites);
+    }
+}
+```
+
+以上输出结果为：
+
+> ```java
+> {1=Google, 2=Runoob, 3=Taobao}
+> ```
+
+删除所有键值对(key-value)可以使用clear方法：
+
+```java
+// 引入 HashMap 类      
+import java.util.HashMap;
+
+public class RunoobTest {
+    public static void main(String[] args) {
+        // 创建 HashMap 对象 Sites
+        HashMap<Integer, String> Sites = new HashMap<Integer, String>();
+        // 添加键值对
+        Sites.put(1, "Google");
+        Sites.put(2, "Runoob");
+        Sites.put(3, "Taobao");
+        Sites.put(4, "Zhihu");
+        Sites.clear();
+        System.out.println(Sites);
+    }
+}
+```
+
+输出结果为：
+
+> ```java
+> {}
+> ```
+
+### 计算大小
+
+使用size()方法
+
+### 迭代HashMap
+
+可以使用for-each来迭代HashMap中的元素
+
+如果只想获取key，可以使用keySet()方法，然后通过get(key)获取对应的value，如果你只想获取value，可以使用value()方法。
+
+```java
+// 引入 HashMap 类      
+import java.util.HashMap;
+
+public class RunoobTest {
+    public static void main(String[] args) {
+        // 创建 HashMap 对象 Sites
+        HashMap<Integer, String> Sites = new HashMap<Integer, String>();
+        // 添加键值对
+        Sites.put(1, "Google");
+        Sites.put(2, "Runoob");
+        Sites.put(3, "Taobao");
+        Sites.put(4, "Zhihu");
+        // 输出 key 和 value
+        for (Integer i : Sites.keySet()) {
+            System.out.println("key: " + i + " value: " + Sites.get(i));
+        }
+        // 返回所有 value 值
+        for(String value: Sites.values()) {
+          // 输出每一个value
+          System.out.print(value + ", ");
+        }
+    }
+}
+```
+
+输出结果为：
+
+> ```
+> key: 1 value: Google
+> key: 2 value: Runoob
+> key: 3 value: Taobao
+> key: 4 value: Zhihu
+> Google, Runoob, Taobao, Zhihu,
+> ```
+
+### HashMap方法
+
+![image-20220204133324868](huaweijishi.assets/image-20220204133324868.png)
+
+![image-20220204133353174](huaweijishi.assets/image-20220204133353174.png)
 
 
 
-
-
+# Java String 类
 
 
 
