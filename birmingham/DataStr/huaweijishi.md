@@ -771,7 +771,220 @@ fs = String.format("浮点型变量的值为 " +
 
 ![image-20220204134853644](huaweijishi.assets/image-20220204134853644.png)
 
+# Java StringBuffer 和StringBuilder类
 
+当对字符串进行修改的时候，需要使用StringBuffer和StringBuilder类。
+
+和String类不同的是，StringBuffer和StringBuilder类的对象能够被多次的修改，并且不产生新的未使用对象。
+
+
+
+在使用 StringBuffer 类时，每次都会对 StringBuffer 对象本身进行操作，而不是生成新的对象，所以如果需要对字符串进行修改推荐使用 StringBuffer。
+
+StringBuilder 类在 Java 5 中被提出，它和 StringBuffer 之间的最大不同在于 StringBuilder 的方法**不是线程安全**的（不能同步访问）。
+
+由于 StringBuilder 相较于 StringBuffer 有速度优势，所以多数情况下建议使用 StringBuilder 类。
+
+```java
+public class RunoobTest{
+    public static void main(String args[]){
+        StringBuilder sb = new StringBuilder(10);
+        sb.append("Runoob..");
+        System.out.println(sb);  
+        sb.append("!");
+        System.out.println(sb); 
+        sb.insert(8, "Java");
+        System.out.println(sb); 
+        sb.delete(5,8);
+        System.out.println(sb);  
+    }
+}
+```
+
+![image-20220206190733967](huaweijishi.assets/image-20220206190733967.png)
+
+
+
+以上结果为：
+
+> Runoob..
+> Runoob..!
+> Runoob..Java!
+> RunooJava!
+
+
+
+## StringBuilder 方法
+
+![image-20220206190939624](huaweijishi.assets/image-20220206190939624.png)
+
+# Java 数组
+
+java.util.Arrays 类能方便地操作数组，它提供的所有方法都是静态的。
+
+具有以下功能：
+
+- 给数组赋值：通过 fill 方法。
+- 对数组排序：通过 sort 方法,按升序。
+- 比较数组：通过 equals 方法比较数组中元素值是否相等。
+- 查找数组元素：通过 binarySearch 方法能对排序好的数组进行二分查找法操作。
+
+![image-20220206191201325](huaweijishi.assets/image-20220206191201325.png)
+
+# Java 正则表达式***
+
+正则表达式定义了字符串的模式。
+
+正则表达式可以用来搜索、编辑或处理文本。
+
+正则表达式并不仅限于某一种语言，但是在每种语言中有细微的差别。
+
+## 正则表达式实例
+
+一个字符串其实就是一个简单的正则表达式，例如 **Hello World** 正则表达式匹配 "Hello World" 字符串。
+
+**.**（点号）也是一个正则表达式，它匹配任何一个字符如："a" 或 "1"。
+
+
+
+# Java Scanner类
+
+java.util.Scanner 是 Java5 的新特征，我们可以通过 Scanner 类来获取用户的输入。
+
+下面是创建 Scanner 对象的基本语法：
+
+```java
+Scanner s = new Scanner(System.in);
+```
+
+接下来我们演示一个最简单的数据输入，并通过 Scanner 类的 next() 与 nextLine() 方法获取输入的字符串，在读取前我们一般需要 使用 hasNext 与 hasNextLine 判断是否还有输入的数据：
+
+## 使用next方法：
+
+```java
+import java.util.Scanner; 
+ 
+public class ScannerDemo {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        // 从键盘接收数据
+ 
+        // next方式接收字符串
+        System.out.println("next方式接收：");
+        // 判断是否还有输入
+        if (scan.hasNext()) {
+            String str1 = scan.next();
+            System.out.println("输入的数据为：" + str1);
+        }
+        scan.close();
+    }
+}
+```
+
+以上输出结果为：
+
+```java
+$ javac ScannerDemo.java
+$ java ScannerDemo
+next方式接收：
+runoob com
+输入的数据为：runoob
+```
+
+可以看到com字符串并没有输出，接下来我们看nextLine。
+
+## 使用nextLine方法：
+
+```java
+import java.util.Scanner;
+ 
+public class ScannerDemo {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        // 从键盘接收数据
+ 
+        // nextLine方式接收字符串
+        System.out.println("nextLine方式接收：");
+        // 判断是否还有输入
+        if (scan.hasNextLine()) {
+            String str2 = scan.nextLine();
+            System.out.println("输入的数据为：" + str2);
+        }
+        scan.close();
+    }
+}
+```
+
+以上输出结果为：
+
+```
+$ javac ScannerDemo.java
+$ java ScannerDemo
+nextLine方式接收：
+runoob com
+输入的数据为：runoob com
+```
+
+可以看到com字符串输出
+
+## next() 和 nextLine() 区别
+
+next():
+
+- 1、一定要读取到有效字符后才可以结束输入。
+- 2、对输入有效字符之前遇到的空白，next() 方法会自动将其去掉。
+- 3、只有输入有效字符后才将其后面输入的空白作为分隔符或者结束符。
+- next() 不能得到带有空格的字符串。
+
+nextLine()：
+
+- 1、以Enter为结束符,也就是说 nextLine()方法返回的是输入回车之前的所有字符。
+- 2、可以获得空白。
+
+**如果要输入 int 或 float 类型的数据，在 Scanner 类中也有支持，但是在输入之前最好先使用 hasNextXxx() 方法进行验证，再使用 nextXxx() 来读取：**
+
+```java
+import java.util.Scanner;
+ 
+public class ScannerDemo {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        // 从键盘接收数据
+        int i = 0;
+        float f = 0.0f;
+        System.out.print("输入整数：");
+        if (scan.hasNextInt()) {
+            // 判断输入的是否是整数
+            i = scan.nextInt();
+            // 接收整数
+            System.out.println("整数数据：" + i);
+        } else {
+            // 输入错误的信息
+            System.out.println("输入的不是整数！");
+        }
+        System.out.print("输入小数：");
+        if (scan.hasNextFloat()) {
+            // 判断输入的是否是小数
+            f = scan.nextFloat();
+            // 接收小数
+            System.out.println("小数数据：" + f);
+        } else {
+            // 输入错误的信息
+            System.out.println("输入的不是小数！");
+        }
+        scan.close();
+    }
+}
+```
+
+以上输出结果为：
+
+> $ javac ScannerDemo.java
+> $ java ScannerDemo
+> 输入整数：12
+> 整数数据：12
+> 输入小数：1.2
+> 小数数据：1.2
 
 
 
