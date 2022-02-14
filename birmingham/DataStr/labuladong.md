@@ -158,6 +158,56 @@ class Solution {
 
 ### 滑动窗口算法
 
+#### 76. 最小覆盖子串
+
+![image-20220214154831760](labuladong.assets/image-20220214154831760.png)
+
+```java
+string minWindow(string s, string t) {
+     unordered_map<char, int> need, window;
+     for (char c : t) need[c]++;
+     int left = 0, right = 0;
+     int valid = 0;
+     // 记录最⼩覆盖⼦串的起始索引及⻓度
+     int start = 0, len = INT_MAX;
+     while (right < s.size()) {
+     // c 是将移⼊窗⼝的字符
+         char c = s[right];
+         // 右移窗⼝
+         right++;
+         // 进⾏窗⼝内数据的⼀系列更新
+         if (need.count(c)) {
+             window[c]++;
+             if (window[c] == need[c])
+                 valid++;
+         }
+         // 判断左侧窗⼝是否要收缩
+         while (valid == need.size()) {
+         // 在这⾥更新最⼩覆盖⼦串
+             if (right - left < len) {
+                 start = left;
+                 len = right - left;
+             }
+              // d 是将移出窗⼝的字符
+              char d = s[left];
+              // 左移窗⼝
+              left++;
+               // 进⾏窗⼝内数据的⼀系列更新
+             if (need.count(d)) {
+                 if (window[d] == need[d])
+                      valid--;
+                  window[d]--;
+             }
+        }
+    }
+         // 返回最⼩覆盖⼦串
+            return len == INT_MAX ?
+                        "" : s.substr(start, len);
+}
+```
+
+
+
 ### 二分搜索
 
 零，二分查找框架
@@ -366,8 +416,30 @@ int[] advantageCount(int[] sums1, int[] nums2){
         }
     );
     for(int i = 0; i < n; i++){
-        maxpq.offer()
+        maxpq.offer((new int[]{i, nums2[i]});
     }
+    //给nums1 升序排序
+    // nums1[left] 是最⼩值，nums1[right] 是最⼤值
+    int left = 0, right = n - 1;
+    int[] res = new int[n];
+    while (!maxpq.isEmpty()) {
+        int[] pair = maxpq.poll();
+         // maxval 是 nums2 中的最⼤值，i 是对应索引
+        int i = pair[0], maxval = pair[1];
+        if (maxval < nums1[right]) {
+          // 如果 nums1[right] 能胜过 maxval，那就⾃⼰上
+          res[i] = nums1[right];
+          right--;
+         } else {
+          // 否则⽤最⼩值混⼀下，养精蓄锐
+          res[i] = nums1[left];
+          left++;
+          }
+      }
+      return res;
+  }
+
+          
 }
 ```
 
@@ -757,9 +829,136 @@ LisNode reverseBetween(ListNode head, int m, int n){
 
 ## 1.3 队列/栈(比较简单，先放着)
 
+一：队列的API如下：
+
+```java
+class MyQueue{
+    //添加元素到队尾
+    public void push(int x);
+    //删除队头的元素并返回
+    public int pop();
+    //返回队头元素
+    public int peek();
+    //判断队列是否为空
+    public boolean empty();
+}
+```
+
+### 一文秒杀三道括号题目
+
+#### 20. 有效的括号
+
+![image-20220214160032145](labuladong.assets/image-20220214160032145.png)
+
+```java
+bool isValid(string str) {
+     stack<char> left;
+     for (char c : str) {
+        if (c == '(' || c == '{' || c == '[')
+            left.push(c);
+        else { // 字符 c 是右括号
+             if (!left.empty() && leftOf(c) == left.top())
+                 left.pop();
+             else
+           // 和最近的左括号不匹配
+                  return false;
+          }
+       }
+ // 是否所有的左括号都被匹配了
+         return left.empty();
+}
+char leftOf(char c) {
+ if (c == '}') return '{';
+ if (c == ')') return '(';
+ return '[';
+}
+
+
+```
+
+
+
+#### 921. 使括号有效的最小添加
+
+![image-20220214160440410](labuladong.assets/image-20220214160440410.png)
+
+```java
+int minAddToMakeValid(string s) {
+ // res 记录插⼊次数
+ int res = 0;
+ // need 变量记录右括号的需求量
+ int need = 0;
+ for (int i = 0; i < s.size(); i++) {
+ if (s[i] == '(') {
+ // 对右括号的需求 + 1
+ need++;
+ }
+
+ if (s[i] == ')') {
+ // 对右括号的需求 - 1
+ need--;
+ if (need == -1) {
+ need = 0;
+ // 需插⼊⼀个左括号
+ res++;
+ }
+ }
+ }
+
+ return res + need;
+}
+
+```
+
+
+
+#### 1541. 平衡括号串的最少插入
+
+![](labuladong.assets/image-20220214160629049.png)
+
+```java
+int minInsertions(string s) {
+ int res = 0, need = 0;
+ for (int i = 0; i < s.size(); i++) {
+ if (s[i] == '(') {
+ need += 2;
+ if (need % 2 == 1) {
+ res++;
+ need--;
+ }
+ }
+
+ if (s[i] == ')') {
+ need--;
+ if (need == -1) {
+ res++;
+ need = 1;
+ }
+ }
+ }
+
+ return res + need;
+}
+
+```
+
+### 单调栈结构解决三道算法题
+
+
+
+### 单调队列结构解决滑动窗口问题
+
+### 一道数组去重的算法题把我整不会了
+
 ## 1.4 数据结构设计
 
 ### 算法就像搭乐高：带你手撸LRU算法
+
+### 算法就像搭乐高：带你手撸LFU算法
+
+### 给我常数时间，我可以删除/查找数组中的任意元素
+
+### 一道求中位数的算法题把我整不会了
 
 # 进阶数据结构
 
@@ -854,7 +1053,29 @@ void connectTwoNode(Node node1, Node node2){
 
 ## 2.2 二叉树搜索树
 
+### 东哥带你刷二叉搜索树（一）
+
+### 东哥带你刷二叉搜索树（二）
+
+### 东哥带你刷二叉搜索树（三）
+
 ## 2.3 图论
+
+### 图论基础
+
+### 拓扑排序
+
+### 二分图判定
+
+### Union-Find算法详解
+
+### Union-Find算法应用
+
+### Kruskal最小生成树算法
+
+### 把Dijkstra算法变成了默写题
+
+### 众里寻他千百度：名流问题
 
 # 暴力搜索算法
 
@@ -1926,9 +2147,187 @@ class Solution {
 
 ## 4.3 背包问题
 
+### 0-1背包问题详解
+
+题⽬就是这么简单，⼀个典型的动态规划问题。这个题⽬中的物品不可以分割，要么装进包⾥，要么不装， 不能说切成两块装⼀半。这就是 0-1 背包这个名词的来历。
+
+**dp数组的定义：**
+
+​    ⾸先看看刚才找到的「状态」，有两个，也就是说我们需要⼀个⼆维 dp 数组。
+
+​     dp[i] [w] 的定义如下：对于前 i 个物品，当前背包的容量为 w，这种情况下可以装的最⼤价值是 dp[i] [w]。 ⽐如说，如果 dp[3] [5] = 6，其含义为：对于给定的⼀系列物品中，若只对前 3 个物品进⾏选择，当背包 容量为 5 时，最多可以装下的价值为 6。
+
+**细化框架：**
+
+```java
+int[][] dp[N+1][W+1]
+dp[0][..] = 0
+dp[..][0] = 0
+for i in [1..N]:
+     for w in [1..W]:
+     dp[i][w] = max(
+         把物品 i 装进背包,
+         不把物品 i 装进背包
+     )
+return dp[N][W]
+
+```
+
+
+
+```
+int knapsack(int W, int N, vector<int>& wt, vector<int>& val) {
+ // base case 已初始化
+ vector<vector<int>> dp(N + 1, vector<int>(W + 1, 0));
+ for (int i = 1; i <= N; i++) {
+ for (int w = 1; w <= W; w++) {
+ if (w - wt[i-1] < 0) {
+ // 这种情况下只能选择不装⼊背包
+ dp[i][w] = dp[i - 1][w];
+ } else {
+ // 装⼊或者不装⼊背包，择优
+ dp[i][w] = max(dp[i - 1][w - wt[i-1]] + val[i-1],
+ dp[i - 1][w]);
+ }
+ }
+ }
+
+ return dp[N][W];
+}
+```
+
+#### 完全背包问题零钱兑换
+
+#### 背包问题变体之子集分割
+
+## 完全背包问题
+
+#### 518. 零钱兑换||
+
+![image-20220214164348497](labuladong.assets/image-20220214164348497.png)
+
+我们可以把这个问题转化为背包问题的描述形式： 有⼀个背包，最⼤容量为 amount，有⼀系列物品 coins，每个物品的重量为 coins[i]，每个物品的数量 ⽆限。请问有多少种⽅法，能够把背包恰好装满？
+
+**若只使⽤ coins 中的前 i 个硬币的⾯值，若想凑出⾦额 j，有 dp[i] [j] 种凑法。**
+
+
+
+⽐如说，你想⽤⾯值为 2 的硬币凑出⾦额 5，那么如果你知道了凑出⾦额 3 的⽅法，再加上⼀枚⾯额为 2 的 硬币，不就可以凑出 5 了嘛。 
+
+综上就是两种选择，⽽我们想求的 dp[i] [j] 是「共有多少种凑法」，所以 dp[i] [j] 的值应该是以上两种 选择的结果之和：
+
+```java
+int change(int amount, int[] coins) {
+ int n = coins.length;
+ int[][] dp = int[n + 1][amount + 1];
+ // base case
+ for (int i = 0; i <= n; i++)
+ dp[i][0] = 1;
+ for (int i = 1; i <= n; i++) {
+ for (int j = 1; j <= amount; j++)
+ if (j - coins[i-1] >= 0)
+ dp[i][j] = dp[i - 1][j]
+ + dp[i][j - coins[i-1]];
+ else
+ dp[i][j] = dp[i - 1][j];
+ }
+ return dp[n][amount];
+}
+
+```
+
+也可以简化为：
+
+```java
+int change(int amount, int[] coins) {
+ int n = coins.length;
+ int[] dp = new int[amount + 1];
+ dp[0] = 1; // base case
+ for (int i = 0; i < n; i++)
+ for (int j = 1; j <= amount; j++)
+ if (j - coins[i] >= 0)
+ dp[j] = dp[j] + dp[j-coins[i]];
+
+ return dp[amount];
+}
+
+```
+
+
+
+## 子集背包问题
+
+#### 416. 分割等和子集
+
+![image-20220214171208849](labuladong.assets/image-20220214171208849.png)
+
+```java
+boolean canPartition(int[] nums) {
+ int sum = 0;
+ for (int num : nums) sum += num;
+ // 和为奇数时，不可能划分成两个和相等的集合
+ if (sum % 2 != 0) return false;
+ int n = nums.length;
+ sum = sum / 2;
+ boolean[][] dp = new boolean[n + 1][sum + 1];
+ // base case
+ for (int i = 0; i <= n; i++)
+ dp[i][0] = true;
+ for (int i = 1; i <= n; i++) {
+ for (int j = 1; j <= sum; j++) {
+ if (j - nums[i - 1] < 0) {
+ // 背包容量不⾜，不能装⼊第 i 个物品
+ dp[i][j] = dp[i - 1][j];
+ } else {
+ // 装⼊或不装⼊背包
+ dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1]];
+ }
+ }
+ }
+ return dp[n][sum];
+}
+
+```
+
+
+
 ## 4.4 用动态规划玩游戏
 
+### 团灭LeetCode股票买卖问题
 
+#### 121. 买卖股票的最佳时机
+
+#### 122. 买卖股票的最佳时机2
+
+#### 123. 买卖股票的最佳时机3
+
+#### 188. 买卖股票的最佳时期4
+
+#### 309. 最佳买卖股票时期含冷冻期
+
+#### 714. 买卖股票的最佳时机含手续费
+
+### 团灭LeetCode打家劫舍问题
+
+### 动态规划问题之博弈问题
+
+### 动态规划之最小路径和
+
+### 经典动态规划：高楼扔鸡蛋
+
+### 动态规划帮我通关了《魔塔》
+
+### 《辐射4》
+
+### 旅游省钱大法：加权最短路径
+
+# 其他经典算法
+
+## 5.2 数学算法
+
+### 如何高效寻找素数
+
+### 两道常考的阶乘算法题
 
 # 字符串
 
