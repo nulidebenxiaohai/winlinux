@@ -158,9 +158,11 @@ class Solution {
 
 ### 滑动窗口算法
 
+![image-20220214154831760](labuladong.assets/image-20220214154831760.png)
+
 #### 76. 最小覆盖子串
 
-![image-20220214154831760](labuladong.assets/image-20220214154831760.png)
+![Screenshot 2022-02-15 at 14.29.50](labuladong.assets/Screenshot 2022-02-15 at 14.29.50.png)
 
 ```java
 string minWindow(string s, string t) {
@@ -203,6 +205,76 @@ string minWindow(string s, string t) {
          // 返回最⼩覆盖⼦串
             return len == INT_MAX ?
                         "" : s.substr(start, len);
+}
+```
+
+#### 209. 长度最小的子数组 ***写一下
+
+![Screenshot 2022-02-15 at 14.44.23](labuladong.assets/Screenshot 2022-02-15 at 14.44.23.png)
+
+```java
+//这道题用了前缀和数组和二分法，也可以用滑动窗口
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        int n = nums.length;
+        int[] sum = new int[n+1];
+        sum[0] = 0;
+        for(int i = 1; i <= n; i++){
+            sum[i] = sum[i-1] + nums[i-1];
+        }
+        
+        int res = Integer.MAX_VALUE;
+        for(int i = 0; i < n; i++){
+            int bin = Bin(sum[i]+target, sum, i+1);
+            if(bin > 0){
+                res = Math.min(res, bin-i);
+            }
+        }
+        
+        if(res != Integer.MAX_VALUE){
+            return res;
+        }
+        
+        return 0;
+        
+    }
+    
+    int Bin(int target, int[] nums, int start){
+        int left = start, right = nums.length-1;
+        while(left <= right){
+            int mid = left + (right - left) / 2;
+            if(nums[mid] < target){
+                left = mid+1;
+            }
+            else if(nums[mid] >= target){
+                while(nums[mid] >= target){
+                    mid--;
+                }
+                return mid+1;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+```java
+class Solution {
+
+    // 滑动窗口
+    public int minSubArrayLen(int s, int[] nums) {
+        int left = 0;
+        int sum = 0;
+        int result = Integer.MAX_VALUE;
+        for (int right = 0; right < nums.length; right++) {
+            sum += nums[right];
+            while (sum >= s) {
+                result = Math.min(result, right - left + 1);
+                sum -= nums[left++];
+            }
+        }
+        return result == Integer.MAX_VALUE ? 0 : result;
+    }
 }
 ```
 
@@ -343,7 +415,85 @@ int right_bound(int[] nums, int target){
 
 #### 704. 二分查找
 
+![Screenshot 2022-02-15 at 14.49.15](labuladong.assets/Screenshot 2022-02-15 at 14.49.15.png)
+
+```java
+class Solution {
+    public int search(int[] nums, int target) {
+        int left = 0, right = nums.length-1;
+        while(left <= right){
+            int mid = left + (right - left) / 2;
+            if(nums[mid] == target){
+                return mid;
+            }
+            else if(nums[mid] < target){
+                left = mid + 1; 
+            }
+            else if(nums[mid] > target){
+                right =mid - 1;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+
+
 #### 34. 在排序数组中查找元素的第一个和最后一个位置
+
+![Screenshot 2022-02-15 at 14.52.33](labuladong.assets/Screenshot 2022-02-15 at 14.52.33.png)
+
+```java
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int[] result =new int[2];
+        result[0] = left_bound(nums,target);
+        result[1] = right_bound(nums,target);
+        return result;
+    }
+    
+    int left_bound(int[] nums, int target){
+        int left = 0, right = nums.length-1;
+        while(left <= right){ //left = right + 1
+            int mid = left + (right - left) / 2;
+            if(nums[mid] == target){
+                right = mid - 1;
+            }
+            else if(nums[mid] < target){
+                left = mid + 1;
+            }
+            else if(nums[mid] > target){
+                right = mid -1;
+            }
+        }
+        if(left >= nums.length || nums[left] != target){
+            return -1;
+        }
+        return left;
+    }
+    
+    int right_bound(int[] nums, int target){
+        int left = 0, right = nums.length - 1;
+        while(left <= right){
+            int mid = left + (right - left) / 2;
+            if(nums[mid] == target){
+                left = mid + 1;
+            }
+            else if(nums[mid] < target){
+                left = mid + 1;
+            }
+            else if(nums[mid] > target){
+                right = mid - 1;
+            }
+        }
+        if(right < 0 || nums[right] != target){
+            return -1;
+        }
+        return right;
+    }
+}
+```
 
 ### 二分搜索题型套路分析
 
@@ -403,6 +553,10 @@ class Solution {
 
 
 #### 1011. 在D天内送达包裹的能力
+
+
+
+#### 59. 螺旋矩阵｜｜（代码随想录）
 
 ### 田忌赛马背后的算法决策
 
@@ -473,6 +627,8 @@ int removeDuplicates(int[] nums){
 
 #### 83. 删除排序链表中的重复元素
 
+![Screenshot 2022-02-15 at 15.11.26](labuladong.assets/Screenshot 2022-02-15 at 15.11.26.png)
+
 ```java
 ListNode deleteDuplicates(ListNode head){
     if(head == null) return null;
@@ -535,6 +691,35 @@ void moveZeroes(int[] nums){
 ```
 
 ### 一文搞懂单链表的六大解题套路
+
+#### 链表的定义
+
+```java
+public class ListNode {
+    // 结点的值
+    int val;
+
+    // 下一个结点
+    ListNode next;
+
+    // 节点的构造函数(无参)
+    public ListNode() {
+    }
+
+    // 节点的构造函数(有一个参数)
+    public ListNode(int val) {
+        this.val = val;
+    }
+
+    // 节点的构造函数(有两个参数)
+    public ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+}
+```
+
+
 
 #### 21. 合并两个有序链表
 
@@ -910,8 +1095,6 @@ int minAddToMakeValid(string s) {
 
 ```
 
-
-
 #### 1541. 平衡括号串的最少插入
 
 ![](labuladong.assets/image-20220214160629049.png)
@@ -944,11 +1127,45 @@ int minInsertions(string s) {
 
 ### 单调栈结构解决三道算法题
 
+这一类问题重点是在于寻找下一个更大值。
+
+#### 739. 每日温度
+
+```java
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        int n = temperatures.length;
+        int[] dist = new int[n];
+        Stack<Integer> indexs = new Stack<>();
+        
+        for(int curindex = 0; curindex < n; curindex++){
+            while(!indexs.isEmpty() && temperatures[curindex] > temperatures[indexs.peek()]){
+                dist[indexs.peek()] = curindex - indexs.peek();
+                indexs.pop();
+            }
+            indexs.add(curindex);
+        }
+        return dist;
+    }
+}
+```
+
+**如何处理环形数组？**
+
+1. 一般是通过%运算符求模（余数），来获得环形特效
+2. 将数组长度翻倍
+
+#### 503. 下一个更大的元素｜｜
+
 
 
 ### 单调队列结构解决滑动窗口问题
 
 ### 一道数组去重的算法题把我整不会了
+
+#### 316. 去除重复字母
+
+#### 1081. 不同字符的最小子序列
 
 ## 1.4 数据结构设计
 
@@ -957,6 +1174,10 @@ int minInsertions(string s) {
 ### 算法就像搭乐高：带你手撸LFU算法
 
 ### 给我常数时间，我可以删除/查找数组中的任意元素
+
+#### 380.  常数时间插入，删除和获取随机元素
+
+#### 710. 黑名单中的随机数
 
 ### 一道求中位数的算法题把我整不会了
 
@@ -1045,25 +1266,136 @@ void connectTwoNode(Node node1, Node node2){
 
 #### 654. 最大二叉树
 
+![Screenshot 2022-02-14 at 20.53.09](../../../../../Desktop/Screenshot 2022-02-14 at 20.53.09.png)
 
+```java
+TreeNode constructMaximumBinaryTree(int[] nums){
+    return builder(nums, 0, nums.length-1);
+}
+
+
+TreeNode builder(int[] nums, int i, int j){
+    if(i > j){
+      return null;
+    }
+    int index = -1, max = Integer.MIN_VALUE;
+    for(int m = i; m <= j; m++){
+      if(max > nums[m]){
+        max = nums[m];
+        index = m
+      }
+    }
+    TreeNode node = new TreeNode(max);
+    node.left = builder(nums, i, index-1);
+    node.right = builder(nums, index+1, j);
+    return node;
+}
+```
 
 #### 105. 从前序与中序遍历序列构造二叉树
 
 #### 106. 从前序与后序列遍历构造二叉树
 
+### 东哥带你刷二叉树（第三期）
+
+#### 652. 寻找重复的字串
+
 ## 2.2 二叉树搜索树
+
+BST是一种特殊的二叉树，主要有两个主要特点：
+
+1. 左小右大，即每个节点的左子树都比当前节点的值小，右子树都比当前节点的值大
+2. 中序遍历结果是有序的
 
 ### 东哥带你刷二叉搜索树（一）
 
+#### 230. BST第K小的元素
+
+#### 538. 二叉搜索树转化累加树
+
+```java
+TreeNode convertBST(TreeNode root){
+    traverse(root);
+    reutrn root;
+}
+int sum = 0;
+void traverse(TreeNode root){
+    if(root == null){
+        return;
+    }
+  
+    traverse(root.right);
+    sum += root.val;
+    root.val = sum;
+    traverse(root.left);
+}
+```
+
+
+
+#### 1038. BST转累加树
+
 ### 东哥带你刷二叉搜索树（二）
 
+#### 450. 删除二叉搜索树中的节点
+
+![Screenshot 2022-02-14 at 21.52.14](labuladong.assets/Screenshot 2022-02-14 at 21.52.14.png)
+
+#### 701. 二叉搜索树中的插入操作
+
+#### 700. 二叉搜索树中的搜索
+
+#### 98. 验证二叉搜索树
+
 ### 东哥带你刷二叉搜索树（三）
+
+#### 96. 不同的二叉搜索树
+
+#### 95. 不同的二叉搜索树｜｜
 
 ## 2.3 图论
 
 ### 图论基础
 
+本质上图可以认为是多叉树的延伸。
+
+可以通过邻接表和邻接矩阵来看出来：
+
+![Screenshot 2022-02-14 at 22.01.31](labuladong.assets/Screenshot 2022-02-14 at 22.01.31.png)
+
+### ![Screenshot 2022-02-14 at 22.01.46](labuladong.assets/Screenshot 2022-02-14 at 22.01.46.png)
+
+**有向加权图怎么实现？**
+
+1. 如果是邻接图，我们不仅仅存储某个节点x的所有邻居节点，还存储x到每个邻居的权重
+2. 如果是邻接矩阵，matrix[x] [y]不再是布尔值，而是一个int值，0表示没有连接，其他值表示权重
+
+图和多叉树最大的区别是，图是可能包含环的，你从图的某一个节点开始遍历，有可能走了一圈又回到了这个节点
+
+所以，如果图包含环，遍历框架就要一个visited数组来辅助
+
+```java
+boolean[] visited;
+boolean[] onPath;
+
+void traverse(Graph graph, int s){
+    if(visited) return;
+    visited[s] = true;
+    onPath[s] = true;
+    for(int neighbor : graph.neighbors(d)){
+        traverse(graph, neighbor);
+    }
+    onPath[s] = false;
+}
+```
+
+如果要处理关于路径相关的问题，这个onPath变量肯定会被用到的。
+
+#### 79. 所有可能路径
+
 ### 拓扑排序
+
+#### 207. 课程表
 
 ### 二分图判定
 
@@ -1073,7 +1405,7 @@ void connectTwoNode(Node node1, Node node2){
 
 ### Kruskal最小生成树算法
 
-### 把Dijkstra算法变成了默写题
+### 把Dijkstra算法变成了默写题***这个可以懂
 
 ### 众里寻他千百度：名流问题
 
@@ -1145,6 +1477,8 @@ for 选择 in 选择列表:
 
 #### 46. 全排列
 
+![Screenshot 2022-02-15 at 12.09.51](labuladong.assets/Screenshot 2022-02-15 at 12.09.51.png)
+
 ```java
 List<List<Integer>> res = new LinkedList<>();
     public List<List<Integer>> permute(int[] nums) {
@@ -1177,6 +1511,8 @@ List<List<Integer>> res = new LinkedList<>();
 
 #### 77. 组合问题
 
+![Screenshot 2022-02-15 at 12.11.24](labuladong.assets/Screenshot 2022-02-15 at 12.11.24.png)
+
 ```java
 class Solution {
     List<List<Integer>> result = new ArrayList<>();
@@ -1204,6 +1540,8 @@ class Solution {
 
 
 #### 216. 组合问题|||
+
+![Screenshot 2022-02-15 at 12.12.47](labuladong.assets/Screenshot 2022-02-15 at 12.12.47.png)
 
 ```java
 class Solution {
@@ -1243,6 +1581,8 @@ class Solution {
 
 #### 17. 电话号码的字母组合
 
+![Screenshot 2022-02-15 at 12.13.38](labuladong.assets/Screenshot 2022-02-15 at 12.13.38.png)
+
 ```java
 class Solution {
     List<String> list = new ArrayList<>();
@@ -1274,6 +1614,8 @@ class Solution {
 
 #### 39.组合总和
 
+![Screenshot 2022-02-15 at 12.14.39](labuladong.assets/Screenshot 2022-02-15 at 12.14.39.png)
+
 ```java
 class Solution {
     List<List<Integer>> list = new ArrayList<>();
@@ -1303,13 +1645,51 @@ class Solution {
 }
 ```
 
-#### 40. 组合总和|||
+#### 40. 组合总和||
+
+![Screenshot 2022-02-15 at 19.46.27](labuladong.assets/Screenshot 2022-02-15 at 19.46.27.png)
 
 ```java
+class Solution {
+  List<List<Integer>> res = new ArrayList<>();
+  LinkedList<Integer> path = new LinkedList<>();
+  int sum = 0;
+  
+  public List<List<Integer>> combinationSum2( int[] candidates, int target ) {
+    //为了将重复的数字都放到一起，所以先进行排序
+    Arrays.sort( candidates );
+    backTracking( candidates, target, 0 );
+    return res;
+  }
+  
+  private void backTracking( int[] candidates, int target, int start ) {
+    if ( sum == target ) {
+      res.add( new ArrayList<>( path ) );
+      return;
+    }
+    for ( int i = start; i < candidates.length && sum + candidates[i] <= target; i++ ) {
+      //正确剔除重复解的办法
+      //跳过同一树层使用过的元素
+      if ( i > start && candidates[i] == candidates[i - 1] ) {
+        continue;
+      }
 
+      sum += candidates[i];
+      path.add( candidates[i] );
+      // i+1 代表当前组内元素只选取一次
+      backTracking( candidates, target, i + 1 );
+
+      int temp = path.getLast();
+      sum -= temp;
+      path.removeLast();
+    }
+  }
+}
 ```
 
 #### 131. 分割回文串
+
+![Screenshot 2022-02-15 at 12.15.27](labuladong.assets/Screenshot 2022-02-15 at 12.15.27.png)
 
 ```java
 class Solution {
@@ -1358,6 +1738,8 @@ class Solution {
 ```
 
 #### 93. 复原IP地址
+
+![Screenshot 2022-02-15 at 12.16.14](labuladong.assets/Screenshot 2022-02-15 at 12.16.14.png)
 
 ```java
 class Solution {
@@ -1486,6 +1868,31 @@ class Solution {
 
 #### 78. 子集
 
+#### ![Screenshot 2022-02-15 at 12.43.19](labuladong.assets/Screenshot 2022-02-15 at 12.43.19.png)
+
+```java
+class Solution {
+    List<List<Integer>> result = new ArrayList<>();
+    List<Integer> path = new ArrayList<>();
+    public List<List<Integer>> subsets(int[] nums) {
+        backtrack(nums,0);
+        return result;
+    }
+    
+    void backtrack(int[] nums, int index){
+        result.add(new ArrayList<>(path));
+        
+        for(int i = index; i < nums.length; i++){
+            path.add(nums[i]);
+            backtrack(nums, i+1);
+            path.remove(path.size()-1);
+        }
+    }
+}
+```
+
+
+
 #### 46. 全排列
 
 #### 77. 组合
@@ -1534,6 +1941,49 @@ void dfs(char[][] grid, int i, int j){
 #### 1254. 统计封闭的岛屿的数目
 
 ![image-20220126140100088](labuladong.assets/image-20220126140100088.png)
+
+```java
+class Solution {
+    public int closedIsland(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        for(int i = 0; i < n; i++){
+            dfs(grid, 0, i);
+            dfs(grid, m-1, i);
+        }
+        for(int i = 0; i < m; i++){
+            dfs(grid, i, 0);
+            dfs(grid, i, n-1);
+        }
+        int res = 0;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(grid[i][j] == 0){
+                    res++;
+                    dfs(grid, i, j);
+                }
+            }
+        }
+        return res;
+    }
+    
+    void dfs(int[][] grid, int i, int j){
+        int m = grid.length, n = grid[0].length;
+        if(i < 0 || j < 0 || i >= m || j >= n){
+            return;
+        }
+        if(grid[i][j] == 1){
+            return;
+        }
+        
+        grid[i][j] = 1;
+        
+        dfs(grid, i+1, j);
+        dfs(grid, i, j+1);
+        dfs(grid, i, j-1);
+        dfs(grid, i-1, j);
+    }
+}
+```
 
 
 
@@ -1962,6 +2412,8 @@ int maxSubArray(int[] nums){
 
 #### 1143. 最长公共子序列
 
+![Screenshot 2022-02-15 at 21.01.38](labuladong.assets/Screenshot 2022-02-15 at 21.01.38.png)
+
 ```java
 class Solution {
     int[][] memo;
@@ -1990,7 +2442,7 @@ class Solution {
         else{
             memo[i][j] = Math.max(dp(s1, i+1, s2, j), dp(s1, i, s2, j+1));
         }
-        return memo[i][j];
+        return memo[i][j];//最后得数是memo[0][0], [0~s1.length()-1] [0~s2.length()-1]公共序列的长度
     }
     
 }
@@ -2331,7 +2783,7 @@ boolean canPartition(int[] nums) {
 
 # 字符串
 
-43. 字符串相乘
+## 43.字符串相乘
 
 ![image-20220211191801930](labuladong.assets/image-20220211191801930.png)
 
@@ -2360,6 +2812,606 @@ class Solution {
             ans.append(arr[i]);
         }
         return ans.toString();
+    }
+}
+```
+
+## 28. 实现strStr()
+
+![Screenshot 2022-02-15 at 18.54.08](labuladong.assets/Screenshot 2022-02-15 at 18.54.08.png)
+
+```java
+class Solution {
+    /**
+     * 基于窗口滑动的算法
+     * <p>
+     * 时间复杂度：O(m*n)
+     * 空间复杂度：O(1)
+     * 注：n为haystack的长度，m为needle的长度
+     */
+    public int strStr(String haystack, String needle) {
+        int m = needle.length();
+        // 当 needle 是空字符串时我们应当返回 0
+        if (m == 0) {
+            return 0;
+        }
+        int n = haystack.length();
+        if (n < m) {
+            return -1;
+        }
+        int i = 0;
+        int j = 0;
+        while (i < n - m + 1) {
+            // 找到首字母相等
+            while (i < n && haystack.charAt(i) != needle.charAt(j)) {
+                i++;
+            }
+            if (i == n) {// 没有首字母相等的
+                return -1;
+            }
+            // 遍历后续字符，判断是否相等
+            i++;
+            j++;
+            while (i < n && j < m && haystack.charAt(i) == needle.charAt(j)) {
+                i++;
+                j++;
+            }
+            if (j == m) {// 找到
+                return i - j;
+            } else {// 未找到
+                i -= j - 1;
+                j = 0;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+```java
+class Solution {
+    //前缀表（不减一）Java实现
+    public int strStr(String haystack, String needle) {
+        if (needle.length() == 0) return 0;
+        int[] next = new int[needle.length()];
+        getNext(next, needle);
+
+        int j = 0;
+        for (int i = 0; i < haystack.length(); i++) {
+            while (j > 0 && needle.charAt(j) != haystack.charAt(i)) 
+                j = next[j - 1];
+            if (needle.charAt(j) == haystack.charAt(i)) 
+                j++;
+            if (j == needle.length()) 
+                return i - needle.length() + 1;
+        }
+        return -1;
+
+    }
+    
+    private void getNext(int[] next, String s) {
+        int j = 0;
+        next[0] = 0;
+        for (int i = 1; i < s.length(); i++) {
+            while (j > 0 && s.charAt(j) != s.charAt(i)) 
+                j = next[j - 1];
+            if (s.charAt(j) == s.charAt(i)) 
+                j++;
+            next[i] = j; 
+        }
+    }
+}
+```
+
+## 459. 重复的子字符串
+
+![Screenshot 2022-02-15 at 19.05.29](labuladong.assets/Screenshot 2022-02-15 at 19.05.29.png)
+
+```java
+class Solution {
+    public boolean repeatedSubstringPattern(String s) {
+        if (s.equals("")) return false;
+
+        int len = s.length();
+        // 原串加个空格(哨兵)，使下标从1开始，这样j从0开始，也不用初始化了
+        s = " " + s;
+        char[] chars = s.toCharArray();
+        int[] next = new int[len + 1];
+
+        // 构造 next 数组过程，j从0开始(空格)，i从2开始
+        for (int i = 2, j = 0; i <= len; i++) {
+            // 匹配不成功，j回到前一位置 next 数组所对应的值
+            while (j > 0 && chars[i] != chars[j + 1]) j = next[j];
+            // 匹配成功，j往后移
+            if (chars[i] == chars[j + 1]) j++;
+            // 更新 next 数组的值
+            next[i] = j;
+        }
+
+        // 最后判断是否是重复的子字符串，这里 next[len] 即代表next数组末尾的值
+        if (next[len] > 0 && len % (len - next[len]) == 0) {
+            return true;
+        }
+        return false;
+    }
+}
+```
+
+## 表达式求值
+
+![Screenshot 2022-02-15 at 20.04.05](labuladong.assets/Screenshot 2022-02-15 at 20.04.05.png)
+
+```java
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        String s=sc.nextLine();
+      //将其他括号，替换成小括号
+        s=s.replace("{","(");
+        s=s.replace("[","(");
+        s=s.replace("}",")");
+        s=s.replace("]",")");
+        System.out.println(slove(s));
+    }
+    public static int slove(String s){
+        Stack<Integer> stack=new Stack<>();
+        int n=s.length();
+        char[] chs=s.toCharArray();
+        int index=0;
+      //初始化符号为'+'
+        char sign='+';
+      //记录数字
+        int number=0;
+        for(int i=0;i<n;i++){
+            char ch=chs[i];
+            //当前字符是空格，跳过
+            if(ch==' ')continue;
+            //当前字符是数字，拼数字
+            if(Character.isDigit(ch)){
+                number=number*10+ch-'0';
+            }
+            //如果当前字符是小括号
+            if(ch=='('){
+              //移到小括号后一位字符
+                int j=i+1;
+                //统计括号的数量
+                int count=1;
+                while(count>0){
+                  //遇到右括号，括号数-1
+                    if(chs[j]==')')count--;
+                  //遇到左括号，括号数+1
+                    if(chs[j]=='(')count++;
+                    j++;
+                }
+              //递归，解小括号中的表达式
+                number=slove(s.substring(i+1,j-1));
+                i=j-1;
+            }
+          //遇到符号，将数字处理后放进栈
+            if(!Character.isDigit(ch) || i==n-1){
+              //如果是'+',直接入栈
+                if(sign=='+'){
+                    stack.push(number);
+                }
+              //如果是'-',数字取相反数在入栈
+                else if(sign=='-'){
+                    stack.push(-1*number);
+                }
+              //如果是'*',弹出一个数字乘后放入栈
+                else if(sign=='*'){
+                    stack.push(stack.pop()*number);
+                }
+              //如果是'/',弹出一个数字/后放入栈
+                else if(sign=='/'){
+                    stack.push(stack.pop()/number);
+                }
+              //更新符号
+                sign=ch;
+              //刷新数字
+                number=0;
+            }
+        }
+      //栈中数字求和得到结果
+        int ans=0;
+        while(!stack.isEmpty()){
+            ans+=stack.pop();
+        }
+        return ans;
+    }
+}
+```
+
+## 挑7
+
+![Screenshot 2022-02-15 at 20.09.10](labuladong.assets/Screenshot 2022-02-15 at 20.09.10.png)
+
+```java
+import java.util.*;
+
+public class Main {
+
+    public Main() {
+    }
+
+    private boolean conatins7(int n) {
+        while (n != 0) {
+            if (n % 10 == 7) return true;
+            n /= 10;
+        }
+        return false;
+    }
+
+    public int count(int n) {
+        int count = 0;
+        for (int i = 7; i <= n; i++) {
+            if (i % 7 == 0 || conatins7(i)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Main solution = new Main();
+        Scanner in = new Scanner(System.in);
+        while (in.hasNext()) {
+            int n = Integer.parseInt(in.next());
+            int res = solution.count(n);
+            System.out.println(res);
+        }
+    } 
+}
+```
+
+## 完全数计算
+
+![Screenshot 2022-02-15 at 20.14.09](labuladong.assets/Screenshot 2022-02-15 at 20.14.09.png)
+
+```java
+import java.util.Scanner;
+
+public class Main{
+   public static void main(String[] args){
+       Scanner in = new Scanner(System.in);
+       while(in.hasNextInt()){
+           int n = in.nextInt();
+           
+           //第一个完全数是6，若小于6则输出0
+           if(n < 6){
+               System.out.println(0);
+               continue;
+           }
+           
+           int count = 0;    //计数变量
+           for(int t=6; t <= n; t++){
+               int sum = 0;
+               //统计因数的和，计数到该数的1/2即可
+               for(int i=1; i <= t/2; i++){
+                   if(t%i == 0)
+                       sum += i;
+               }
+               if(sum == t)
+                   count++;
+           }
+           
+           //输出结果
+           System.out.println(count);
+       }
+   }
+}
+```
+
+## 高精度整数加法
+
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        while (scan.hasNext()) {
+            String s1 = scan.next();
+            String s2 = scan.next(); //输入两个数
+            String res = add(s1, s2); //输出
+            System.out.println(res);
+        }
+    }
+ 
+    private static String add(String s1, String s2) { //两个字符串整数相加
+        StringBuilder res = new StringBuilder();
+        int n = s1.length() - 1;
+        int m = s2.length() - 1;
+        int carry = 0; //进位
+        while (n >= 0 || m >= 0) { //从两个人字符串最后一位开始相加
+            char c1 = n >= 0 ? s1.charAt(n--) : '0'; //没有了就用0代替
+            char c2 = m >= 0 ? s2.charAt(m--) : '0';
+            int sum = (c1 - '0') + (c2 - '0') + carry; //两个数子与进位相加
+            res.append(sum % 10); //余数添加进结果
+            carry = sum / 10;  //进位
+        }
+ 
+        if (carry == 1) { //最后的进位
+            res.append(carry);
+        }
+        return res.reverse().toString(); //反转后转成字符串
+    }
+}
+
+```
+
+## 查找组成一个偶数最接近的两个素数
+
+
+
+![](labuladong.assets/Screenshot 2022-02-15 at 20.20.43.png)
+
+```java
+import java.util.*;
+
+public class Main {
+
+    public Main() {
+    }
+
+    private boolean isPrime(int num) {
+        for (int i = 2; i <= num/i; i++) {
+            if (num % i == 0) return false;
+        }
+        return true;
+    }
+
+    public int count(int n) {
+        int i = n/2, j = n - i;
+        while (!isPrime(i) || !isPrime(j)) {
+            i++;
+            j--;
+        }
+        return j;
+    }
+
+    public static void main(String[] args) {
+        Main solution = new Main();
+        Scanner in = new Scanner(System.in);
+        while (in.hasNext()) {
+            int n = Integer.parseInt(in.next());
+            int res = solution.count(n);
+            System.out.println(res);
+            System.out.println(n - res);
+        }
+    } 
+}
+```
+
+## 放苹果
+
+![Screenshot 2022-02-15 at 20.32.11](labuladong.assets/Screenshot 2022-02-15 at 20.32.11.png)
+
+```java
+import java.util.Scanner;
+
+public class Main{
+    /*
+        把7个苹果放3个盘子里，可以分成两种情况
+        1、7个苹果放2个盘子（这个其实是也包括了7个苹果放1个盘子里的情况）
+        2、4个苹果放3个盘子
+        终止条件：苹果为1或者盘子为1时，只有一种；苹果小于0或者盘子小于零，返回0。
+    */
+    public int putApple(int apples, int plates){
+        if(apples < 0 || plates < 0) return 0;
+        if(apples == 1 || plates == 1) return 1;
+        return putApple(apples, plates-1) + putApple(apples-plates, plates);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while(scanner.hasNextLine()){
+            String str = scanner.nextLine();
+            String [] splits = str.split(" ");
+            int res = new Main().putApple(Integer.parseInt(splits[0]), Integer.parseInt(splits[1]));
+            System.out.println(res);
+        }
+    }
+}
+```
+
+## 查找输入整数二进制1的个数
+
+```java
+import java.util.Scanner;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        while (in.hasNextInt()) { // 注意 while 处理多个 case
+            int a = in.nextInt();
+            String b=Integer.toBinaryString(a);
+            String c=b.replaceAll("1","");
+            System.out.println(b.length()-c.length());
+        }
+    }
+}
+```
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String args[]) {
+        Scanner input = new Scanner(System.in);
+        while(input.hasNext()){
+            int in = input.nextInt();
+            int count=0;
+            while(in!=0){
+                if(in%2==1) count++;
+                in=in>>1;
+            }
+            System.out.println(count);
+        }
+    }
+}
+```
+
+## DNA 序列
+
+![Screenshot 2022-02-15 at 20.40.26](labuladong.assets/Screenshot 2022-02-15 at 20.40.26.png)
+
+```java
+import java.util.*;
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        while (scan.hasNext()) {
+            String data = scan.nextLine();
+            int len = Integer.parseInt(scan.nextLine());
+            double max = 0.0;
+            String result = "";
+            for (int i = 0; i < data.length() - len + 1; i++) {
+                String str = data.substring(i, len + i);
+                String str2 = str.replaceAll("[^CG]", "");
+                double x = str2.length() * 1.0 / str.length();
+                if (x > max) {
+                    result = str;
+                    max = x;
+                    if (x == 1.0) {
+                        break;
+                    }
+                }
+            }
+            System.out.println(result);
+        }
+    }
+}
+
+
+```
+
+## 查找两个字符串a，b中的最长子串
+
+![Screenshot 2022-02-15 at 20.58.21](labuladong.assets/Screenshot 2022-02-15 at 20.58.21.png)
+
+```java
+import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner sc=new Scanner(System.in);
+        while(sc.hasNext()){
+            String s1=sc.nextLine();
+            String s2=sc.nextLine();
+            longString(s1,s2);
+        }
+    }
+    public static void longString(String s1,String s2){
+        String shortStr = s1.length() < s2.length() ? s1 : s2;
+        String longStr = s1.length() > s2.length() ? s1 : s2;
+        int shortLen = shortStr.length();
+        int longLen = longStr.length();
+        int maxLen = 0, start = 0;
+        for(int i = 0; i < shortLen;i++) {
+            // 剪枝，子串长度已经不可能超过maxLen，退出循环
+            if(shortLen - i + 1 <= maxLen) {
+                break;
+            }
+            // 左指针j，右指针k, 右指针逐渐向左逼近
+            for(int j = i, k = shortLen; k > j; k--) {
+                String subStr = shortStr.substring(i, k);
+                if(longStr.contains(subStr) && maxLen < subStr.length()) {
+                    maxLen = subStr.length();
+                    start = j;
+                    // 找到就立即返回
+                    break;
+                } 
+            }
+        }
+        System.out.println(shortStr.substring(start, start + maxLen));
+    }
+}
+
+```
+
+```java
+import java.util.*;
+public class Main{
+    public static void main(String[]args){
+        Scanner sc=new Scanner(System.in);
+        while(sc.hasNext()){
+            String s1=sc.nextLine();
+            String s2=sc.nextLine();
+            System.out.println(longString(s1,s2));
+        }
+    }
+    
+    // 动态规划
+    public static String longString(String str1, String str2) {
+        String temp = "";
+        // 保证str1是较短字符串
+        if (str1.length() > str2.length()) {
+            temp = str1;
+            str1 = str2;
+            str2 = temp;
+        }
+        int m = str1.length() + 1;
+        int n = str2.length() + 1;
+        // 表示在较短字符串str1以第i个字符结尾，str2中以第j个字符结尾时的公共子串长度。
+        int[][] dp = new int[m][n];
+        // 匹配字符，并记录最大值的str1的结尾下标
+        int max = 0;
+        int index = 0;
+        // 从左向右递推，i为短字符串str1的结尾索引，j为str2的结尾索引
+        for (int i=1; i < m; i++) {
+            for (int j=1; j < n; j++) {
+                if (str1.charAt(i-1) == str2.charAt(j-1)) {
+                    // 相等则计数
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                    // 不断更新变量
+                    if (dp[i][j] > max) {
+                        max = dp[i][j];
+                        index = i;
+                    }
+                }
+            }
+        }
+        // 截取最大公共子串
+        return str1.substring(index-max, index);
+    }
+}
+```
+
+## 正则表达式的使用：在字符串中找到最长的数字串
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class Main{
+    public static void main(String[] args) throws Exception{
+        Scanner sc = new Scanner(System.in);
+
+        while(sc.hasNextLine()){
+            String line = sc.nextLine();
+            String[] ss = line.split("[^0-9]+");
+            int max  = 0;
+            ArrayList<String> list = new ArrayList<>();
+            for(String s : ss){
+                if(s.length() > max){
+                    max = s.length();
+                    list.clear();
+                    list.add(s);
+                }else if(s.length() == max){
+                    max = s.length();
+                    list.add(s);
+                }
+            }
+            StringBuilder sb = new StringBuilder();
+            for(String item : list){
+                sb.append(item);
+            }
+            sb.append(",").append(max);
+            System.out.println(sb.toString());
+        }
     }
 }
 ```
