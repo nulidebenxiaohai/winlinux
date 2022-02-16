@@ -599,6 +599,65 @@ int[] advantageCount(int[] sums1, int[] nums2){
 
 #### 870.优势洗牌
 
+#### 81. 在旋转排序数组中搜索
+
+![image-20220216133631185](labuladong.assets/image-20220216133631185.png)
+
+```java
+class Solution {
+    public boolean search(int[] nums, int target) {
+        // ex - [6,6,6,5,5,0,0,1,1,2,2,2,3,3]
+        int n= nums.length;
+        int low =0;
+        int high = n-1;
+        while(low <= high)
+        {
+            //skipping reapting elements from left
+            while(low<high && nums[low] == nums[low+1])
+                low++;
+            
+            //skipping reapting elements from right
+            while(low<high && nums[high] == nums[high-1])
+                high--;
+            
+            ////[6,6, low ->  6,5,5,0,0,1,1,2,2,2,3  <- high ,3]
+            
+            int mid  = (low+high)/2;
+            
+            if(nums[mid] == target)
+                return true;
+            
+            //checking which side is sorted
+            //if left side is sorted then we try to search in left by comparing target and moving the pointer low or high
+            else if(nums[mid] >= nums[low])
+            {
+                if(target >= nums[low] && target < nums[mid])
+                {
+                    high = mid-1;
+                }
+                else
+                {
+                    low = mid+1;       // if left is sorted but target doesnt lies in between left and mid so we move to left
+                }
+            }
+            //if righ side is sorted then we try to search in right by comparing target and moving the pointer low or high
+            else
+            {
+                if(target <= nums[high] && target > nums[mid])
+                {
+                    low = mid+1;
+                }
+                else
+                {
+                    high = mid - 1; // if right is sorted but target doesnt lies in between mid and right so we move to left
+                }
+            }
+        }
+        return false;
+    }
+}
+```
+
 
 
 ### 一文秒杀四道原地修改数组的算法题
@@ -1157,6 +1216,43 @@ class Solution {
 
 #### 503. 下一个更大的元素｜｜
 
+#### 71. 简化路径
+
+![image-20220216132218313](labuladong.assets/image-20220216132218313.png)
+
+```java
+class Solution {
+    public String simplifyPath(String path) {
+        if (path == null || path.isEmpty()) {
+            return "";
+        }
+
+        Stack<String> st = new Stack<>();
+        StringBuilder sb = new StringBuilder();
+        String[] components = path.split("/");
+
+        for (String s : components) {
+            if (s.isEmpty() || s.equals(".")) {
+                continue;
+            } else if (s.equals("..")) {
+               if(!st.isEmpty())
+               {
+                   st.pop();
+               }
+            } else {
+                st.push(s);
+            }
+        }
+
+        for (String dir : st) {
+            sb.append("/").append(dir);
+        }
+
+        return sb.length() == 0 ? "/" : sb.toString();
+    }
+}
+```
+
 
 
 ### 单调队列结构解决滑动窗口问题
@@ -1506,6 +1602,48 @@ List<List<Integer>> res = new LinkedList<>();
         }
     }
 ```
+
+#### 47. 全排列2
+
+![image-20220216130537239](labuladong.assets/image-20220216130537239.png)
+
+```java
+public class Try {
+    static int res = 0;
+    static List<Character> list = new ArrayList<>();
+    public static void main(String[] args){
+        Scanner in = new Scanner(System.in);
+        String str = in.nextLine();
+        char[] ch = str.toCharArray();
+        boolean[] visit = new boolean[ch.length];
+        Arrays.sort(ch);
+        backtrack(ch, visit);
+        System.out.println(res);
+    }
+    public static void backtrack(char[] ch, boolean[] visit){
+        if(list.size() == ch.length){
+            res++;
+            return;
+        }
+
+        for(int i = 0; i < ch.length; i++){
+            if(i > 0 && ch[i] == ch[i-1] && visit[i-1] == false){
+                continue;
+            }
+            if(visit[i] == false){
+                visit[i] = true;
+                list.add(ch[i]);
+                backtrack(ch, visit);
+                list.remove(list.size()-1);
+                visit[i] = false;
+            }
+        }
+
+    }
+}
+```
+
+
 
 #### 51. N皇后
 
@@ -1893,9 +2031,126 @@ class Solution {
 
 
 
-#### 46. 全排列
+#### 90. 子集2
+
+![image-20220216134537221](labuladong.assets/image-20220216134537221.png)
+
+```java
+class Solution {
+    List<List<Integer>> result = new ArrayList<>();
+    List<Integer> path = new ArrayList<>();
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        backtrack(nums, 0);
+        return result;
+    }
+    
+    void backtrack(int[] nums, int index){
+        
+        if(!result.contains(path)){
+            result.add(new ArrayList<>(path));
+        }
+        
+        if(index >= nums.length){
+            return;
+        }
+        
+        for(int i = index; i < nums.length; i++){
+            path.add(nums[i]);
+            backtrack(nums, i+1);
+            path.remove(path.size()-1);
+        }
+    }
+}
+```
+
+
 
 #### 77. 组合
+
+![image-20220216132821788](labuladong.assets/image-20220216132821788.png)
+
+```java
+class Solution {
+    List<List<Integer>> result = new ArrayList<>();
+    LinkedList<Integer> path = new LinkedList<>();
+    public List<List<Integer>> combine(int n, int k) {
+        backtrack(n,k,1);
+        return result;
+    }
+    
+    void backtrack(int n, int k,int start){
+        if(path.size() == k){
+            result.add(new ArrayList<>(path));
+            return;
+        }
+        
+        for(int i = start; i <= n; i++){
+            path.add(i);
+            backtrack(n,k,i+1);
+            path.removeLast();
+        }
+    }
+}
+```
+
+#### 79. 单词查找
+
+![image-20220216133011864](labuladong.assets/image-20220216133011864.png)
+
+```java
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        int m = board.length,n = board[0].length;
+        boolean[][] visited = new boolean[m][n];
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(dfs(board, word, visited, i, j, 0)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    boolean dfs(char[][] board, String word, boolean[][] visited, int m, int n, int k){
+        if(m < 0 || n < 0 || m >= board.length || n >= board[0].length){
+            return false;
+        }
+        
+        if(visited[m][n]){
+            return false;
+        }
+        
+        if(k >= word.length()){
+            return false;
+        }
+        
+        if(board[m][n] != word.charAt(k)){
+            return false;
+        }
+        
+        if(board[m][n] == word.charAt(k)){
+            if(k == word.length()-1){
+                return true;
+            }
+            visited[m][n] = true;
+        }
+        
+        if (dfs(board, word, visited, m, n+1, k+1)||dfs(board, word, visited, m+1, n, k+1)||dfs(board, word, visited, m, n-1, k+1)||dfs(board, word, visited, m-1, n, k+1)){
+            return true;
+        }
+        else{
+            visited[m][n] = false;
+            return false;
+        }
+        
+    }
+    
+}
+```
+
+
 
 ### DFS算法秒杀所有岛屿问题
 
@@ -2249,7 +2504,37 @@ int coinChange(int[] coins, int amount){
 }
 ```
 
+#### 62. 不同路径
+
+![image-20220216131807372](labuladong.assets/image-20220216131807372.png)
+
+```java
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                dp[i][j] = 1;
+            }
+        }
+        
+        for(int i = 1; i < m; i++){
+            for(int j = 1; j < n; j++){
+                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+        
+        return dp[m-1][n-1];
+    }
+}
+```
+
+
+
 #### 63. 不同路径 2
+
+![image-20220216131852182](labuladong.assets/image-20220216131852182.png)
 
 ```java
 class Solution {
@@ -2282,7 +2567,177 @@ class Solution {
 }
 ```
 
+#### 64.  最小路径和
+
+![image-20220216131944026](labuladong.assets/image-20220216131944026.png)
+
+```java
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[][] dp = new int[m][n];
+        dp[0][0] = grid[0][0];
+        for(int i = 1; i < m; i++){
+            dp[i][0] = grid[i][0] + dp[i-1][0];
+        }
+        
+        for(int i = 1; i < n; i++){
+            dp[0][i] = grid[0][i] + dp[0][i-1];
+        }
+        
+        for(int i = 1; i < m; i++){
+            for(int j = 1; j < n; j++){
+                dp[i][j] = grid[i][j] + Math.min(dp[i][j-1], dp[i-1][j]) ;
+            }
+        }
+        
+        return dp[m-1][n-1];
+    }  
+}
+```
+
+
+
 #### 343. 整数拆分 （好难，不会）
+
+
+
+
+
+#### 45. 跳跃游戏2
+
+![image-20220216130213415](labuladong.assets/image-20220216130213415.png)
+
+```java
+class Solution {
+    public int jump(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        if(n < 2){
+            return 0;
+        }
+        
+        for(int i = 0; i < n; i++){
+            dp[i] = n;
+        }
+        
+        for(int i = n-2; i >= 0; i--){
+            for(int j = i+1; j <= nums[i] + i && j < n; j++){
+                if(i + nums[i] >= n-1){
+                    dp[i] = 1;
+                }
+                else{
+                    dp[i] = Math.min(dp[j]+1, dp[i]);
+                }
+            }
+        }
+        
+        return dp[0];
+    }
+}
+```
+
+#### 53. 最大子数组
+
+![image-20220216131120489](labuladong.assets/image-20220216131120489.png)
+
+```java
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        dp[0] = nums[0];
+        for(int i = 1; i < n; i++){
+            dp[i] = Math.max(nums[i], nums[i] + dp[i-1]);
+        }
+        
+        int res = Integer.MIN_VALUE;
+        for(int i = 0; i < n; i++){
+            res = Math.max(res, dp[i]);
+        }
+        
+        return res;
+    }
+}
+```
+
+#### 55. 跳跃游戏
+
+![image-20220216131215601](labuladong.assets/image-20220216131215601.png)
+
+```java
+class Solution {
+    
+    public boolean canJump(int[] nums) {
+        return dp(nums);
+    }
+    //dp i 数组【0~i】是true or false 的
+    boolean dp(int[] nums){
+        int res = nums.length - 1;
+        for(int i = nums.length - 1; i >= 0; i--){
+            if(i + nums[i] >= res){
+                res = i;
+            }
+        }
+        
+        return res == 0;
+    }
+}
+```
+
+#### 91. 解码方式
+
+![image-20220216134733346](labuladong.assets/image-20220216134733346.png)
+
+```java
+class Solution {
+    public int numDecodings(String s) {
+        int n = s.length();
+        int[] f = new int[n+1];
+        f[0] = 1;
+        for(int i = 1; i <= n; i++){
+            if(s.charAt(i-1) != '0'){
+                f[i] += f[i-1];
+            }
+            if(i > 1 && s.charAt(i-2) != '0' && ((s.charAt(i-2)-'0')*10 + (s.charAt(i-1)-'0') <= 26)){
+                f[i] += f[i-2];
+            }
+        }
+        return f[n];
+    }
+}
+```
+
+#### 97. 交织字符串
+
+![image-20220216135503312](labuladong.assets/image-20220216135503312.png)
+
+```java
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        int m = s1.length(), n = s2.length(), k = s3.length();
+        if(m + n != k){
+            return false;
+        }
+        boolean[][] dp = new boolean[m+1][n+1];
+        dp[0][0] = true;
+        for(int i = 0; i <= m; i++){
+            for(int j = 0; j <= n; j++){
+                int p = i + j - 1;
+                if(i > 0){
+                    dp[i][j] = dp[i][j] || (dp[i-1][j] && s1.charAt(i-1) == s3.charAt(p));
+                }
+                if(j > 0){
+                    dp[i][j] = dp[i][j] || (dp[i][j-1] && s2.charAt(j-1) == s3.charAt(p));
+                }
+            }
+        }
+        return dp[m][n];
+    }
+}
+```
+
+
 
 ### base case 和备忘录的初始值怎么定
 
@@ -2492,6 +2947,8 @@ class Solution {
 
 
 #### 712. 两个字符串的最小ASCLL删除和
+
+![image-20220216143205774](labuladong.assets/image-20220216143205774.png)
 
 ```java
 class Solution {
@@ -3412,6 +3869,57 @@ public class Main{
             sb.append(",").append(max);
             System.out.println(sb.toString());
         }
+    }
+}
+```
+
+## 48. 旋转图像
+
+![image-20220216130840212](labuladong.assets/image-20220216130840212.png)
+
+```java
+class Solution {
+    public void rotate(int[][] matrix) {
+        //难点主要在于写出公式
+        int n = matrix[0].length;
+        for(int i = 0; i < n/2; i++){
+            for(int j = 0; j < (n+1)/2; j++){
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[n-j-1][i];
+                matrix[n-j-1][i] = matrix[n-i-1][n-j-1];
+                matrix[n-i-1][n-j-1] = matrix[j][n-i-1];
+                matrix[j][n-i-1] = temp;
+            }
+        }
+    }
+}
+```
+
+## 89. Gray Code
+
+![image-20220216134124502](labuladong.assets/image-20220216134124502.png)
+
+```java
+class Solution {
+    public List<Integer> grayCode(int n) {
+        
+        if(n == 1)
+        {
+            List<Integer> list = new ArrayList<>();
+            list.add(0);list.add(1);
+            return list;
+        }
+        
+        List<Integer> pres = grayCode(n-1);
+        List<Integer> mres = new ArrayList<>();
+        
+        for(int i=0;i<pres.size();i++)
+            mres.add(0+2*pres.get(i));
+        
+        for(int i=pres.size()-1;i>=0;i--)
+            mres.add(1+2*pres.get(i));
+        
+        return mres;
     }
 }
 ```
