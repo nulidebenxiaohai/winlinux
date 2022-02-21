@@ -1738,9 +1738,200 @@ class Solution {
 
 ### 二分图判定
 
-### Union-Find算法详解
+#### 785. 是否为二分图
+
+![Screenshot 2022-02-21 at 19.42.17](labuladong.assets/Screenshot 2022-02-21 at 19.42.17.png)
+
+```java
+class Solution {
+    
+    private boolean ok = true;
+    private boolean[] color;
+    private boolean[] visited;
+    
+    public boolean isBipartite(int[][] graph) {
+        int n = graph.length;
+        color = new boolean[n];
+        visited = new boolean[n];
+        //因为图不一定是联通的，可能存在多个子图
+        //所以要把每个节点都作为起点进行一次遍历
+        //如果发现任何一个子图不是二分图，整幅图都不是二分图
+        for(int v = 0; v < n; v++){
+            if(!visited[v]){
+                traverse(graph, v);
+            }
+        }
+        
+        return ok;
+    }
+    
+    void traverse(int[][] graph, int v){
+        //如果已经确定不是二分图了，就不需要继续遍历
+        if(!ok){
+            return;
+        }
+        
+        visited[v] = true;
+        for(int w : graph[v]){
+            if(!visited[w]){
+                //相邻节点w没有被访问过
+                //那么应该给节点w涂上和节点v不一样的颜色
+                color[w] = !color[v];
+                traverse(graph, w);
+            }
+            else{
+                //相邻节点w已经被访问过
+                //根据v和w的颜色判断是否为二分图
+                if(color[w] == color[v]){
+                    ok = false;
+                }
+            }
+        }
+    }
+}
+```
+
+#### 886. 可能的双分图
+
+### ![Screenshot 2022-02-21 at 20.21.39](labuladong.assets/Screenshot 2022-02-21 at 20.21.39.png)
+
+```java
+class Solution {
+    
+    boolean[] visited;
+    boolean[] color;
+    boolean ok = true;
+    
+    public boolean possibleBipartition(int n, int[][] dislikes) {
+        List<Integer>[] graph = builder(n, dislikes);
+        visited = new boolean[n];
+        color = new boolean[n];
+        for(int i = 0; i < n; i++){
+            if(!visited[i]){
+                traverse(graph, i);
+            }
+        }
+        
+        return ok;
+    }
+    
+    void traverse(List<Integer>[] graph, int v){
+        if(!ok){
+            return;
+        }
+        
+        visited[v] = true;
+        for(int i : graph[v]){
+            if(!visited[i]){
+                color[i] = !color[v];
+                traverse(graph, i);
+            }
+            else{
+                if(color[i] == color[v]){
+                    ok = false;
+                }
+            }
+        }
+    }
+    
+    List<Integer>[] builder(int n, int[][] dislikes){
+        List<Integer>[] graph = new LinkedList[n];
+        for(int i = 0; i < n; i++){
+            graph[i] = new LinkedList<>();
+        }
+        
+        for(int[] edge : dislikes){
+            int p1 = edge[0];
+            int p2 = edge[1];
+            //双向图的影响？无向图
+            graph[p1-1].add(p2-1);
+            graph[p2-1].add(p1-1);
+        }
+        
+        return graph;
+    }
+}
+```
+
+### Union-Find算法详解(查并集算法)
+
+```java
+public class UF {
+    /***
+     * 连通分量个数
+     */
+    private int count;
+    /***
+     * 存储一棵树
+     */
+    private int[] parent;
+    /***
+     * 记录数的[重量]
+     */
+    private int[] size;
+    /***
+     * n为图中节点的个数
+     */
+    public UF(int n){
+        this.count = n;
+        parent = new int[n];
+        size = new int[n];
+        for(int i = 0; i < n; i++){
+            //初始化节点，每个节点重量大小初始值为1
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
+
+    /**将节点q和节点p连通**/
+    public void union(int p, int q){
+        int rootP = find(p);
+        int rootQ = find(q);
+        if(rootP == rootQ){
+            return;
+        }
+        //小树接到大树下面，比较平衡
+        if(size[rootP] > size[rootQ]){
+            parent[rootQ] = parent[rootP];
+            size[rootP] += size[rootQ];
+        }
+        else{
+            parent[rootP] = parent[rootQ];
+            size[rootQ] += size[rootP];
+        }
+        //两个连通分量合并为一个连通分量
+        count--;
+    }
+
+    /**判断节点q和节点p是否连通**/
+    public boolean connected(int p, int q){
+        int rootP = find(p);
+        int rootQ = find(q);
+        return rootP == rootQ;
+    }
+
+    /**返回节点x的连通分量根节点**/
+    private int find(int x){
+        while(parent[x] != x){
+            //进行路径压缩
+            parent[x] = parent[parent[x]];
+            x = parent[x];
+        }
+        return x;
+    }
+
+    /**返回图的连通分量个数**/
+    public int count(){
+        return count;
+    }
+}
+```
 
 ### Union-Find算法应用
+
+#### 130. 被围绕的区域
+
+#### 990. 等式方程的可满足性
 
 ### Kruskal最小生成树算法
 
