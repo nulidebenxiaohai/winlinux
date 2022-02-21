@@ -544,8 +544,32 @@ int soluation(int[] nums, int target){
 
 ```java
 class Solution {
-    public int minEatingSpeed(int[] piles, int H){
-        int left = 1;
+    public int minEatingSpeed(int[] piles, int h) {
+        int left = 1, right = 1000000000 + 1;
+        while(left < right){
+            int mid = left + (right - left) / 2;
+            if(f(piles, mid) == h){
+                right = mid;
+            }
+            else if(f(piles, mid) < h){
+                right = mid;
+            }
+            else if(f(piles, mid) > h){//这个和一般情况有点不太一样，mid要大，f(mid)才能小
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+    
+    int f(int[] piles, int x){
+        int hours = 0;
+        for(int i = 0; i < piles.length; i++){
+            hours += piles[i] / x;
+            if(piles[i] % x > 0){
+                hours += 1;
+            }
+        }
+        return hours;
     }
 }
 ```
@@ -553,6 +577,41 @@ class Solution {
 
 
 #### 1011. 在D天内送达包裹的能力
+
+![Screenshot 2022-02-16 at 16.14.36](labuladong.assets/Screenshot 2022-02-16 at 16.14.36.png)
+
+```java
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+        int left = Arrays.stream(weights).max().getAsInt(), right = 25000000;
+        while(left < right){
+            int mid = left + (right - left) / 2;
+            if(f(weights,mid) == days){
+                right = mid;
+            }
+            else if(f(weights,mid) > days){
+                left = mid+1;
+            }
+            else if(f(weights,mid) < days){
+                right = mid;
+            }
+        }
+        return left;
+    }
+    int f(int[] nums, int x){
+        int days = 1;
+        int cur = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i]+cur > x){
+                days += 1;
+                cur = 0;
+            }
+            cur += nums[i];
+        }
+        return days;
+    }
+}
+```
 
 
 
@@ -1112,9 +1171,9 @@ bool isValid(string str) {
          return left.empty();
 }
 char leftOf(char c) {
- if (c == '}') return '{';
- if (c == ')') return '(';
- return '[';
+      if (c == '}') return '{';
+      if (c == ')') return '(';
+      return '[';
 }
 
 
@@ -1129,27 +1188,27 @@ char leftOf(char c) {
 ```java
 int minAddToMakeValid(string s) {
  // res 记录插⼊次数
- int res = 0;
+     int res = 0;
  // need 变量记录右括号的需求量
- int need = 0;
- for (int i = 0; i < s.size(); i++) {
- if (s[i] == '(') {
- // 对右括号的需求 + 1
- need++;
- }
+     int need = 0;
+     for (int i = 0; i < s.size(); i++) {
+         if (s[i] == '(') {
+         // 对右括号的需求 + 1
+             need++;
+         }
 
- if (s[i] == ')') {
- // 对右括号的需求 - 1
- need--;
- if (need == -1) {
- need = 0;
- // 需插⼊⼀个左括号
- res++;
- }
- }
- }
+         if (s[i] == ')') {
+          // 对右括号的需求 - 1
+             need--;
+             if (need == -1) {
+                 need = 0;
+              // 需插⼊⼀个左括号
+                res++;
+             }
+          }
+     }
 
- return res + need;
+     return res + need;
 }
 
 ```
@@ -1160,10 +1219,10 @@ int minAddToMakeValid(string s) {
 
 ```java
 int minInsertions(string s) {
- int res = 0, need = 0;
- for (int i = 0; i < s.size(); i++) {
- if (s[i] == '(') {
- need += 2;
+     int res = 0, need = 0;
+     for (int i = 0; i < s.size(); i++) {
+     if (s[i] == '(') {
+     need += 2;
  if (need % 2 == 1) {
  res++;
  need--;
@@ -1215,6 +1274,30 @@ class Solution {
 2. 将数组长度翻倍
 
 #### 503. 下一个更大的元素｜｜
+
+```java
+class Solution {//环形数组
+    public int[] nextGreaterElements(int[] nums) {
+        int n = nums.length;
+        int[] next = new int[n];
+        Arrays.fill(next, -1);
+        Stack<Integer> pre = new Stack<>();
+        for (int i = 0; i < n*2; i++){
+            int num = nums[i % n];
+            while(!pre.isEmpty() && num > nums[pre.peek()]){
+                next[pre.pop()] = num;
+            }
+                
+            if(i < n){
+                pre.add(i);
+            }
+        }
+        return next;
+    }
+}
+```
+
+
 
 #### 71. 简化路径
 
@@ -1487,11 +1570,171 @@ void traverse(Graph graph, int s){
 
 如果要处理关于路径相关的问题，这个onPath变量肯定会被用到的。
 
-#### 79. 所有可能路径
+#### 797. 所有可能路径
+
+![Screenshot 2022-02-21 at 18.58.25](labuladong.assets/Screenshot 2022-02-21 at 18.58.25.png)
+
+```java
+class Solution {
+    List<List<Integer>> res = new LinkedList<>();
+    
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        LinkedList<Integer> path = new LinkedList<>();
+        traverse(graph, 0, path);
+        return res;
+    }
+    
+    public void traverse(int[][] graph, int s, LinkedList<Integer> path){
+        path.add(s);
+        
+        int n = graph.length;
+        if(s == n-1){
+            //到达终点
+            res.add(new LinkedList<>(path));
+            path.remove(path.size()-1);
+            return;
+        }
+        
+        for(int v : graph[s]){
+            traverse(graph, v, path);
+        }
+        
+        path.removeLast();
+    }
+    
+}
+```
 
 ### 拓扑排序
 
 #### 207. 课程表
+
+![Screenshot 2022-02-21 at 18.55.56](labuladong.assets/Screenshot 2022-02-21 at 18.55.56.png)
+
+```java
+class Solution {
+    
+    boolean[] visited;
+    boolean[] onPath;
+    boolean hasCycle = false;
+    
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        visited = new boolean[numCourses];
+        onPath = new boolean[numCourses];
+        List<Integer>[] graph = buildGraph(numCourses, prerequisites);
+        for(int i = 0; i < numCourses; i++){
+            traverse(graph, i);
+        }
+        
+        return !hasCycle;
+    }
+    
+    void traverse(List<Integer>[] graph, int s){
+        
+        if(onPath[s]){
+            hasCycle = true;
+        }
+        
+        if(visited[s] || hasCycle){
+            return;
+        }
+        visited[s] = true;
+        onPath[s] = true;
+        for(int i : graph[s]){
+            traverse(graph, i);
+        }
+        onPath[s] = false;
+    }
+    
+    List<Integer>[] buildGraph(int numCourses, int[][] prerequisites){
+        List<Integer>[] graph = new LinkedList[numCourses];
+        for(int i = 0; i < numCourses; i++){
+            graph[i] = new LinkedList<>();
+        }
+        
+        for(int[] edge : prerequisites){
+            int from = edge[1];
+            int to  = edge[0];
+            graph[from].add(to);
+        }
+        
+        return graph;
+    }
+}
+```
+
+
+
+#### 210. 课程表2
+
+![Screenshot 2022-02-21 at 18.54.13](labuladong.assets/Screenshot 2022-02-21 at 18.54.13.png)
+
+```java
+class Solution {
+    
+    boolean[] visited;
+    boolean[] onPath;
+    boolean hasCycle = false;
+    List<Integer> pos = new ArrayList<>();
+    
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        
+        visited = new boolean[numCourses];
+        onPath = new boolean[numCourses];
+        List<Integer>[] graph = builder(numCourses, prerequisites);
+        
+        for(int i = 0; i < numCourses; i++){
+            traverse(graph, i);
+        }
+        
+        if(hasCycle){
+            return new int[]{};//这里要注意
+        }
+        
+        Collections.reverse(pos);
+        int[] res = new int[numCourses];
+        for(int i = 0; i < numCourses; i++){
+            res[i] = pos.get(i);
+        }
+        return res;
+    }
+    
+    void traverse(List<Integer>[] graph, int s){
+        if(onPath[s]){
+            hasCycle = true;
+        }
+        
+        if(visited[s] || hasCycle){
+            return;
+        }
+        
+        visited[s] = true;
+        onPath[s] = true;
+        for(int i : graph[s]){
+            traverse(graph, i);
+        }
+        pos.add(s);
+        onPath[s] = false;
+    }
+    
+    List<Integer>[] builder(int numCourses, int[][] prerequisites){
+        List<Integer>[] graph = new LinkedList[numCourses];
+        for(int i = 0; i < numCourses; i++){
+            graph[i] = new LinkedList<>();
+        }
+        
+        for(int[] edge : prerequisites){
+            int from = edge[1];
+            int to  = edge[0];
+            graph[from].add(to);
+        }
+        
+        return graph;
+    }
+}
+```
+
+
 
 ### 二分图判定
 
@@ -2733,6 +2976,46 @@ class Solution {
             }
         }
         return dp[m][n];
+    }
+}
+```
+
+#### 31. 下一个排列
+
+![Screenshot 2022-02-16 at 16.24.00](labuladong.assets/Screenshot 2022-02-16 at 16.24.00.png)
+
+```java
+class Solution {
+    public void nextPermutation(int[] nums) {
+        int i = nums.length - 2;
+        
+        while(i >= 0 && nums[i] >= nums[i+1]){
+            i--;
+        }
+        
+        if(i >= 0){
+            int j = nums.length - 1;
+            while(j >= 0 && nums[i] >= nums[j]){
+                j--;
+            }
+            swap(nums, i, j);
+        }
+        reverse(nums, i+1);
+    }
+    
+    public void swap(int[] nums, int i, int j){//nums[i]和nums[j]交换 
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+    
+    public void reverse(int[] nums, int start){//
+        int left = start, right = nums.length - 1;
+        while(left < right){
+            swap(nums, left, right);
+            left++;
+            right--;
+        }
     }
 }
 ```
