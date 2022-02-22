@@ -1929,11 +1929,100 @@ public class UF {
 
 ### Union-Find算法应用
 
+Union-Find算法解决的是图的连通性问题，这个算法本身不难，能不能应用出来主要看抽象问题的能力，能否把原始问题抽象成一个有关图论的问题。
+
+这个算法有什么实际应用：
+
+一、DFS的替代方案
+
+很多使用DFS深度优先算法解决的问题，也可以用Union-Find算法解决。例如第130题。
+
+二、判定合法等式
+
+前文说过，动态连通性其实就是一种等价关系，具有自反性，传递性和对称性。当判断==关系时，因为==其实也具有这些性质，这个问题用UF算法就很自然。
+
 #### 130. 被围绕的区域
+
+![image-20220221234243854](labuladong.assets/image-20220221234243854.png)
+
+```java
+//用uf的方法我不是看的很懂
+```
+
+
 
 #### 990. 等式方程的可满足性
 
+![image-20220221234922797](labuladong.assets/image-20220221234922797.png)
+
+```java
+//可以根据算式，==和！=两部分，先处理==算式，使得他们通过相等关系各自连成连通分量；然后使用
+//！=算式，检查不等关系是否破坏了相等关系的连通性。
+class Solution {
+    public boolean equationsPossible(String[] equations) {
+        UF uf = new UF(26);
+        for(String eq : equations){
+            if(eq.charAt(1) == '='){
+                char x = eq.charAt(0);
+                char y = eq.charAt(3);
+                uf.union(x-'a', y-'a');
+            }
+        }
+        
+        for(String eq : equations){
+            if(eq.charAt(1) == '!'){
+                char x = eq.charAt(0);
+                char y = eq.charAt(3);
+                
+                if(uf.connected(x-'a', y-'a')){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+```
+
+
+
 ### Kruskal最小生成树算法
+
+最小生成树算法主要有Prim算法和Kruskal算法两种，这两种算法虽然都运用了贪心思想，但从实现上来说差异还是蛮大的，本文先来讲Kruskal算法。
+
+**在所有可能的生成树中，权重和最小的那颗生成树就叫 [最小生成树]！**
+
+
+
+#### 261. 以图判树
+
+题目： 给你输入编号为0~n-1的n个节点，和一个无向边列表edges（每条边用节点二元组表示），请你判断输入的这些边组成的结构是否为一棵树。
+
+```java
+boolean validTree(int n, int[][] edges){
+    UF uf = new UF(n);
+    for(int[] edge : edges){
+        int u = edge[0];
+        int v = edge[1];
+        if(uf.connencted(u, v)){
+            return false;
+        }
+        uf.union(u, v);
+    }
+    //要保证最后只形成了一棵树，只有一个连通分量
+    return uf.count() == 1;
+}
+
+class UF{
+    //...
+}
+```
+
+
+
+#### 1135. 最低成本联通所有城市
+
+#### 1584. 连通所有节点的最小费用
 
 ### 把Dijkstra算法变成了默写题***这个可以懂
 
