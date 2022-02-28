@@ -2026,6 +2026,129 @@ class UF{
 
 ### 把Dijkstra算法变成了默写题***这个可以懂
 
+Dijkstra可以理解为一个带着dp table(或者说是一个备忘录)的BFS算法，伪代码如下：
+
+```java
+//返回节点from到节点to之间的边的权重
+int weight(int from, int to);
+
+//输入节点s返回s的相邻节点
+List<Integer> adj(int s);
+
+//输入一幅图和一个起点start，计算start到其他节点的最短距离
+int[] dijkstra(int start, List<Integer>[] graph){
+    //图中节点的个数
+    int V = graph.length;
+    //记录最短路径的权重，你可以理解为dp table
+    //定义： distTo[i]的值就是节点start到节点i的最短路径权重
+    int[] distTo = new int[V];
+    //求最小值，所以dp Table初始化为正无穷
+    Arrays.fills(distTo, Integer.Max_VALUE);
+    //base case, start到start的距离就是0
+    distTo[start] = 0;
+    //优先级队列，distFromStart较小的排在前面
+    Queue<State> pq = new PriorityQueue<>((a, b) ->{
+        return a.distFromStart - b.distFromStart; //?????????????????????????
+    });
+  
+    //从起点start开始BFS
+    pq.offer(new State(start, 0));
+  
+    while(!pq.isEmpty()){
+        State curState = pq.poll();
+        int curNodeID =curState.id;
+        int curDistFromState = curState.distFromStart;
+      
+        if(curDistFromStart > distTo[curNodeID]){
+            //已经有一条更短的路径达到了curNode节点了
+            continue;
+        }
+        //将curNode的相邻节点装入队列
+        for(int nextNodeID : adj(curNodeID)){
+            //看看从curNode到达nextNode的距离是否为更短
+            int distToNextNode = distTo[curNodeID] + weight(curNodeID, nextNodeID);
+            if(distTo[nextNodeID] > distToNextNode){
+                //更新dp table
+                distTo[nextNodeID] = distToNextNode;
+                //将这个节点以及距离放入队列
+                pq.offer(new State(newNodeID, distToNextNode));
+            }
+        }
+    }
+    return distTo;
+}
+
+class State {
+    //图节点的id
+    int id;
+    //从start节点到当前节点的距离
+    int distFromStart;
+    
+    State(int id, int distFromStart){
+        this.id = id;
+        this.distFromStart = distFromStart;
+    }
+}
+                                                
+```
+
+这个算法的逻辑就是在不断的最小化distTo数组中的元素：
+
+如果你能让到达nextNodeID的距离更短，那就更新distTo[nextNodeID]的值，让你入队，否则的话对不起，不让入队。
+
+**因为两个节点之间的最短距离（路径权重）一定是一个确定的值，不可能无限减小下去，所以队列一定会空，队列空了之后，distTo数组中记录的就是从start到其他节点的最短距离。**
+
+第二个问题：为什么要使用PriorityQueue而不是LinkedList实现的普遍队列？
+
+如果非要使用普通队列，其实也没有什么太大的问题，你可以直接吧PriorityQueue换成LinkedList，也能得到正确的答案，但是效率会低很多。
+
+**Dijkstra算法使用优先级队列，主要是为了效率上的优化，类似一种贪心算法的思路。**
+
+如果只需要得到start到终点end的最短距离，只需呀添加一行if语句
+
+```java
+while(!pq.isEmpty()){
+        State curState = pq.poll();
+        int curNodeID =curState.id;
+        int curDistFromState = curState.distFromStart;
+        
+        //这里添加一个判断就可以！！！
+        if(curNodeID == end){
+            return curDistFromStart;
+        }
+  
+        if(curDistFromStart > distTo[curNodeID]){
+            //已经有一条更短的路径达到了curNode节点了
+            continue;
+        }
+        //将curNode的相邻节点装入队列
+        for(int nextNodeID : adj(curNodeID)){
+            //看看从curNode到达nextNode的距离是否为更短
+            int distToNextNode = distTo[curNodeID] + weight(curNodeID, nextNodeID);
+            if(distTo[nextNodeID] > distToNextNode){
+                //更新dp table
+                distTo[nextNodeID] = distToNextNode;
+                //将这个节点以及距离放入队列
+                pq.offer(new State(newNodeID, distToNextNode));
+            }
+        }
+    }
+```
+
+因为优先队列自动排序的性质，每次从队列拿出来的都是distFromStart值最小的。
+
+#### 时间复杂度分析
+
+O(ElogV) E代表图中边的条数，V代表图中节点的个数。
+
+#### 743. 网络延迟问题
+
+![Screenshot 2022-02-26 at 23.39.04](labuladong.assets/Screenshot 2022-02-26 at 23.39.04.png)
+
+#### 1514. 概率最大的路径
+
+#### 1631. 最小体力消耗路径
+
 ### 众里寻他千百度：名流问题
 
 # 暴力搜索算法
