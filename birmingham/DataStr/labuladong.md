@@ -874,7 +874,36 @@ ListNode mergeTwoLists(ListNode l1, ListNode l2){
 }
 ```
 
+```java
+/*
+public class ListNode {
+    int val;
+    ListNode next = null;
 
+    ListNode(int val) {
+        this.val = val;
+    }
+}*/
+public class Solution {
+    public ListNode Merge(ListNode list1,ListNode list2) {
+        if(list1 == null){
+            return list2;
+        }
+        else if(list2 == null){
+            return list1;
+        }
+        
+        if(list2.val > list1.val){
+            list1.next = Merge(list1.next, list2);
+            return list1;
+        }
+        else{
+            list2.next = Merge(list1, list2.next);
+            return list2;
+        }
+    }
+}
+```
 
 #### 23. 合并K个升序链表
 
@@ -1010,6 +1039,67 @@ ListNode getIntersectionNode(ListNode headA, ListNode headB){
 }
 ```
 
+#### 树的子结构
+
+![Screenshot 2022-03-04 at 23.12.11](labuladong.assets/Screenshot 2022-03-04 at 23.12.11.png)
+
+```java
+    public boolean isSame(TreeNode root1,TreeNode root2){
+        //如果root2为空，则为true（不需要考虑root1的状况）
+        if(root2 == null) return true;
+        if(root1 == null) return false;
+        //判断首节点的值，然后root1与root2的左子树，然后root1与root2的右子树
+        return root1.val == root2.val  &&  isSame(root1.left, root2.left)  &&  isSame(root1.right, root2.right);
+    }
+    
+    //方法一：递归的方式（利用深度优先遍历的思想）
+    public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+        //判断root1和root2是否为null（空树不是任意一个树的子结构）
+        if(root1 == null || root2 == null) return false;
+        //如果首结点不相等，则依次比较左子树、右子树与root2的关系
+        return isSame(root1, root2) || HasSubtree(root1.left, root2) || HasSubtree(root1.right,root2);
+    }
+
+```
+
+```java
+    //判断结构相同必须需要的函数
+    public boolean isSame(TreeNode root1,TreeNode root2){
+        //如果root2为空，则为true（不需要考虑root1的状况）
+        if(root2 == null) return true;
+        if(root1 == null) return false;
+        //判断首节点的值，然后root1与root2的左子树，然后root1与root2的右子树
+        return root1.val == root2.val  &&  isSame(root1.left, root2.left)  &&  isSame(root1.right, root2.right);
+    }
+    //方法二：层次遍历的方式（利用广度优先遍历的思想）
+    public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+        //判断root1和root2是否为null（空树不是任意一个树的子结构）
+        if(root1 == null || root2 == null){
+            return false;
+        }
+        //队列（先进先出的特性）
+        Queue<TreeNode> queue = new LinkedList<>();
+        //把root1放入队列中
+        queue.offer(root1);
+        //判断队列是否为null
+        while(!queue.isEmpty()){
+            //取出队列中的结点
+            TreeNode cur = queue.poll();
+            //判断该结点是否和root相等
+            if(isSame(cur, root2)) return true;
+            else{
+                //不相等则把该结点的不为空的左右子节点放入队列中
+                if(cur.left != null) queue.offer(cur.left);
+                if(cur.right != null) queue.offer(cur.right);
+            }
+        }
+        return false;
+    }
+
+```
+
+
+
 ### 链表操作的递归思维一览
 
 ```java
@@ -1028,7 +1118,7 @@ ListNode reverse(ListNode head){
     if(head == null || head.next == null){//这两个判断的顺序不能换，它先判断前面，在判断后面
         return head;                      //防止出现null.next情况的出现
     }
-    LiseNode last = reverse(head.next);
+    ListNode last = reverse(head.next);
     head.next.next = head;
     head.next = null;
     return last;
@@ -1345,6 +1435,44 @@ class Solution {
 #### 316. 去除重复字母
 
 #### 1081. 不同字符的最小子序列
+
+#### 包含min函数的栈
+
+![Screenshot 2022-03-05 at 00.21.44](labuladong.assets/Screenshot 2022-03-05 at 00.21.44.png)
+
+```java
+import java.util.Stack;
+
+public class Solution {
+    private Stack<Integer> stack = new Stack<Integer>();
+    private Stack<Integer> mins = new Stack<Integer>();
+    
+    public void push(int node) {
+        stack.push(node);
+        if(mins.empty() || mins.peek() >= node){
+            mins.push(node);
+        }
+    }
+    
+    public void pop() {
+        //注意这里要用equls()！！！⚠️⚠️⚠️
+        if(stack.peek().equals(mins.peek())){
+            mins.pop();
+        }
+        stack.pop();
+    }
+    
+    public int top() {
+        return stack.peek();
+    }
+    
+    public int min() {
+        return mins.peek();
+    }
+}
+```
+
+
 
 ## 1.4 数据结构设计
 
@@ -2145,9 +2273,161 @@ O(ElogV) E代表图中边的条数，V代表图中节点的个数。
 
 ![Screenshot 2022-02-26 at 23.39.04](labuladong.assets/Screenshot 2022-02-26 at 23.39.04.png)
 
+```java
+class Solution {
+    public int networkDelayTime(int[][] times, int n, int k) {
+        List<int[]>[] graph = new LinkedList[n+1];
+        for(int i = 0; i <= n; i++){
+            graph[i] = new LinkedList<>();
+        }
+        //构造图
+        for(int[] edge : times){
+            int from = edge[0];
+            int to  = edge[1];
+            int weight = edge[2];
+            graph[from].add(new int[]{to, weight});
+        }
+        //启动Dijkstra算法
+        int[] distTo = dijkstra(k, graph);
+        //找到最长的那一条最短路径
+        int res = 0;
+        for(int i = 1; i < distTo.length; i++){
+            if(distTo[i] == Integer.MAX_VALUE){
+                //有节点不可达，返回-1
+                return -1;
+            }
+            res = Math.max(res, distTo[i]);
+        }
+        return res;
+    }
+    
+    int[] dijkstra(int start, List<int[]>[] graph){
+        int[] distTo = new int[graph.length];
+        Arrays.fill(distTo, Integer.MAX_VALUE);
+        distTo[start] = 0;
+        Queue<State> pq = new PriorityQueue<>((a, b) -> {
+            return a.distFromStart - b.distFromStart;
+        });
+        pq.offer(new State(start, 0));
+        while(!pq.isEmpty()){
+            State curState = pq.poll();
+            int curNodeID= curState.id;
+            int curDist = curState.distFromStart;
+            if(curDist > distTo[curNodeID]){
+                continue;
+            }
+            for(int[] nei : graph[curNodeID]){
+                int nextNodeID = nei[0];
+                int distToNext = distTo[curNodeID] + nei[1];
+                if(distTo[nextNodeID] > distToNext){
+                    distTo[nextNodeID] = distToNext;
+                    pq.offer(new State(nextNodeID, distToNext));
+                }
+            }
+        }
+        
+        return distTo;
+    }
+    
+}
+
+class State{
+    int id;
+    int distFromStart;
+    State(int id, int distFromStart){
+        this.id = id;
+        this.distFromStart = distFromStart;
+    }
+}
+```
+
+
+
 #### 1514. 概率最大的路径
 
 #### 1631. 最小体力消耗路径
+
+![Screenshot 2022-03-01 at 22.21.22](labuladong.assets/Screenshot 2022-03-01 at 22.21.22.png)
+
+```java
+class Solution {
+    public int minimumEffortPath(int[][] heights) {
+        int m = heights.length, n = heights[0].length;
+        //从[0][0]到[i][j]最小消耗为effortTo[i][j];
+        int[][] effortTo = new int[m][n];
+        for(int i = 0; i < m; i++){
+            Arrays.fill(effortTo[i], Integer.MAX_VALUE);
+        }
+        effortTo[0][0] = 0;
+        //优先序列，小的在前面
+        Queue<State> pq = new PriorityQueue<>((a, b)->{
+            return a.effortFromStart - b.effortFromStart;
+        });
+        //从[0][0]开始
+        pq.offer(new State(0,0,0));
+        
+        while(!pq.isEmpty()){
+            State curState = pq.poll();
+            int curX = curState.x;
+            int curY = curState.y;
+            int curEffortFromStart = curState.effortFromStart;
+            //到达终点提前结束
+            if(curX == m - 1 && curY == n-1){
+                return curEffortFromStart;
+            }
+            if(curEffortFromStart > effortTo[curX][curY]){
+                continue;
+            }
+        
+            for(int[] neighbor : adj(heights, curX, curY)){
+                int nextX = neighbor[0];
+                int nextY = neighbor[1];
+            
+                int effortToNextNode = Math.max(
+                    effortTo[curX][curY],
+                    Math.abs(heights[curX][curY] - heights[nextX][nextY])
+                );
+                //更新 dp table
+                if(effortTo[nextX][nextY] > effortToNextNode){
+                    effortTo[nextX][nextY] = effortToNextNode;
+                    pq.offer(new State(nextX, nextY, effortToNextNode));
+                }
+            }      
+        }
+        return -1;
+    }
+    
+    
+    
+    List<int[]> adj(int[][] matrix, int x, int y){
+        int[][] dirs = new int[][]{{0,1}, {1,0}, {0,-1}, {-1,0}};
+        int m = matrix.length, n = matrix[0].length;
+        //存储相邻节点
+        List<int[]> neighbors = new ArrayList<>();
+        for(int[] dir : dirs){
+            int nx = x + dir[0];
+            int ny = y + dir[1];
+            if(nx >= m || nx < 0 || ny >= n || ny < 0){
+                //索引越界
+                continue;
+            }
+            neighbors.add(new int[]{nx, ny});
+        }
+        return neighbors;
+    }
+}
+class State{
+    int x, y;
+    int effortFromStart;
+    State(int x, int y, int effortFromStart){
+        this.x = x;
+        this.y = y;
+        this.effortFromStart = effortFromStart;
+    }
+}
+```
+
+
 
 ### 众里寻他千百度：名流问题
 
@@ -4607,6 +4887,63 @@ class Solution {
         
         return mres;
     }
+}
+```
+
+## JZ19 正则表达式
+
+![Screenshot 2022-03-04 at 18.50.15](labuladong.assets/Screenshot 2022-03-04 at 18.50.15.png)
+
+```java
+import java.util.*;
+
+
+public class Solution {
+    /**
+     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+     *
+     * 
+     * @param str string字符串 
+     * @param pattern string字符串 
+     * @return bool布尔型
+     */
+
+    public boolean match (String str, String pattern) {
+        int n=str.length();
+        int m=pattern.length();
+        boolean[][] dp=new boolean[n+1][m+1];
+
+        //初始化
+        dp[0][0]=true;
+        for(int i=1;i<=n;i++){
+            dp[i][0]=false;
+        }
+
+        //分模式串的后一个位置是否为*进行讨论,为*时，将*与前一个位置合并起来进行考虑
+        for(int i=0;i<=n;i++){
+            for(int j=1;j<=m;j++){
+                if(pattern.charAt(j-1)!='*'){
+                    //当前模式串字符和原串字符匹配
+                    if(i>0&&(str.charAt(i-1)==pattern.charAt(j-1)||(pattern.charAt(j-1)=='.'))){
+                        dp[i][j]=dp[i-1][j-1];
+                    }
+                }
+                else{
+                    if(j>=2){
+                        //不管是否匹配，都可以将当前字符绑定上*匹配原串字符0次
+                        dp[i][j]=dp[i][j-2];
+                        //当前模式串字符和原串字符匹配
+                        if(i>0&&(str.charAt(i-1)==pattern.charAt(j-2)||(pattern.charAt(j-2)=='.'))){
+                            dp[i][j]=dp[i-1][j]||dp[i][j-2];
+                        }
+                    }
+                }
+            }
+        }
+        return dp[n][m];
+    }
+
+
 }
 ```
 
