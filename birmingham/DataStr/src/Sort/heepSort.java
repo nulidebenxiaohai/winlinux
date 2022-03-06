@@ -9,6 +9,7 @@ public class heepSort {
 }
 class PQ{
     private int[] pq;
+    /**存储pq[1...N]中，pq[0]没有使用**/
     private int N = 0;
     public PQ(int maxN){
         pq = new int[maxN+1];
@@ -22,11 +23,20 @@ class PQ{
         return N;
     }
 
+    /**
+     * 将插入的值放在整一个数组的最后
+     * 然后使用上浮函数将值上浮到该放的地方
+     */
     public void insert(int v){
         pq[++N] = v;
         swim(N);
     }
 
+    /**
+     * 要得到最大的一个数，只要读取pq[1]就可以了
+     * 然后将pq[1]和pq[N]交换
+     * 然后使用下沉函数将pq[1]下沉下去
+     */
     public int delMax(){
         int max = pq[1];
         exch(1, N--);
@@ -34,7 +44,9 @@ class PQ{
         sink(1);
         return max;
     }
-
+    /**
+     * 由下至上的堆有序化（上浮）
+     */
     private void swim(int k){
         while( k > 1 && less(k/2, k)){
             exch(k/2, k);
@@ -42,9 +54,14 @@ class PQ{
         }
     }
 
+    /**
+     * 由上至下的堆有序化（下沉）
+     */
     private void sink(int k){
         while(2*k <= N){
             int j = 2*k;
+            //这里j<N要注意⚠️
+            //pq是顶点要比子节点都要大，所以要拿出子节点最大的那一个交换
             if(j < N && less(j, j+1)){
                 j++;
             }
@@ -57,7 +74,7 @@ class PQ{
     }
 
     private boolean less(int i, int j){
-        return i < j;
+        return pq[i] < pq[j];
     }
 
     private void exch(int i, int j) {
