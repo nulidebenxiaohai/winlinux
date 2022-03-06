@@ -21,6 +21,7 @@ public class Sort {
      * 快速排序
      */
     private static void quickSort(int[] num){
+
         qusort(num, 0, num.length-1);
     }
     private static void qusort(int[] a, int lo, int hi){
@@ -107,6 +108,7 @@ public class Sort {
         int N = num.length;
         int h = 1;
         while(h < N/3){
+            //1，4，13，40，121，364，1093...
             h = 3*h + 1;
         }
         while(h >= 1){
