@@ -1023,13 +1023,13 @@ ListNode getIntersectionNode(ListNode headA, ListNode headB){
     ListNode p1 = headA, p2 = headB;
     while(p1 != p2){
         if(p1 == null){
-            p1.next = headB;
+            p1 = headB;
         }
         else{
             p1 = p1.next;
         }
         if(p2 == null){
-            p2.next = headA;
+            p2 = headA;
         }
         else{
             p2 = p2.next;
@@ -1602,6 +1602,34 @@ TreeNode builder(int[] nums, int i, int j){
 #### 105. 从前序与中序遍历序列构造二叉树
 
 #### 106. 从前序与后序列遍历构造二叉树
+
+#### 236. 二叉树的公共祖先
+
+![Screenshot 2022-03-07 at 21.50.53](labuladong.assets/Screenshot 2022-03-07 at 21.50.53.png)
+
+```java
+class Solution {
+    // We are returning the node whose left and right are not null
+    // That means at the LCA we will have some not null values from both sides
+    //In case if LCA is either p or q, it will return the first encounter
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+            
+        if(root == null) return null ;
+        
+        if(root == p || root == q) return root ;
+        
+        TreeNode left = lowestCommonAncestor(root.left,p,q);
+        TreeNode right = lowestCommonAncestor(root.right,p,q);
+        
+        if(left != null && right != null){
+            return root ;
+        }
+        return left == null? right : left ;
+    }
+}
+```
+
+
 
 ### 东哥带你刷二叉树（第三期）
 
