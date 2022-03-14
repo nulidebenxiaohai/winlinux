@@ -2,7 +2,7 @@ package Demo03_ListAndSet;
 
 import java.util.LinkedList;
 
-/*
+/**
 java.util.LinkedList集合 implements List接口
 LinkedList集合的特点：
     1.底层是一个链表结构：查询慢，增删快
