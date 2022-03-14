@@ -3554,7 +3554,41 @@ class Solution {
 
 #### 343. 整数拆分 （好难，不会）
 
+#### 5. 最长回文子字符串
 
+![image-20220309185650371](labuladong.assets/image-20220309185650371.png)
+
+```java
+class Solution {
+    public String longestPalindrome(String s) {
+        //单个字符也是一个回文字符串
+        if(s.length() == 1) return s;
+        int m = s.length();
+        boolean[][] dp = new boolean[m][m];
+        for(int i = 0; i < m; i++){
+            dp[i][i] = true;
+        }
+        //最短的子回文字符串就是一个字符，长度为1
+        int res = 1;
+        int index = 0;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < i; j++){
+                if(s.charAt(i) == s.charAt(j) && (dp[j+1][i-1] || i-j == 1)){
+                    dp[j][i] = true;
+                    //dp[j][i]为true则字符串j~i为回文字符，长度应该为i-j+1
+                    //更新左边端点，方便后续输出最长子回文字符串
+                    if(i-j+1 > res){
+                        res = i-j+1;
+                        index = j;
+                    }
+                }
+            }
+        }
+        return s.substring(index, index+res);
+        
+    }
+}
+```
 
 
 
@@ -4972,6 +5006,35 @@ public class Solution {
     }
 
 
+}
+```
+
+## 6. Z字输出字符串
+
+![image-20220309194216918](labuladong.assets/image-20220309194216918.png)
+
+```java
+class Solution {
+    public String convert(String s, int numRows) {
+        //如果numRows为1时，直接输出zifuchaun
+        if (numRows == 1) return s;
+
+        StringBuilder ret = new StringBuilder();
+        int n = s.length();
+        //这是两个完整列之间的间隔
+        int cycleLen = 2 * numRows - 2;
+        //每行开始打印
+        for (int i = 0; i < numRows; i++) {
+            //每行的两个字符最多相差cyclelen个长度
+            for (int j = 0; j + i < n; j += cycleLen) {
+                ret.append(s.charAt(j + i));
+                //除了第一行和最后一行，还要打印一个数字
+                if (i != 0 && i != numRows - 1 && j + cycleLen - i < n)
+                    ret.append(s.charAt(j + cycleLen - i));
+            }
+        }
+        return ret.toString();
+    }
 }
 ```
 
