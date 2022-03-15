@@ -627,9 +627,101 @@ MySQL服务启动
 6. MySQL目录结构
 
    1. MySQL安装目录
+
+      配置文件my.ini
+
    2. MySQL数据目录
 
+      - 数据库：文件夹
+      - 表：文件
+      - 数据：
 
+## SQL： Structured Query Language
+
+1. SQL通用语法
+
+   1. SQL语句可以多行或者单行书写，以分号结尾
+   2. 可使用空格和缩进来增强语句的可读性
+   3. MySQL数据库的SQL语句不区分大小写，关键字建议大写
+   4. 3中注释
+      - 单行注释：-- 注释内容  或  # 注释
+      - 多行： /* 注释*/
+
+2. SQL分类
+
+   1. DDL（Data Definition Language）数据库定义语言
+
+      用来定义数据库对象：数据库，表，列等。关键字：create， drop， alter等
+
+   2. DML（Data Manipulation Language）数据操作语言
+
+      用来对数据库中表的数据进行增删改。关键字：insert， delete，update等
+
+   3. DQL（Data Query Language）数据查询语言
+
+      用来查询数据库中表的记录（数据）。关键字：select，where等
+
+   4. DCL（Data Control Language）数据库控制语言（了解）
+
+      用来定义数据库的方法问权限和安全级别，及创建用户。关键字：GRANT， REVOKE等
+
+## DDL：操作数据库，表
+
+1. 操作数据库：CRUD
+
+   1. C（Create）：创建
+
+      - 创建数据库：
+
+        create database 数据库名称；
+
+      - 创建数据库，判断是否存在：
+
+        create database if not exists 数据库名称；
+
+      - 创建数据库，指定字符集为gbk；
+
+        create database 数据库名称 character set gbk;
+
+      - 创建数据库，判断数据库是否存在，并制定字符集为gbk：
+
+        create database if not exists 数据库名称 character set gbk;
+
+   2. R（Retrieve）：查询
+
+      - 查询所有数据库的名称
+
+        show databases;
+
+      - 查询某个数据库的字符集：查询某个数据库的创建信息
+
+        show create database 数据库名称；
+
+   3. U（Update) ： 修改
+
+      - 修改数据库的字符集
+
+        alter database 数据库名称 character set 字符集名称；
+
+   4. D（Delete）：删除
+
+      - 删除数据库
+
+        drop database 数据库名称；
+
+      - 删除数据库前判断数据库是否存在：
+
+        drop database if not exists 数据库名称
+
+   5. 使用数据库
+
+      - 查询当前正在使用的数据库名称
+
+        select database();
+
+      - 使用数据库
+
+        use 数据库名称；
 
 
 
