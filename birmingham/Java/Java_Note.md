@@ -722,8 +722,76 @@ MySQL服务启动
       - 使用数据库
 
         use 数据库名称；
+   
+2. 操作表
 
+   1. C（create）：创建
 
+      - 语法：
+
+        create table 表名（
+
+        ​    列名1 数据类型1，
+
+        ​    列名2 数据类型2，
+
+        ​    ....
+
+        ​    列名n 数据类型n
+
+        ）；
+
+      - 数据类型：
+
+        1. int：整数类型
+
+           age int，
+
+        2. double：小数类型
+
+           score double（5，2）；
+
+        3. date：日期类型，只包含年月日， yyyy-MM-dd
+
+        4. datetime：日期，包含年月日时分秒 yyyy-MM-dd HH:mm:ss
+
+        5. timestamp：时间错类型，包含年月日时分秒 yyyy-MM-dd HH:mm:ss
+
+           如果将来不给这个字段赋值，或赋值为null，则默认使用当前的系统时间，来自动赋值
+
+        6. varchar：字符串
+
+           name varchar(20):姓名最大20字符
+
+      - 举例：
+
+         create table student(
+
+        id int,name varchar(32),
+
+        age int,  
+
+        score double(4,1), 
+
+        birthday date, 
+
+        insert_time timestamp
+
+        );
+
+   2. R（Retrieve）：查询
+
+      - 查询某个数据库中所有的表名称
+
+        show tables;
+
+      - 查询表结构
+
+        desc 表名；
+
+   3. U（Update）：修改
+
+   4. D（Delete）：删除
 
 
 
