@@ -429,15 +429,369 @@ Java程序属于抢占式调度，哪个线程的优先级高，哪个线程优�
 - 特点：趋近于平衡树，查询的速度非常快，查询的子节点最大次数和最小次数不能超过2倍
 - 
 
+# Java Web
+
+## 1. Junit单元测试
+
+1. 黑盒测试：不需要写代码，给输入值，看程序是否能输出期望的值
+2. 白盒测试：需要写代码，关注程序具体的执行流程
 
 
 
+## 2. 反射：框架设计的灵魂
+
+框架：半成品软件。可以在框架的基础上进行软件开发，简化编码
+
+反射：将类的各个组成部分封装为其他对象。这就是反射机制
+
+![image-20220315134120838](Java_Note.assets/image-20220315134120838.png)
+
+好处：
+
+- 可以在程序运行过程中，操作这些对象
+- 可以解耦，提高程序的可扩展性、
+
+结论：
+
+  同一个字节码文件（*.class）在一次程序运行过程中，只会被加载一次，不论通过哪一种方式获取的Class对象都是同一个
+
+### Class对象功能
+
+- 获取功能：
+
+  1. 获取成员变量们
+
+     Field[] getFields()
+
+     Field getField(String name)
+
+     Field[] getDeclaredFields()
+
+     Field getDeclaredField(String name)
+
+  2. 获取构造方法们
+
+     Constructor<?>[] getConstructors()
+
+     ...
+
+  3. 获取成员变量们
+
+     Method[] getMethods()
+
+     Method getMethod(String name, 类<?>... parameterTypes)
+
+     ...
+
+  4. 获取类名
+
+     String getName()
 
 
 
+### Field：成员变量
 
+- 操作：
 
+  1. 设置值
 
+     void set(Object obj, Object value)
+
+  2. 获取值
+
+     get(Object obj)
+
+  3. 忽略方法权限修饰符的安全检查
+
+     setAccessible(true):暴力反射
+
+### Constructor：构造方法
+
+- 创建对象：
+  1. T newInstance(Object... initargs)
+  2. 如果使用空参数构造方法创建函数，操作可以简化为：Class对象的newInstance方法
+
+### Method: 方法对象
+
+- 执行方法：
+  1. Object invoke(Object obj, Object... args)
+- 获取方法名称
+  1. String getName：获取方法名
+
+## 3. 注解
+
+注解：说明程序的。给计算机看的
+
+注释：用文字描述程序的。给程序员看的
+
+### 作用分类：
+
+1. 编写文档：通过代码里标识的注解生成文档【生成doc文档】
+2. 代码分析：通过代码里标识的注解对代码进行分析【使用反射】
+3. 编译检查：通过代码里标识的注解让编译器能够实现基本的编译检查【Override】
+
+### JDK预定义的注解：
+
+- @Override	：检测被该注解标注的方法是否是继承自父类（接口）
+- @Deprecated  ：该注解标注的内容，标识已过时
+- @SuppressWarnings  ： 压制警告 （一般传递参数 “all”）
+
+### 自定义注解
+
+格式：
+
+- 元注解
+
+  public @interface 注解名称{}
+
+本质： 注解本质上就是一个 接口，该接口默认继承Annotation接口
+
+​    public interface MyAnno extends java.lang.annotation.Annotation {}
+
+属性：接口中的抽象方法
+
+- 要求：
+
+  1. 属性的返回值类型
+
+     基本数据类型
+
+     String
+
+     枚举
+
+     注解
+
+     以上类型的数组
+
+  2. 定义了属性，要在使用时给属性赋值
+
+     如果定义属性时，使用default关键字给属性默认初始化值，则使用注解时，可以不进行属性的赋值
+
+### 元注解：用于描述注解的注解
+
+- @Target：描述注解能够作用的位置
+  - TYPE：可以作用与类上
+  - METHOD: 可以作用在方法上
+  - FIELD：可以作用于成员变量上
+- @Retention：描述注解被保留的阶段
+  - SOURCE
+  - CLASS
+  - RUNTIME：当前被描述的注解，会被保留到class字节码文件中，并被JVM读到
+- @Documented：描述注解是否被抽取到api文档中 
+- @Inherited：描述注解是否被子类继承
+
+在程序使用（解析）注解：获取注解中定义的属性值
+
+1. 获取注解定义的位置的对象（Class， Method， Field）
+
+2. 获取指定的注解
+
+   getAnnotation（Class）
+
+3. 调用注解中的抽象方法获取配置的属性值
+
+@Test ：测试方法
+
+@Before：初始化方法：用于资源申请，所有测试方法在执行之前都会先执行该方法
+
+@After：释放资源方法：在所有测试方法执行完后，都会自动执行该方法
+
+# MySQL数据库
+
+## 配置
+
+MySQL服务启动
+
+1. 手动
+
+2. cmd --> services.msc 打开服务的窗口
+
+3. 使用管理员打开cmd
+
+   net start mysql：启动mysql的服务
+
+   net stop mysql:  关闭mysql的服务
+
+4. MySQL登录
+
+   1. mysql -uroot -p密码
+   2. mysql -hip(地址) -uroot -p连接目标的密码
+
+5. MySQL退出
+
+   1. exit
+
+   2. quit
+
+6. MySQL目录结构
+
+   1. MySQL安装目录
+
+      配置文件my.ini
+
+   2. MySQL数据目录
+
+      - 数据库：文件夹
+      - 表：文件
+      - 数据：
+
+## SQL： Structured Query Language
+
+1. SQL通用语法
+
+   1. SQL语句可以多行或者单行书写，以分号结尾
+   2. 可使用空格和缩进来增强语句的可读性
+   3. MySQL数据库的SQL语句不区分大小写，关键字建议大写
+   4. 3中注释
+      - 单行注释：-- 注释内容  或  # 注释
+      - 多行： /* 注释*/
+
+2. SQL分类
+
+   1. DDL（Data Definition Language）数据库定义语言
+
+      用来定义数据库对象：数据库，表，列等。关键字：create， drop， alter等
+
+   2. DML（Data Manipulation Language）数据操作语言
+
+      用来对数据库中表的数据进行增删改。关键字：insert， delete，update等
+
+   3. DQL（Data Query Language）数据查询语言
+
+      用来查询数据库中表的记录（数据）。关键字：select，where等
+
+   4. DCL（Data Control Language）数据库控制语言（了解）
+
+      用来定义数据库的方法问权限和安全级别，及创建用户。关键字：GRANT， REVOKE等
+
+## DDL：操作数据库，表
+
+1. 操作数据库：CRUD
+
+   1. C（Create）：创建
+
+      - 创建数据库：
+
+        create database 数据库名称；
+
+      - 创建数据库，判断是否存在：
+
+        create database if not exists 数据库名称；
+
+      - 创建数据库，指定字符集为gbk；
+
+        create database 数据库名称 character set gbk;
+
+      - 创建数据库，判断数据库是否存在，并制定字符集为gbk：
+
+        create database if not exists 数据库名称 character set gbk;
+
+   2. R（Retrieve）：查询
+
+      - 查询所有数据库的名称
+
+        show databases;
+
+      - 查询某个数据库的字符集：查询某个数据库的创建信息
+
+        show create database 数据库名称；
+
+   3. U（Update) ： 修改
+
+      - 修改数据库的字符集
+
+        alter database 数据库名称 character set 字符集名称；
+
+   4. D（Delete）：删除
+
+      - 删除数据库
+
+        drop database 数据库名称；
+
+      - 删除数据库前判断数据库是否存在：
+
+        drop database if not exists 数据库名称
+
+   5. 使用数据库
+
+      - 查询当前正在使用的数据库名称
+
+        select database();
+
+      - 使用数据库
+
+        use 数据库名称；
+   
+2. 操作表
+
+   1. C（create）：创建
+
+      - 语法：
+
+        create table 表名（
+
+        ​    列名1 数据类型1，
+
+        ​    列名2 数据类型2，
+
+        ​    ....
+
+        ​    列名n 数据类型n
+
+        ）；
+
+      - 数据类型：
+
+        1. int：整数类型
+
+           age int，
+
+        2. double：小数类型
+
+           score double（5，2）；
+
+        3. date：日期类型，只包含年月日， yyyy-MM-dd
+
+        4. datetime：日期，包含年月日时分秒 yyyy-MM-dd HH:mm:ss
+
+        5. timestamp：时间错类型，包含年月日时分秒 yyyy-MM-dd HH:mm:ss
+
+           如果将来不给这个字段赋值，或赋值为null，则默认使用当前的系统时间，来自动赋值
+
+        6. varchar：字符串
+
+           name varchar(20):姓名最大20字符
+
+      - 举例：
+
+         create table student(
+
+        id int,name varchar(32),
+
+        age int,  
+
+        score double(4,1), 
+
+        birthday date, 
+
+        insert_time timestamp
+
+        );
+
+   2. R（Retrieve）：查询
+
+      - 查询某个数据库中所有的表名称
+
+        show tables;
+
+      - 查询表结构
+
+        desc 表名；
+
+   3. U（Update）：修改
+
+   4. D（Delete）：删除
 
 
 
